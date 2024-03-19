@@ -11,7 +11,7 @@ import {RouterLinkActive} from "@angular/router";
   imports: [RouterOutlet, RouterLink, RouterLink, CommonModule, RouterLinkActive],
   template: `
     <div class="flex h-screen ">
-      <div class="w-1/6 bg-white">
+      <div class="w-[16%] bg-white">
 
         <nav class="p-10 text-sm">
           <svg width="186" height="50" viewBox="0 0 186 50" fill="none" xmlns="http://www.w3.org/2000/svg"

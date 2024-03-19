@@ -13,8 +13,7 @@ body {
 }
 
 
-
-th{
+th {
   @apply px-4 pb-2.5 text-left ;
 }
 
@@ -22,7 +21,7 @@ td {
   @apply px-4 py-2.5;
 }
 
-fa-icon{
+fa-icon {
   @apply text-white
 }
 
@@ -31,9 +30,9 @@ fa-icon{
 }
 
 #newOperation:hover fa-icon {
-color: white
+  color: white
 }
 
 input {
-  @apply bg-gray-100 rounded-2xl px-2 py-2 w-full mb-2 mt-2;
+  @apply bg-slate-50 rounded-2xl px-2 py-2 w-full mb-2 mt-2;
 }

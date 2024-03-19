@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from "../auth-service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {CreateOperationComponent} from "../create-operation/create-operation.component";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faHourglassStart} from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +14,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 @Component({
   selector: 'app-operations',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule, FaIconComponent],
+  imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent],
   template: `
 
     <div class="bg-white pl-4 pr-4 pb-4 rounded-2xl">
@@ -60,11 +59,11 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
     <div class="bg-white mt-4 flex justify-between rounded-2xl p-4 mb-4">
       <p class="text-2xl">Операции</p>
       <form>
-        <button mat-raised-button (click)="openOperationDialog()" class="flex justify-end">
+        <button mat-raised-button class="flex justify-end">
 
           <div id="newOperation"
-            class="rounded-xl pt-1.5 w-40 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom hover:bg-blue-700 hover:text-white transition-colors">
-            <p> Новая операция
+               class="rounded-xl pt-1.5 w-40 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom hover:bg-blue-700 hover:text-white transition-colors">
+            <p (click)="this.isPopUpOpened=true"> Новая операция
               <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
             </p>
           </div>
@@ -100,12 +99,16 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
           </tbody>
         </table>
       </div>
-
     </div>
+
+    <app-create-operation (close)="onClose()" [show]="this.isPopUpOpened"></app-create-operation>
+
+
   `,
   styleUrl: './operations.component.css'
 })
 export class OperationsComponent implements OnInit {
+  isPopUpOpened = false;
   currentUsername = this.authService.getCurrentUsername();
   operationsList: any[] = [];
   filteredOperationsList: any[] = [];
@@ -117,7 +120,7 @@ export class OperationsComponent implements OnInit {
   trash = faTrash;
 
 
-  constructor(private authService: AuthService, private dialog: MatDialog) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -146,15 +149,10 @@ export class OperationsComponent implements OnInit {
     location.reload();
   }
 
-  openOperationDialog(): void {
-    const _popup = this.dialog.open(CreateOperationComponent, {
-      width: '410px',
-      data: {
-        currentUsername: this.currentUsername,
-      }
-    });
-    _popup.afterClosed().subscribe(res => {
-      location.reload();
-    })
+  onClose(): void {
+    this.isPopUpOpened = false;
+    location.reload();
   }
+
+
 }
