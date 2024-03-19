@@ -38,7 +38,7 @@ interface Operation {
 export class BalancesComponent implements OnInit {
   removeUser = '';
   currentUser: string = this.authService.getCurrentUsername();
-  usersBalances: { username: string, balance: number }[] = [];
+  usersBalances: { username: string, balance: number;  }[] = [];
   operations: any;
 
   constructor(private userService: UserService, private authService: AuthService) {

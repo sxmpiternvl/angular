@@ -13,7 +13,7 @@ import {CommonModule} from "@angular/common";
   ],
   template: `
     <h2>Registration Page</h2>
-    <form class="form" (ngSubmit)="registration()" #registrationForm="ngForm">
+    <form class="" (ngSubmit)="registration()" #registrationForm="ngForm">
       <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required minlength="3" [(ngModel)]="username" pattern="[a-zA-Z]*">

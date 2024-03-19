@@ -2,118 +2,136 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth-service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {OperationComponent} from "../operation/operation.component";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {CreateOperationComponent} from "../create-operation/create-operation.component";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faHourglassStart} from "@fortawesome/free-solid-svg-icons";
+import {faArrowTrendUp} from "@fortawesome/free-solid-svg-icons";
+import {faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
+import {faHourglassEnd} from "@fortawesome/free-solid-svg-icons";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-operations',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatDialogModule, FaIconComponent],
   template: `
-    <form>
-      <button mat-raised-button color="primary" (click)="openOperationDialog()">Создать операцию</button>
 
-      <p class="">From:</p>
-      <p>{{currentUsername}}</p>
-      <p>To:</p>
-      <div>
-        <input type="text" [(ngModel)]="receiverUsername" name="receiverUsername">
-        <button type="button" (click)="getReceiver()">Continue</button>
+    <div class=" bg-white pl-4 pr-4 pb-4 rounded-2xl">
+      <p class="mb-2 text-4xl">Статистика</p>
+      <div class="flex justify-between">
+        <div class="flex gap-2 flex-row items-center">
+          <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
+            <fa-icon [icon]="faHourGlasses"></fa-icon>
+          </div>
+          <div class=""><p>Баланс на начало</p>
+            <p>10 000</p>
+          </div>
+        </div>
+
+        <div class="flex gap-2 flex-row items-center">
+          <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
+            <fa-icon [icon]="arrowTrendUp"></fa-icon>
+          </div>
+          <div class=""><p>Баланс на начало</p>
+            <p>10 000</p>
+          </div>
+        </div>
+        <div class="flex gap-2 flex-row items-center">
+          <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
+            <fa-icon [icon]="arrowTrendDown"></fa-icon>
+          </div>
+          <div class="ml-4"><p>Баланс на начало</p>
+            <p>10 000</p>
+          </div>
+        </div>
+        <div class="flex gap-2 flex-row items-center">
+          <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
+            <fa-icon [icon]="hourGlassEnd"></fa-icon>
+          </div>
+          <div class="ml-4"><p>Баланс на начало</p>
+            <p>10 000</p>
+          </div>
+        </div>
       </div>
-      <div *ngIf="isReceiverValid">
-        <p>Amount:</p>
-        <input type="text" [(ngModel)]="amount" name="amount">
-        <button type="button" (click)="onSubmit()">Send</button>
-      </div>
-      <div>
-        <table>
-          <thead>
+    </div>
+
+    <div class="bg-white mt-4 flex justify-between rounded-2xl p-4 mb-4">
+      <p class="text-2xl">Операции</p>
+      <form>
+        <button mat-raised-button (click)="openOperationDialog()" class="flex justify-end">
+
+          <div id="newOperation"
+            class="rounded-xl pt-1.5 w-40 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom hover:bg-blue-700 hover:text-white transition-colors">
+            <p> Новая операция
+              <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
+            </p>
+          </div>
+
+        </button>
+      </form>
+    </div>
+
+    <div>
+      <div class=" overflow-y-scroll h-[400px] bg-white rounded-2xl">
+        <table class="w-full">
+          <thead class="sticky top-0 bg-white">
           <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>Amount</th>
-            <th>Date/Time</th>
+            <th>Дата</th>
+            <th>От кого</th>
+            <th>Кому</th>
+            <th>Сумма</th>
+            <th>Action</th>
           </tr>
           </thead>
-          <tbody>
+          <tbody class="w-full">
           <tr *ngFor="let operation of filteredOperationsList; let i = index">
+            <td class="font-mono">{{ operation.datetime }}</td>
             <td>{{ operation.from }}</td>
             <td>{{ operation.to }}</td>
-            <td>{{ operation.amount }}</td>
-            <td>{{ operation.datetime }}</td>
-            <button mat-raised-button color="warn" (click)="removeOperation(i)">Remove</button>
+            <td class="font-mono">{{ operation.amount }}</td>
+            <td>
+              <button (click)="removeOperation(i)">
+                <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
-    </form>
+
+    </div>
+
+
+
+
+
+
   `,
   styleUrl: './operations.component.css'
 })
 export class OperationsComponent implements OnInit {
+  currentUsername = this.authService.getCurrentUsername();
   operationsList: any[] = [];
   filteredOperationsList: any[] = [];
-  currentUsername: string = '';
-  amount: number = 0;
-  receiverUsername = '';
-  receiver: any = null;
-  sender: any = null;
-  isReceiverValid: boolean = false;
+  faHourGlasses = faHourglassStart;
+  arrowTrendUp = faArrowTrendUp;
+  arrowTrendDown = faArrowTrendDown;
+  hourGlassEnd = faHourglassEnd;
+  plus = faPlus;
+  trash = faTrash;
+
 
   constructor(private authService: AuthService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.currentUsername = this.authService.getCurrentUsername();
-    this.getSender();
     this.loadOperations();
     this.updateFilteredOperations();
   }
 
-  getSender(): any {
-    const item = localStorage.getItem(this.currentUsername);
-    if (item !== null) {
-      this.sender = JSON.parse(item);
-    }
-    return this.sender;
-  }
-
-  getReceiver(): void {
-    const receiverExists = localStorage.getItem(this.receiverUsername);
-    if (receiverExists) {
-      this.receiver = JSON.parse(receiverExists);
-      this.isReceiverValid = true;
-    } else {
-      this.isReceiverValid = false;
-      alert('User not found');
-    }
-  }
-
-  onSubmit(): void {
-    let newUserBalance = 0;
-    let newReceiverBalance = 0;
-    if (this.isReceiverValid && this.amount > 0) {
-      if (parseInt(this.sender.balance) >= this.amount) {
-        newUserBalance = parseInt(this.sender.balance) - parseInt((this.amount).toString());
-        this.sender.balance = (newUserBalance);
-        localStorage.setItem(this.sender.username, JSON.stringify(this.sender));
-
-        const operation = {
-          from: this.currentUsername,
-          to: this.receiverUsername,
-          amount: this.amount,
-          datetime: new Date().toLocaleString()
-        };
-        this.operationsList.push(operation);
-        this.updateFilteredOperations();
-        localStorage.setItem('operations', JSON.stringify(this.operationsList));
-
-      }
-      newReceiverBalance = parseInt(this.receiver.balance) + parseInt((this.amount).toString());
-      this.receiver.balance = (newReceiverBalance || 0);
-      localStorage.setItem(this.receiver.username, JSON.stringify(this.receiver));
-    }
-  }
 
   loadOperations(): void {
     const operationsData = localStorage.getItem('operations');
@@ -135,13 +153,14 @@ export class OperationsComponent implements OnInit {
   }
 
   openOperationDialog(): void {
-    const dialogRef = this.dialog.open(OperationComponent, {
-      width: '390px',
+    const _popup = this.dialog.open(CreateOperationComponent, {
+      width: '410px',
       data: {
-        createOperation: (operation: any) => {
-          this.onSubmit();
-        }
+        currentUsername: this.currentUsername,
       }
     });
+    _popup.afterClosed().subscribe(res => {
+      location.reload();
+    })
   }
 }
