@@ -13,13 +13,12 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons";
   standalone: true,
   imports: [CommonModule, RouterLink, FaIconComponent],
   template: `
-<div class="bg-white p-2">
-
-       <p class="text-2xl p-2">Статистика</p>
-           <div class="flex flex-row p-2 gap-2.5">
-      <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
-        <fa-icon [icon]="faUser"></fa-icon>
-      </div>
+  <div class="bg-white pl-4 pr-4 pb-4 rounded-2xl">
+ <p class="mb-2 text-4xl pt-2.5">Статистика</p>
+           <div class="flex flex-row gap-2.5">
+    <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
+            <fa-icon [icon]="faUser"></fa-icon>
+          </div>
       <div class="text-blue-700">
         <p>Всего пользователей</p>
         <p>10</p>

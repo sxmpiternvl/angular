@@ -18,8 +18,8 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
   imports: [CommonModule, FormsModule, MatDialogModule, FaIconComponent],
   template: `
 
-    <div class=" bg-white pl-4 pr-4 pb-4 rounded-2xl">
-      <p class="mb-2 text-4xl">Статистика</p>
+    <div class="bg-white pl-4 pr-4 pb-4 rounded-2xl">
+      <p class="mb-2 text-4xl pt-2.5">Статистика</p>
       <div class="flex justify-between">
         <div class="flex gap-2 flex-row items-center">
           <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
@@ -102,12 +102,6 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
       </div>
 
     </div>
-
-
-
-
-
-
   `,
   styleUrl: './operations.component.css'
 })
