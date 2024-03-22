@@ -14,11 +14,11 @@ body {
 
 
 th {
-  @apply px-4 pb-2.5 text-left ;
+  @apply px-4 pb-2.5 w-[20%];
 }
 
 td {
-  @apply px-4 py-2.5;
+  @apply px-4 py-2.5 w-[20%] text-center;
 }
 
 fa-icon {

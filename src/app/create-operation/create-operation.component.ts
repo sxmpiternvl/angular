@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
@@ -15,8 +15,9 @@ import {comment} from "postcss";
     FormsModule
   ],
   template: `
-
-    <section class="bg-white absolute top-[20%] left-[37%] h-auto w-[26%] overflow-hidden border-0 rounded-2xl p-4">
+@if(show){
+<section class="bg-black absolute top-0 left-0 h-full w-full bg-opacity-40">
+    <section class="bg-white absolute top-[15%] left-[37%] h-auto w-[26%] overflow-hidden border-0 rounded-2xl p-4">
       <div>
         <form (ngSubmit)="onSubmit()">
           <h1 class="text-2xl pb-1"> Создание записи</h1>
@@ -37,7 +38,7 @@ import {comment} from "postcss";
               <p>Комментарий</p>
               <textarea [(ngModel)]="this.comment" (input)="this.count = comment.length" name="comment"
                         class="h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5"></textarea>
-              <p class="text-gray-400 pt-2">Символов: {{ this.count }}/10-255</p>
+              <p class="text-gray-400 pt-2">Символов: {{this.count}}/10-255</p>
             </div>
 
           </div>
@@ -57,18 +58,19 @@ import {comment} from "postcss";
         </form>
       </div>
     </section>
-
+</section>
+}
 
   `,
   styleUrl: './create-operation.component.css'
 })
 
 
-export class CreateOperationComponent implements OnInit {
+export class CreateOperationComponent {
 
   faSave = faSave;
   xmark = faXmark;
-  sender: any = null;
+
   receiver: any = null;
   receiverUsername = '';
   currentUsername: string = this.authService.getCurrentUsername();
@@ -77,50 +79,48 @@ export class CreateOperationComponent implements OnInit {
   count: number = this.comment.length;
   operationsList: any[] = [];
   currentDate: any = new Date();
-  formattedDate: any = `${this.currentDate.getDate().toString().padStart(2, '0')}:${(this.currentDate.getMonth() + 1).toString().padStart(2, '0')}:${this.currentDate.getFullYear()}`;
+  formattedDate: any = `${this.currentDate.getDate().toString().padStart(2, '0')}.${(this.currentDate.getMonth() + 1).toString().padStart(2, '0')}.${this.currentDate.getFullYear()}`;
   @Input('show')
   show = false;
   @Output('close')
   close = new EventEmitter();
 
   constructor(private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-    this.loadOperations();
+        this.loadOperations();
   }
 
 
-  onSubmit(): void {
-    const item = localStorage.getItem(this.currentUsername);
-    if (item !== null) {
-      this.sender = JSON.parse(item);
-    }
-    let newUserBalance = 0;
-    let newReceiverBalance = 0;
-    if (this.amount > 0) {
-      if (parseInt(this.sender.balance) >= this.amount) {
-        newUserBalance = parseInt(this.sender.balance) - parseInt((this.amount).toString());
-        this.sender.balance = (newUserBalance);
-        localStorage.setItem(this.sender.username, JSON.stringify(this.sender));
 
-        const operation = {
-          from: this.currentUsername,
-          to: this.receiverUsername,
-          amount: this.amount,
-          datetime: this.formattedDate,
-        };
-        this.operationsList.push(operation);
 
-        localStorage.setItem('operations', JSON.stringify(this.operationsList));
-
-      }
-      newReceiverBalance = parseInt(this.receiver.balance) + parseInt((this.amount).toString());
-      this.receiver.balance = (newReceiverBalance);
-      localStorage.setItem(this.receiver.username, JSON.stringify(this.receiver));
+onSubmit(): void {
+  const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+  const currentUser = usersData[this.currentUsername];
+  if (currentUser && currentUser.balance >= this.amount) {
+    currentUser.balance -= this.amount;
+    let out = parseInt(currentUser.outgoing);
+    out+=parseInt(this.amount.toString());
+    currentUser.outgoing = out;
+    localStorage.setItem('users', JSON.stringify(usersData));
+    const receiverData = usersData[this.receiverUsername];
+    if (receiverData) {
+      let balance = parseInt(receiverData.balance);
+      balance += parseInt(this.amount.toString());
+      receiverData.income+=parseInt(this.amount.toString());
+      receiverData.balance = balance;
+      localStorage.setItem('users', JSON.stringify(usersData));
+      const operation = {
+        from: this.currentUsername,
+        to: this.receiverUsername,
+        amount: this.amount,
+        datetime: this.formattedDate,
+      };
+      const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
+      operationsList.push(operation);
+      localStorage.setItem('operations', JSON.stringify(operationsList));
       this.close.emit();
     }
   }
+}
 
 
   getReceiver(): any {

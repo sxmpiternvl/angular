@@ -17,9 +17,9 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
   imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent],
   template: `
 
-    <div class="bg-white pl-4 pr-4 pb-4 rounded-2xl">
-      <p class="mb-2 text-4xl pt-2.5">Статистика</p>
-      <div class="flex justify-between">
+    <div class="bg-white p-2 rounded-2xl">
+      <p class="mb-2 text-4xl p-2.5">Статистика</p>
+      <div class="flex justify-between px-4 pb-2">
         <div class="flex gap-2 flex-row items-center">
           <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
             <fa-icon [icon]="faHourGlasses"></fa-icon>
@@ -33,7 +33,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
           <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
             <fa-icon [icon]="arrowTrendUp"></fa-icon>
           </div>
-          <div class=""><p>Баланс на начало</p>
+          <div class=""><p>Приход</p>
             <p>10 000</p>
           </div>
         </div>
@@ -41,7 +41,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
           <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
             <fa-icon [icon]="arrowTrendDown"></fa-icon>
           </div>
-          <div class="ml-4"><p>Баланс на начало</p>
+          <div class="ml-4"><p>Расход</p>
             <p>10 000</p>
           </div>
         </div>
@@ -49,33 +49,30 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
           <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
             <fa-icon [icon]="hourGlassEnd"></fa-icon>
           </div>
-          <div class="ml-4"><p>Баланс на начало</p>
+          <div class="ml-4"><p>Баланс на конец</p>
             <p>10 000</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="bg-white mt-4 flex justify-between rounded-2xl p-4 mb-4">
-      <p class="text-2xl">Операции</p>
-      <form>
-        <button mat-raised-button class="flex justify-end">
-
-          <div id="newOperation"
-               class="rounded-xl pt-1.5 w-40 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom hover:bg-blue-700 hover:text-white transition-colors">
-            <p (click)="this.isPopUpOpened=true"> Новая операция
-              <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
-            </p>
-          </div>
-
-        </button>
-      </form>
-    </div>
-
-    <div>
-      <div class=" overflow-y-scroll h-[400px] bg-white rounded-2xl">
+    <div class="bg-white mt-4 rounded-2xl p-4 mb-4 grid grid-cols-1 gap-2 w-full">
+      <div class="flex flex-row justify-between">
+        <p class="text-2xl">Операции</p>
+        <form>
+          <button mat-raised-button class="flex justify-end">
+            <div id="newOperation"
+                 class="rounded-xl w-40 h-10 text-blue-700 border-2 border-blue-900 hover:bg-blue-700 hover:text-white transition-colors duration-300 pt-1.5">
+              <p (click)="this.isPopUpOpened=true"> Новая операция
+                <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
+              </p>
+            </div>
+          </button>
+        </form>
+      </div>
+      <div class=" overflow-y-scroll h-[350px] bg-white rounded-2xl">
         <table class="w-full">
-          <thead class="sticky top-0 bg-white">
+          <thead class="sticky top-0 bg-neutral-100">
           <tr>
             <th>Дата</th>
             <th>От кого</th>
@@ -107,7 +104,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
   `,
   styleUrl: './operations.component.css'
 })
-export class OperationsComponent implements OnInit {
+export class OperationsComponent  {
   isPopUpOpened = false;
   currentUsername = this.authService.getCurrentUsername();
   operationsList: any[] = [];
@@ -121,13 +118,11 @@ export class OperationsComponent implements OnInit {
 
 
   constructor(private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-    this.currentUsername = this.authService.getCurrentUsername();
     this.loadOperations();
     this.updateFilteredOperations();
   }
+
+
 
 
   loadOperations(): void {

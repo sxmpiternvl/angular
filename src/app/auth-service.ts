@@ -5,10 +5,21 @@ import {Injectable} from '@angular/core';
 })
 export class AuthService {
   constructor() {
+    this.usersExists();
   }
 
+   usersExists(): void {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    if (!usersData) {
+      localStorage.setItem('users', JSON.stringify({}));
+    }
+  }
+
+
+
   login(username: string, password: string): boolean {
-    const user = JSON.parse(localStorage.getItem(username) || '{}');
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    const user = usersData[username];
     if (user && user.password === password) {
       localStorage.setItem('isLoggedIn', username);
       return true;
@@ -18,7 +29,8 @@ export class AuthService {
   }
 
   isUnique(username: string): boolean {
-    return !localStorage.getItem(username);
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    return !usersData[username];
   }
 
   isAuthenticated(): boolean {
@@ -30,24 +42,30 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn');
   }
 
-  registration(username: string, password: string, name: string, lastname: string, balance: number): void {
-    const user = {username, password, name, lastname, balance};
-    localStorage.setItem(username, JSON.stringify(user));
+    registration(username: string, password: string, name: string): void {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    usersData[username] = { username, password, name, balance: 10000, income: 0, outgoing: 0 };
+    localStorage.setItem('users', JSON.stringify(usersData));
   }
 
-  getCurrentUsername(): string {
+   getCurrentUsername(): string {
     const username = localStorage.getItem('isLoggedIn');
     if (username) {
-      const user = JSON.parse(localStorage.getItem(username) || '{}');
-      return user.username;
+      return username;
     }
     return '';
   }
 
-
-
-
-
+  removeUser(username: string): void {
+  const usersData: { [key: string]: any } = JSON.parse(localStorage.getItem('users') || '{}');
+  const updatedUsersData: { [key: string]: any } = {};
+  for (const key in usersData) {
+    if (key !== username) {
+      updatedUsersData[key] = usersData[key];
+    }
+  }
+  localStorage.setItem('users', JSON.stringify(updatedUsersData));
+}
 
 }
 

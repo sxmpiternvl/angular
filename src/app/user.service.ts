@@ -7,41 +7,18 @@ export class UserService {
   constructor() {
   }
 
-  getAllUsers(): { username: string; balance: number }[] {
-    const usersBalances: { username: string; balance: number }[] = [];
-    for (let i = 1; i < localStorage.length; i++) {
-      const user = localStorage.key(i);
-      if (user) {
-        const userData = localStorage.getItem(user);
-        if (userData) {
-          try {
-            const user = JSON.parse(userData);
-            usersBalances.push({username: user.username, balance: user.balance});
-          } catch (error) {
-
-          }
-        }
-      }
-    }
-    return usersBalances;
-  }
-
-  getUsersList(): { username: string; name: string }[] {
-    const usersList: { username: string; name: string }[] = [];
-    for (let i = 1; i < localStorage.length; i++) {
-      const user = localStorage.key(i);
-      if (user) {
-        const userData = localStorage.getItem(user);
-        if (userData) {
-          try {
-            const user = JSON.parse(userData);
-            usersList.push({username: user.username, name: user.name});
-          } catch (error) {
-
-          }
-        }
-      }
-    }
+  getUsers(): { username: string; balance: number; name: string; income: number; outgoing: number }[] {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    const usersList: { username: string; balance: number; name: string; income: number; outgoing: number }[] = [];
+    Object.keys(usersData).forEach((key) => {
+      const userData = usersData[key];
+      const username = userData.username;
+      const balance = userData.balance;
+      const name = userData.name;
+      const income = userData.income;
+      const outgoing = userData.outgoing;
+      usersList.push({username, balance, name, income, outgoing});
+    });
     return usersList;
   }
 }
