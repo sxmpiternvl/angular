@@ -49,38 +49,38 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
         </div>
         }
         @else{
-        <div *ngFor="let user of allUsers">
-          @if(user.username==this.currentUsername){
-        <p class="px-4 text-2xl font-light"> {{user.username}}</p>
-        <div class="grid grid-cols-3 border-b p-4 mb-2.5">
-          <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
-              <fa-icon [icon]="faTrendUp"></fa-icon>
-            </div>
-            <div class=""><p>{{user.income}}</p>
-              <p>111</p>
-            </div>
-          </div>
-          <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
-              <fa-icon [icon]="faTrendDown"></fa-icon>
-            </div>
-            <div class=""><p>{{user.outgoing}}</p>
-              <p>111</p>
-            </div>
-          </div>
-          <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">
-              <fa-icon [icon]="faPiggy"></fa-icon>
-            </div>
-            <div class=""><p>{{user.balance}}</p>
-              <p>
-                Balance:111</p>
-            </div>
-          </div>
-        </div>
-        }
-     </div>
+<!--        <div *ngFor="let user of allUsers">-->
+<!--          @if(user.username==this.currentUsername){-->
+<!--        <p class="px-4 text-2xl font-light"> {{user.username}}</p>-->
+<!--        <div class="grid grid-cols-3 border-b p-4 mb-2.5">-->
+<!--          <div class="flex gap-2 flex-row items-center">-->
+<!--            <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">-->
+<!--              <fa-icon [icon]="faTrendUp"></fa-icon>-->
+<!--            </div>-->
+<!--            <div class=""><p>{{user.income}}</p>-->
+<!--              <p>111</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="flex gap-2 flex-row items-center">-->
+<!--            <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">-->
+<!--              <fa-icon [icon]="faTrendDown"></fa-icon>-->
+<!--            </div>-->
+<!--            <div class=""><p>{{user.outgoing}}</p>-->
+<!--              <p>111</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="flex gap-2 flex-row items-center">-->
+<!--            <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">-->
+<!--              <fa-icon [icon]="faPiggy"></fa-icon>-->
+<!--            </div>-->
+<!--            <div class=""><p>{{user.balance}}</p>-->
+<!--              <p>-->
+<!--                Balance:111</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        }-->
+<!--     </div>-->
         }
       </div>
 
