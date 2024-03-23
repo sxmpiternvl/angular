@@ -56,13 +56,14 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
       </div>
     </div>
 
-    <div class="bg-white mt-4 rounded-2xl p-4 mb-4 grid grid-cols-1 gap-2 w-full">
-      <div class="flex flex-row justify-between">
+    <div class="bg-white mt-4 rounded-2xl p-4 grid grid-cols-1 w-full">
+      <div class="flex flex-row justify-between pb-4">
         <p class="text-2xl">Операции</p>
         <form>
           <button mat-raised-button class="flex justify-end">
             <div id="newOperation"
-                 class="rounded-xl w-40 h-10 text-blue-700 border-2 border-blue-900 hover:bg-blue-700 hover:text-white transition-colors duration-300 pt-1.5">
+                 class="rounded-xl w-40 h-10 text-blue-700 border-2 border-blue-900 hover:bg-blue-700 hover:text-white
+                  transition-colors duration-300 pt-1.5">
               <p (click)="this.isPopUpOpened=true"> Новая операция
                 <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
               </p>
@@ -70,15 +71,15 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
           </button>
         </form>
       </div>
-      <div class=" overflow-y-scroll h-[350px] bg-white rounded-2xl">
+      <div class=" overflow-y-scroll h-[400px] bg-white rounded-2xl">
         <table class="w-full">
           <thead class="sticky top-0 bg-neutral-100">
           <tr>
-            <th>Дата</th>
-            <th>От кого</th>
-            <th>Кому</th>
-            <th>Сумма</th>
-            <th>Action</th>
+            <th class="p-2.5">Дата</th>
+            <th class="p-2.5">От кого</th>
+            <th class="p-2.5">Кому</th>
+            <th class="p-2.5">Сумма</th>
+            <th class="p-2.5">Action</th>
           </tr>
           </thead>
           <tbody class="w-full">

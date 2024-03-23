@@ -16,7 +16,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
     <div class=" h-[calc(100vh-45px)]">
       <div class="bg-white h-[80%] overflow-y-scroll rounded-2xl">
         <p class="pb-4 fixed sticky top-0 bg-white pt-3 overflow-hidden text-2xl px-4">Балансы пользователей</p>
-        @if(isLoggedIn() != true){
+        @if(!isLoggedIn()){
         <div *ngFor="let user of allUsers">
           <p class="px-4 text-2xl font-light"> {{ user.username }}</p>
           <div class="grid grid-cols-3 border-b p-4 mb-2.5">
@@ -49,37 +49,39 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
         </div>
         }
         @else{
-        <p class="px-4 text-2xl font-light"> 111</p>
-          <div class="grid grid-cols-3 border-b p-4 mb-2.5">
-            <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
-                <fa-icon [icon]="faTrendUp"></fa-icon>
-              </div>
-              <div class=""><p>Всего приход</p>
-                <p>111</p>
-              </div>
+        <div *ngFor="let user of allUsers">
+          @if(user.username==this.currentUsername){
+        <p class="px-4 text-2xl font-light"> {{user.username}}</p>
+        <div class="grid grid-cols-3 border-b p-4 mb-2.5">
+          <div class="flex gap-2 flex-row items-center">
+            <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
+              <fa-icon [icon]="faTrendUp"></fa-icon>
             </div>
-            <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
-                <fa-icon [icon]="faTrendDown"></fa-icon>
-              </div>
-              <div class=""><p>Всего расход</p>
-                <p>111</p>
-              </div>
-            </div>
-            <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">
-                <fa-icon [icon]="faPiggy"></fa-icon>
-              </div>
-              <div class=""><p>Баланс</p>
-                <p>
-                  Balance:111</p>
-              </div>
+            <div class=""><p>{{user.income}}</p>
+              <p>111</p>
             </div>
           </div>
+          <div class="flex gap-2 flex-row items-center">
+            <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
+              <fa-icon [icon]="faTrendDown"></fa-icon>
+            </div>
+            <div class=""><p>{{user.outgoing}}</p>
+              <p>111</p>
+            </div>
+          </div>
+          <div class="flex gap-2 flex-row items-center">
+            <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">
+              <fa-icon [icon]="faPiggy"></fa-icon>
+            </div>
+            <div class=""><p>{{user.balance}}</p>
+              <p>
+                Balance:111</p>
+            </div>
+          </div>
+        </div>
         }
-
-
+     </div>
+        }
       </div>
 
       <div class="bg-white  mt-4 rounded-2xl">
@@ -123,6 +125,7 @@ export class BalancesComponent {
   allUsers: { username: string, balance: number; income: number; outgoing: number }[] = [];
   operations: any;
 
+
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
   }
@@ -159,6 +162,7 @@ export class BalancesComponent {
     });
     return totalBalance;
   }
+
 
 }
 

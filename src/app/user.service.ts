@@ -8,7 +8,7 @@ export class UserService {
   }
 
   getUsers(): { username: string; balance: number; name: string; income: number; outgoing: number }[] {
-    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const usersList: { username: string; balance: number; name: string; income: number; outgoing: number }[] = [];
     Object.keys(usersData).forEach((key) => {
       const userData = usersData[key];
@@ -19,6 +19,8 @@ export class UserService {
       const outgoing = userData.outgoing;
       usersList.push({username, balance, name, income, outgoing});
     });
+    console.log(usersList);
     return usersList;
   }
+
 }

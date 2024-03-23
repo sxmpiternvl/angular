@@ -27,13 +27,13 @@ import {AuthService} from "../auth-service";
     </div>
     <div>
       <div class="bg-white mt-4 rounded-t-2xl p-4 w-full">
-        <div class=" grid grid-cols-2 grid-rows-1 pb-2">
+        <div class=" grid grid-cols-2 grid-rows-1 pb-4">
           <p class="text-2xl">Пользователи</p>
           @if(!authenticated()){
           <button class="flex justify-end">
             <div id="newOperation"
                  class="rounded-xl pt-1.5 w-52 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom
-                  hover:bg-blue-700 hover:text-white transition-colors">
+                    hover:bg-blue-700 hover:text-white transition-colors">
               <a routerLink="/registration"> Новый пользователь
                 <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
               </a>
@@ -41,20 +41,20 @@ import {AuthService} from "../auth-service";
           </button>
            }
         </div>
-        <div class=" overflow-y-scroll h-[335px] bg-white rounded-2xl">
+        <div class=" overflow-y-scroll h-[400px] bg-white rounded-2xl" >
           <table class="w-full">
             <thead class="sticky top-0 bg-neutral-100 rounded-2xl p-16">
-            <tr class="">
-              <th class="pr-40">Имя</th>
-              <th class="pl-40">Логин</th>
-              <th class="pl-80">Действия</th>
+            <tr>
+              <th class="p-2.5">Имя</th>
+              <th class="p-2.5">Логин</th>
+              <th class="p-2.5">Действия</th>
             </tr>
             </thead>
             <tbody class="w-full">
             <tr *ngFor="let user of allUsers; let i = index">
-              <td class="pr-40">{{ user.name }}</td>
-              <td class="pl-40">{{ user.username }}</td>
-              <td class="pl-80">
+              <td class="">{{ user.name }}</td>
+              <td class="">{{ user.username }}</td>
+              <td class="">
                 <button (click)="removeUser(user.username)">
                   <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
                 </button>

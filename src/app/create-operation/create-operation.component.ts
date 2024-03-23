@@ -32,7 +32,7 @@ import {comment} from "postcss";
             </div>
             <div>
               <p>Сумма:</p>
-              <input type="text" [(ngModel)]="this.amount" name="amount">
+              <input type="text" [(ngModel)]="this.amount" name="amount" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <div>
               <p>Комментарий</p>
@@ -60,17 +60,14 @@ import {comment} from "postcss";
     </section>
 </section>
 }
-
   `,
   styleUrl: './create-operation.component.css'
 })
-
 
 export class CreateOperationComponent {
 
   faSave = faSave;
   xmark = faXmark;
-
   receiver: any = null;
   receiverUsername = '';
   currentUsername: string = this.authService.getCurrentUsername();
@@ -89,11 +86,8 @@ export class CreateOperationComponent {
         this.loadOperations();
   }
 
-
-
-
 onSubmit(): void {
-  const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+  const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
   const currentUser = usersData[this.currentUsername];
   if (currentUser && currentUser.balance >= this.amount) {
     currentUser.balance -= this.amount;
@@ -114,7 +108,7 @@ onSubmit(): void {
         amount: this.amount,
         datetime: this.formattedDate,
       };
-      const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
+      const operationsList = JSON.parse(localStorage.getItem('operations') ?? '[]');
       operationsList.push(operation);
       localStorage.setItem('operations', JSON.stringify(operationsList));
       this.close.emit();
@@ -122,14 +116,12 @@ onSubmit(): void {
   }
 }
 
-
   getReceiver(): any {
     const receiverExists = localStorage.getItem(this.receiverUsername);
     if (receiverExists) {
       this.receiver = JSON.parse(receiverExists);
     }
   }
-
 
   loadOperations(): void {
     const operationsData = localStorage.getItem('operations');
