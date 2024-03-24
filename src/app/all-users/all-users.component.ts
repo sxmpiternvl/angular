@@ -1,4 +1,4 @@
-import {Component,} from '@angular/core';
+import {Component, HostBinding,} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {UserService} from "../user.service";
@@ -7,13 +7,16 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {AuthService} from "../auth-service";
+import {routeAnimationState} from "../route.animations";
+import {RegistrationComponent} from "../registration/registration.component";
 
 @Component({
   selector: 'app-all-users',
   standalone: true,
-  imports: [CommonModule, RouterLink, FaIconComponent],
+  imports: [CommonModule, RouterLink, FaIconComponent, RegistrationComponent],
   template: `
-    <div class="bg-white p-2 rounded-2xl">
+    <div class="h-[calc(100vh-45px)]">
+      <div class="bg-white p-2 rounded-2xl">
       <p class="mb-2 text-4xl p-2.5">Статистика</p>
       <div class="flex flex-row px-4 pb-2 gap-2.5">
         <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
@@ -21,22 +24,22 @@ import {AuthService} from "../auth-service";
         </div>
         <div class="text-blue-700">
           <p>Всего пользователей</p>
-          <p>10</p>
+          <p>{{allUsers.length}}</p>
         </div>
       </div>
     </div>
     <div>
-      <div class="bg-white mt-4 rounded-t-2xl p-4 w-full">
+      <div class="bg-white mt-4 rounded-2xl p-4 w-full">
         <div class=" grid grid-cols-2 grid-rows-1 pb-4">
-          <p class="text-2xl">Пользователи</p>
+          <div class="h-10"><p class="text-2xl">Пользователи</p></div>
           @if(!authenticated()){
-          <button class="flex justify-end">
+          <button class="flex justify-end" (click)="this.isPopUpOpened=true" >
             <div id="newOperation"
                  class="rounded-xl pt-1.5 w-52 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom
                     hover:bg-blue-700 hover:text-white transition-colors">
-              <a routerLink="/registration"> Новый пользователь
+              <p> Новый пользователь
                 <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
-              </a>
+              </p>
             </div>
           </button>
            }
@@ -65,12 +68,18 @@ import {AuthService} from "../auth-service";
         </div>
       </div>
     </div>
+    </div>
+<app-registration (close)="onClose()" [a]="this.isPopUpOpened"></app-registration>
 
 
   `,
+   animations: [routeAnimationState],
   styleUrl: './all-users.component.css'
 })
 export class AllUsersComponent {
+  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
+  isPopUpOpened = false;
+  currentUser: any;
   faUser = faUser;
   trash = faTrash;
   plus = faPlus;
@@ -82,6 +91,7 @@ export class AllUsersComponent {
 
   getUsers(): void {
     this.allUsers = this.userService.getUsers();
+     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
 
   removeUser(username:string): void {
@@ -92,9 +102,12 @@ export class AllUsersComponent {
    return this.authService.isAuthenticated();
   }
 
+
+   onClose(): void {
+    this.isPopUpOpened = false;
+    location.reload();
+  }
 }
-
-
 
 
 

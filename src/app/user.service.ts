@@ -23,4 +23,22 @@ export class UserService {
     return usersList;
   }
 
+
+  getUserByUsername(username: string): { username: string; balance: number; name: string; income: number; outgoing: number } | null {
+    const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
+    const userData = usersData[username];
+    if (userData) {
+       const user = {
+        username: userData.username,
+        balance: userData.balance,
+        name: userData.name,
+        income: userData.income,
+        outgoing: userData.outgoing
+    };
+    return user;
+    }
+    return null;
+
+}
+
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {AuthService} from "../auth-service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
@@ -10,13 +10,14 @@ import {faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
 import {faHourglassEnd} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {UserService} from "../user.service";
+import {routeAnimationState} from "../route.animations";
 
 @Component({
   selector: 'app-operations',
   standalone: true,
   imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent],
   template: `
-
     <div class="bg-white p-2 rounded-2xl">
       <p class="mb-2 text-4xl p-2.5">Статистика</p>
       <div class="flex justify-between px-4 pb-2">
@@ -25,7 +26,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
             <fa-icon [icon]="faHourGlasses"></fa-icon>
           </div>
           <div class=""><p>Баланс на начало</p>
-            <p>10 000</p>
+            <p>0</p>
           </div>
         </div>
 
@@ -34,7 +35,15 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
             <fa-icon [icon]="arrowTrendUp"></fa-icon>
           </div>
           <div class=""><p>Приход</p>
-            <p>10 000</p>
+           @if(currentUser){
+            <p>
+              {{currentUser.income}}
+            </p>
+            }
+            @else{
+            <p>
+            0</p>
+            }
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
@@ -42,7 +51,16 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
             <fa-icon [icon]="arrowTrendDown"></fa-icon>
           </div>
           <div class="ml-4"><p>Расход</p>
-            <p>10 000</p>
+
+              @if(currentUser){
+            <p>
+              {{currentUser.outgoing}}
+            </p>
+            }
+            @else{
+            <p>
+            0</p>
+            }
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
@@ -50,21 +68,29 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
             <fa-icon [icon]="hourGlassEnd"></fa-icon>
           </div>
           <div class="ml-4"><p>Баланс на конец</p>
-            <p>10 000</p>
+             @if(currentUser){
+            <p>
+              {{currentUser.balance}}
+            </p>
+            }
+            @else{
+            <p>
+            0</p>
+            }
           </div>
         </div>
       </div>
     </div>
 
-    <div class="bg-white mt-4 rounded-2xl p-4 grid grid-cols-1 w-full">
+    <div class="bg-white mt-4 rounded-2xl p-4 w-full">
       <div class="flex flex-row justify-between pb-4">
-        <p class="text-2xl">Операции</p>
+        <div class="h-10">  <p class="text-2xl">Операции</p> </div>
         <form>
-          <button mat-raised-button class="flex justify-end">
+          <button (click)="this.isPopUpOpened=true" class="flex justify-end">
             <div id="newOperation"
                  class="rounded-xl w-40 h-10 text-blue-700 border-2 border-blue-900 hover:bg-blue-700 hover:text-white
                   transition-colors duration-300 pt-1.5">
-              <p (click)="this.isPopUpOpened=true"> Новая операция
+              <p > Новая операция
                 <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
               </p>
             </div>
@@ -84,7 +110,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
           </thead>
           <tbody class="w-full">
           <tr *ngFor="let operation of filteredOperationsList; let i = index">
-            <td class="font-mono">{{ operation.datetime }}</td>
+            <td class="font-mono">{{operation.datetime}}</td>
             <td>{{ operation.from }}</td>
             <td>{{ operation.to }}</td>
             <td class="font-mono">{{ operation.amount }}</td>
@@ -98,18 +124,19 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
         </table>
       </div>
     </div>
-
     <app-create-operation (close)="onClose()" [show]="this.isPopUpOpened"></app-create-operation>
-
-
   `,
-  styleUrl: './operations.component.css'
+  styleUrl: './operations.component.css',
+    animations: [routeAnimationState],
 })
 export class OperationsComponent  {
+  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
   isPopUpOpened = false;
   currentUsername = this.authService.getCurrentUsername();
   operationsList: any[] = [];
   filteredOperationsList: any[] = [];
+  currentUser: any;
+
   faHourGlasses = faHourglassStart;
   arrowTrendUp = faArrowTrendUp;
   arrowTrendDown = faArrowTrendDown;
@@ -118,13 +145,12 @@ export class OperationsComponent  {
   trash = faTrash;
 
 
-  constructor(private authService: AuthService) {
+
+  constructor(private authService: AuthService, private userService: UserService) {
+    this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
     this.loadOperations();
     this.updateFilteredOperations();
   }
-
-
-
 
   loadOperations(): void {
     const operationsData = localStorage.getItem('operations');
@@ -149,6 +175,5 @@ export class OperationsComponent  {
     this.isPopUpOpened = false;
     location.reload();
   }
-
 
 }

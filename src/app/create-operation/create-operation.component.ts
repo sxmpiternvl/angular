@@ -1,10 +1,12 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostBinding, Input, Output} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../auth-service";
-import {comment} from "postcss";
+
+import {routeAnimationState} from "../route.animations";
+import {CommonModule} from "@angular/common";
 
 
 @Component({
@@ -12,7 +14,8 @@ import {comment} from "postcss";
   standalone: true,
   imports: [
     FaIconComponent,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   template: `
 @if(show){
@@ -35,25 +38,24 @@ import {comment} from "postcss";
               <input type="text" [(ngModel)]="this.amount" name="amount" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <div>
-              <p>Комментарий</p>
-              <textarea [(ngModel)]="this.comment" (input)="this.count = comment.length" name="comment"
-                        class="h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5"></textarea>
-              <p class="text-gray-400 pt-2">Символов: {{this.count}}/10-255</p>
-            </div>
-
+  <p>Комментарий</p>
+  <textarea [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
+            class="h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5" minlength="10"
+            maxlength="255"></textarea>
+  <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500':  count < 10 || count > 255 }">Символов: {{ count }}/10-255</p>
+</div>
           </div>
           <div class="grid grid-cols-2">
             <div class="bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32">
               <fa-icon [icon]="xmark" class="text-white"></fa-icon>
-              <button (click)="this.close.emit()" class="text-white">Отменить</button>
+              <button (click)="this.close.emit()" class="text-white pl-1">Отменить</button>
             </div>
             <div class="border p-2 rounded-xl border-blue-700 w-40">
               <button type="submit" class="text-blue-700">
-                <fa-icon [icon]="faSave" class="text-blue-700"></fa-icon>
+                <fa-icon [icon]="faSave" class="text-blue-700 pl-1"></fa-icon>
                 Создать запись
               </button>
             </div>
-
           </div>
         </form>
       </div>
@@ -61,10 +63,12 @@ import {comment} from "postcss";
 </section>
 }
   `,
-  styleUrl: './create-operation.component.css'
+  styleUrl: './create-operation.component.css',
+  animations: [routeAnimationState],
 })
 
 export class CreateOperationComponent {
+  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
 
   faSave = faSave;
   xmark = faXmark;
@@ -128,6 +132,10 @@ onSubmit(): void {
     if (operationsData) {
       this.operationsList = JSON.parse(operationsData);
     }
+  }
+
+  updateCharacterCount() {
+    this.count = this.comment.length;
   }
 
 }

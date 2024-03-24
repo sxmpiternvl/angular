@@ -14,9 +14,9 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
   standalone: true,
   imports: [RouterOutlet, RouterLink, CommonModule, RouterLinkActive, FaIconComponent],
   template: `
-    <div class="flex h-full">
-      <div class="w-[16%] bg-white ">
-        <nav class="p-10 text-sm ">
+    <div class="flex h-screen">
+      <div class="w-[16%] bg-white">
+        <nav class="p-10 text-sm">
           <svg width="186" height="50" viewBox="0 0 186 50" fill="none" xmlns="http://www.w3.org/2000/svg"
                class="mb-10">
             <path
@@ -57,13 +57,11 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
                 <li class="pb-4 ml-2.5"><a routerLink="/balances" routerLinkActive=text-blue-600
                                            class="hover:text-blue-700 font-semibold">Балансы</a></li>
               </div>
-              <div class="flex">
+              <div *ngIf="!isLoggedIn()" class="flex">
                 <fa-icon [icon]="faSignature" class="text-gray-500"></fa-icon>
-                <li *ngIf="!isLoggedIn()" class="pb-4 ml-2.5"><a routerLink="/" 
+                <li class="pb-4 ml-2.5"><a routerLink="/"
                                            class="hover:text-blue-700 font-semibold">Login</a> </li>
               </div>
-              
-              
             </ul>
             <div *ngIf="isLoggedIn()" class="flex fixed bottom-10">
               <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,11 +73,10 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
                       class="pb-4 text-left text-blue-600 font-semibold ml-2.5">Выйти из системы
               </button>
             </div>
-           
           </div>
         </nav>
       </div>
-      <div class="flex-1 p-8">
+      <div class="flex-1 p-3">
         <router-outlet></router-outlet>
       </div>
     </div>
@@ -88,7 +85,7 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
         class="font-bold">{{getDate()}}</span> </span> Текущий пользователь: <span
         class="font-bold"> {{getCurrentUsername()}}</span></p>
     </div>
-  
+
   `,
   styleUrl: './app.component.css'
 })
