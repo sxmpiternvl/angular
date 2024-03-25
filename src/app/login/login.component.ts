@@ -31,7 +31,7 @@ import {extractInterface} from "@angular/compiler-cli/src/ngtsc/docs/src/class_e
           <div>
             <label for="username">Логин</label>
             <input type="text" id="username" name="username" required minlength="3" [(ngModel)]="username"
-                   pattern="[a-zA-Z]*" class="w-[95%] bg-blue-100 pl-10">
+                   pattern="[a-zA-Z]*" class=" bg-blue-100 pl-10">
             <i>
               <fa-icon [icon]="faUser" class="text-blue-700 absolute left-12 top-[56%]"></fa-icon>
             </i>
@@ -42,19 +42,19 @@ import {extractInterface} from "@angular/compiler-cli/src/ngtsc/docs/src/class_e
           <div>
             <label for="password">Пароль</label>
             <input type="password" id="password" name="password" required minlength="6" [(ngModel)]="password"
-                   class="w-[95%] bg-blue-100 pl-10">
+                   class=" bg-blue-100 pl-10">
             <i>
               <fa-icon [icon]="faLock" class="text-blue-700 absolute left-12 top-[75%]"></fa-icon>
             </i>
           </div>
           <div id="newOperation"
-               class="text-center border-blue-700 border border-solid rounded-2xl py-1 w-[95%] hover:text-white hover:bg-blue-700 duration-500">
+               class="custom-submit-button">
             <fa-icon [icon]="faLockOpen" class="text-blue-700 px-2"></fa-icon>
             <button type="submit">Войти в систему</button>
           </div>
           <div *ngIf="loginError"
-               class="bg-white rounded-b-2xl fixed  p-6 w-[22%] text-center left-[39%] text-red-600 shadow-md">
-            <div class="text-center border-blue-700 border border-solid rounded-2xl py-1 w-[95%] flex flex-row">
+               class="error-block w-[22%] left-[39%]">
+            <div class="alert flex justify-center">
               <fa-icon [icon]="exTriangle" class="text-red-700 pl-6 py-4"></fa-icon>
               <p>Неверный логин или пароль. Повторите попытку</p>
             </div>

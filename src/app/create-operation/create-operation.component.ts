@@ -19,8 +19,8 @@ import {CommonModule} from "@angular/common";
   ],
   template: `
 @if(show){
-<section class="bg-black absolute top-0 left-0 h-full w-full bg-opacity-40">
-    <section class="bg-white absolute top-[15%] left-[37%] h-auto w-[26%] overflow-hidden border-0 rounded-2xl p-4">
+<section class="bg-black fixed top-0 left-0 h-full w-full bg-opacity-40">
+    <section class="bg-white fixed top-[5%] left-[33%] h-auto w-[34%] overflow-hidden border-0 rounded-2xl p-[32px] gap-2">
       <div>
         <form (ngSubmit)="onSubmit()">
           <h1 class="text-2xl pb-1"> Создание записи</h1>
@@ -39,13 +39,13 @@ import {CommonModule} from "@angular/common";
             </div>
             <div>
   <p>Комментарий</p>
-  <textarea [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
-            class="h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5" minlength="10"
+  <textarea  [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
+            class="resize-none h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5" minlength="10"
             maxlength="255"></textarea>
   <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500':  count < 10 || count > 255 }">Символов: {{ count }}/10-255</p>
 </div>
           </div>
-          <div class="grid grid-cols-2">
+          <div class="grid grid-cols-2 pt-4">
             <div class="bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32">
               <fa-icon [icon]="xmark" class="text-white"></fa-icon>
               <button (click)="this.close.emit()" class="text-white pl-1">Отменить</button>

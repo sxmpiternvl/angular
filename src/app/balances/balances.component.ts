@@ -17,14 +17,14 @@ import {routeAnimationState} from "../route.animations";
 
   template: `
     <div class=" h-[calc(100vh-33px)]">
-      <div class="bg-white h-[80%] overflow-y-scroll rounded-2xl p-2">
-        <p class="fixed sticky top-0 bg-white  overflow-hidden mb-2 text-4xl p-2.5">Балансы пользователей</p>
+      <div class="bg-white h-[80%] overflow-y-scroll rounded-2xl">
+        <p class="fixed sticky top-0 bg-white  overflow-hidden mb-2 text-4xl p-4">Балансы пользователей</p>
         @if(!isLoggedIn()){
-        <div *ngFor="let user of allUsers">
+        <div *ngFor="let user of allUsers" class="">
           <p class="px-4 text-2xl font-light"> {{ user.username }}</p>
           <div class="grid grid-cols-3 border-b p-4 mb-2.5">
             <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
+              <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faTrendUp"></fa-icon>
               </div>
               <div class=""><p>Всего приход</p>
@@ -32,7 +32,7 @@ import {routeAnimationState} from "../route.animations";
               </div>
             </div>
             <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
+              <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faTrendDown"></fa-icon>
               </div>
               <div class=""><p>Всего расход</p>
@@ -40,7 +40,7 @@ import {routeAnimationState} from "../route.animations";
               </div>
             </div>
             <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">
+              <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faPiggy"></fa-icon>
               </div>
               <div class=""><p>Баланс</p>
@@ -54,7 +54,7 @@ import {routeAnimationState} from "../route.animations";
         @else{
 <div class="grid grid-cols-3 border-b p-4 mb-2.5">
             <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
+              <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faTrendUp"></fa-icon>
               </div>
               <div class=""><p>Всего приход</p>
@@ -62,7 +62,7 @@ import {routeAnimationState} from "../route.animations";
               </div>
             </div>
             <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
+              <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faTrendDown"></fa-icon>
               </div>
               <div class=""><p>Всего расход</p>
@@ -70,7 +70,7 @@ import {routeAnimationState} from "../route.animations";
               </div>
             </div>
             <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">
+              <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faPiggy"></fa-icon>
               </div>
               <div class=""><p>Баланс</p>
@@ -86,7 +86,7 @@ import {routeAnimationState} from "../route.animations";
         <p class=" py-2 px-4 text-2xl">Итог</p>
         <div class="px-4  grid grid-cols-3">
           <div class="flex gap-2 flex-row items-center pb-2">
-            <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
+            <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
               <fa-icon [icon]="faTrendUp"></fa-icon>
             </div>
             <div class=""><p>Всего приход </p>
@@ -99,7 +99,7 @@ import {routeAnimationState} from "../route.animations";
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
+            <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
               <fa-icon [icon]="faTrendDown"></fa-icon>
             </div>
             <div class=""><p>Всего расход</p>
@@ -112,7 +112,7 @@ import {routeAnimationState} from "../route.animations";
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-blue-500 px-2 py-2 w-12 text-2xl text-center">
+            <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
               <fa-icon [icon]="faPiggy"></fa-icon>
             </div>
             <div class=""><p>Баланс</p>

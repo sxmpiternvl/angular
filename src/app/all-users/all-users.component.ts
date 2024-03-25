@@ -15,11 +15,11 @@ import {RegistrationComponent} from "../registration/registration.component";
   standalone: true,
   imports: [CommonModule, RouterLink, FaIconComponent, RegistrationComponent],
   template: `
-    <div class="h-[calc(100vh-45px)]">
+    <div class="absolute inset-0 flex flex-col p-3 pb-10">
       <div class="bg-white p-2 rounded-2xl">
       <p class="mb-2 text-4xl p-2.5">Статистика</p>
       <div class="flex flex-row px-4 pb-2 gap-2.5">
-        <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
+        <div class="rounded-xl bg-primary   px-2 py-2 w-12 text-2xl text-center">
           <fa-icon [icon]="faUser"></fa-icon>
         </div>
         <div class="text-blue-700">
@@ -28,15 +28,14 @@ import {RegistrationComponent} from "../registration/registration.component";
         </div>
       </div>
     </div>
-    <div>
-      <div class="bg-white mt-4 rounded-2xl p-4 w-full">
-        <div class=" grid grid-cols-2 grid-rows-1 pb-4">
-          <div class="h-10"><p class="text-2xl">Пользователи</p></div>
+    <div class="flex-1 bg-white mt-4 rounded-2xl  w-full overflow-y-scroll">
+      <div>
+        <div class="grid grid-cols-2 grid-rows-1 pb-4 overflow-y-scroll">
+          <div class="h-10"><p class="text-2xl px-4 pt-2">Пользователи</p></div>
           @if(!authenticated()){
-          <button class="flex justify-end" (click)="this.isPopUpOpened=true" >
+          <button class="flex justify-end px-4 pt-2" (click)="this.isPopUpOpened=true" >
             <div id="newOperation"
-                 class="rounded-xl pt-1.5 w-52 text-center h-10 text-blue-700 border-2 border-blue-900 align-text-bottom
-                    hover:bg-blue-700 hover:text-white transition-colors">
+                 class="custom-btn-primary">
               <p> Новый пользователь
                 <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
               </p>
@@ -44,7 +43,7 @@ import {RegistrationComponent} from "../registration/registration.component";
           </button>
            }
         </div>
-        <div class=" overflow-y-scroll h-[400px] bg-white rounded-2xl" >
+        <div class="bg-white rounded-2xl" >
           <table class="w-full">
             <thead class="sticky top-0 bg-neutral-100 rounded-2xl p-16">
             <tr>
@@ -53,6 +52,9 @@ import {RegistrationComponent} from "../registration/registration.component";
               <th class="p-2.5">Действия</th>
             </tr>
             </thead>
+            <div class="sticky top-0">
+
+            </div>
             <tbody class="w-full">
             <tr *ngFor="let user of allUsers; let i = index">
               <td class="">{{ user.name }}</td>
@@ -68,10 +70,8 @@ import {RegistrationComponent} from "../registration/registration.component";
         </div>
       </div>
     </div>
+      <app-registration (close)="onClose()" [a]="this.isPopUpOpened"></app-registration>
     </div>
-<app-registration (close)="onClose()" [a]="this.isPopUpOpened"></app-registration>
-
-
   `,
    animations: [routeAnimationState],
   styleUrl: './all-users.component.css'

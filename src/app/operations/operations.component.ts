@@ -18,20 +18,20 @@ import {routeAnimationState} from "../route.animations";
   standalone: true,
   imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent],
   template: `
-    <div class="bg-white p-2 rounded-2xl">
+      <div class="absolute inset-0 flex flex-col p-3 pb-10">
+       <div class="bg-white p-2 rounded-2xl">
       <p class="mb-2 text-4xl p-2.5">Статистика</p>
       <div class="flex justify-between px-4 pb-2">
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-primary">
             <fa-icon [icon]="faHourGlasses"></fa-icon>
           </div>
           <div class=""><p>Баланс на начало</p>
             <p>0</p>
           </div>
         </div>
-
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-green-500 px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-success">
             <fa-icon [icon]="arrowTrendUp"></fa-icon>
           </div>
           <div class=""><p>Приход</p>
@@ -47,11 +47,10 @@ import {routeAnimationState} from "../route.animations";
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-red-500 px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-error">
             <fa-icon [icon]="arrowTrendDown"></fa-icon>
           </div>
           <div class="ml-4"><p>Расход</p>
-
               @if(currentUser){
             <p>
               {{currentUser.outgoing}}
@@ -64,7 +63,7 @@ import {routeAnimationState} from "../route.animations";
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-blue-700 px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-primary">
             <fa-icon [icon]="hourGlassEnd"></fa-icon>
           </div>
           <div class="ml-4"><p>Баланс на конец</p>
@@ -82,14 +81,13 @@ import {routeAnimationState} from "../route.animations";
       </div>
     </div>
 
-    <div class="bg-white mt-4 rounded-2xl p-4 w-full">
+    <div class="bg-white mt-4 rounded-2xl w-full overflow-y-scroll flex-1 ">
       <div class="flex flex-row justify-between pb-4">
-        <div class="h-10">  <p class="text-2xl">Операции</p> </div>
+        <div class="h-10">  <p class="text-2xl px-4 pt-2">Операции</p> </div>
         <form>
-          <button (click)="this.isPopUpOpened=true" class="flex justify-end">
+          <button (click)="this.isPopUpOpened=true" class="flex justify-end px-4 pt-2">
             <div id="newOperation"
-                 class="rounded-xl w-40 h-10 text-blue-700 border-2 border-blue-900 hover:bg-blue-700 hover:text-white
-                  transition-colors duration-300 pt-1.5">
+                 class="custom-btn-primary">
               <p > Новая операция
                 <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
               </p>
@@ -97,15 +95,15 @@ import {routeAnimationState} from "../route.animations";
           </button>
         </form>
       </div>
-      <div class=" overflow-y-scroll h-[400px] bg-white rounded-2xl">
+      <div class=" bg-white rounded-2xl">
         <table class="w-full">
-          <thead class="sticky top-0 bg-neutral-100">
+          <thead class="sticky top-0 bg-neutral-100 rounded-2xl p-16">
           <tr>
-            <th class="p-2.5">Дата</th>
-            <th class="p-2.5">От кого</th>
-            <th class="p-2.5">Кому</th>
-            <th class="p-2.5">Сумма</th>
-            <th class="p-2.5">Action</th>
+            <th>Дата</th>
+            <th>От кого</th>
+            <th >Кому</th>
+            <th>Сумма</th>
+            <th >Action</th>
           </tr>
           </thead>
           <tbody class="w-full">
@@ -125,6 +123,8 @@ import {routeAnimationState} from "../route.animations";
       </div>
     </div>
     <app-create-operation (close)="onClose()" [show]="this.isPopUpOpened"></app-create-operation>
+    </div>
+
   `,
   styleUrl: './operations.component.css',
     animations: [routeAnimationState],

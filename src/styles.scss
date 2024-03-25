@@ -1,0 +1,94 @@
+.custom-btn-primary {
+  @apply rounded-xl pt-1.5 px-3 w-fit text-center h-10 text-primary border-2 border-primary align-text-bottom
+                    hover:bg-blue-700 hover:text-white transition-colors;
+}
+
+.custom-btn-secondary {
+  @apply px-4 py-2 bg-secondary text-white rounded-md shadow-md hover:bg-secondary-dark;
+}
+
+.custom-btn-error {
+  @apply px-4 py-2 bg-error text-white rounded-md shadow-md hover:bg-error-dark;
+}
+
+.custom-btn-success {
+  @apply px-4 py-2 bg-success text-white rounded-md shadow-md hover:bg-success-dark;
+}
+
+.custom-btn-neutral {
+  @apply px-4 py-2 bg-neutral text-white rounded-md shadow-md hover:bg-neutral-dark;
+}
+
+.custom-btn-base {
+  @apply px-4 py-2 bg-base text-neutral rounded-md shadow-md hover:bg-base-dark;
+}
+
+.stat-primary {
+  @apply bg-primary rounded-xl px-2 py-2 w-12 text-2xl text-center;
+}
+
+.stat-secondary {
+  @apply bg-secondary rounded-xl px-2 py-2 w-12 text-2xl text-center;
+}
+
+.stat-error {
+  @apply bg-error rounded-xl px-2 py-2 w-12 text-2xl text-center;
+}
+
+.stat-success {
+  @apply bg-success rounded-xl px-2 py-2 w-12 text-2xl text-center;
+}
+
+.stat-neutral {
+  @apply bg-neutral rounded-xl px-2 py-2 w-12 text-2xl text-center;
+}
+
+.stat-base {
+  @apply bg-base rounded-xl px-2 py-2 w-12 text-2xl text-center;
+}
+
+.custom-submit-button{
+ @apply text-center border-primary border border-solid rounded-2xl py-1 hover:text-white hover:bg-primary duration-500;
+}
+
+.alert {
+  @apply text-center border-primary border rounded-2xl py-1 flex flex-row;
+}
+.error-block {
+  @apply bg-white rounded-b-2xl fixed  py-4 px-2  text-error shadow-md
+}
+
+
+$primary: #3498db;
+$primary-dark: #2980b9;
+$primary-light: #5da5db;
+
+//// Secondary Colors
+//$secondary: #2ecc71;
+//$secondary-dark: #27ae60;
+//$secondary-light: #52d98b;
+//
+//// Accent Colors
+//$accent: #f39c12;
+//$accent-dark: #d35400;
+//$accent-light: #ffbf7f;
+//
+//// Success and Error Colors
+//$success: #2ecc71;
+//$error: #e74c3c;
+//
+//// Other Colors
+//$text-color: #333;
+//$background-color: #fff;
+//// Add more colors as needed
+//
+//
+//body {
+//  background-color: $background-color;
+//  color: $text-color;
+//}
+//
+//div{
+//
+//}
+//
