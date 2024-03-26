@@ -58,6 +58,10 @@
   @apply bg-white rounded-b-2xl fixed  py-4 px-2  text-error shadow-md
 }
 
+ th{
+ @apply p-2.5;
+}
+
 
 $primary: #3498db;
 $primary-dark: #2980b9;

@@ -10,7 +10,7 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
 import {faCalendar} from "@fortawesome/free-solid-svg-icons";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
-import {extractInterface} from "@angular/compiler-cli/src/ngtsc/docs/src/class_extractor";
+
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ import {extractInterface} from "@angular/compiler-cli/src/ngtsc/docs/src/class_e
     FaIconComponent
   ],
   template: `
-    <section class="bg-neutral-100 absolute top-0 left-0 h-screen w-full">
+    <section class="bg-neutral-100 fixed top-0 left-0 h-screen w-full">
       <section class="fixed left-[39%] top-[15%] bg-white p-8 rounded-2xl w-[22%] shadow-md text-blue-700 ">
         <div class="text-center">
           <fa-icon [icon]="faFinger" class="text-blue-700 text-[72px]"></fa-icon>
