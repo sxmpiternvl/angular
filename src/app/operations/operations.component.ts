@@ -116,7 +116,7 @@ import {ModalComponent} from "../modal/modal.component";
               <td>{{ operation.to }}</td>
               <td class="font-mono">{{ operation.amount }}</td>
               <td>
-                <button (click)="openModal('removeOperation')">
+                <button (click)="openDeleteModal('removeOperation', i)">
                   <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
                 </button>
               </td>
@@ -126,8 +126,8 @@ import {ModalComponent} from "../modal/modal.component";
         </div>
       </div>
 
-      <app-modal [show]="showModal" [modalType]="modalType" (close)="closeModal()"></app-modal>
-
+      <app-modal [show]="showModal" [modalType]="modalType" (close)="closeModal()"
+                 (confirm)="ConfirmDelete()"></app-modal>
     </div>
   `,
   styleUrl: './operations.component.css',
@@ -139,7 +139,6 @@ export class OperationsComponent {
   operationsList: any[] = [];
   filteredOperationsList: any[] = [];
   currentUser: any;
-
   faHourGlasses = faHourglassStart;
   arrowTrendUp = faArrowTrendUp;
   arrowTrendDown = faArrowTrendDown;
@@ -148,6 +147,7 @@ export class OperationsComponent {
   trash = faTrash;
   showModal: boolean = false;
   modalType: string = '';
+  modalIndex: number = -1;
 
   constructor(private authService: AuthService, private userService: UserService) {
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
@@ -169,9 +169,10 @@ export class OperationsComponent {
   }
 
   removeOperation(index: number): void {
-    this.operationsList.splice(index, 1);
-    localStorage.setItem('operations', JSON.stringify(this.operationsList));
-    location.reload();
+      this.operationsList.splice(index, 1);
+      this.updateFilteredOperations();
+      localStorage.setItem('operations', JSON.stringify(this.operationsList));
+      this.closeModal();
   }
 
   openModal(modalType: string): void {
@@ -179,9 +180,19 @@ export class OperationsComponent {
     this.modalType = modalType;
   }
 
+  openDeleteModal(modalType: string, index: number): void {
+    this.showModal = true;
+    this.modalType = modalType;
+    this.modalIndex = index;
+  }
+
   closeModal(): void {
     this.showModal = false;
     this.modalType = '';
+  }
+
+  ConfirmDelete(): void {
+    this.removeOperation(this.modalIndex);
   }
 
 }

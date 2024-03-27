@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faLock} from "@fortawesome/free-solid-svg-icons";
+import {faSave} from "@fortawesome/free-solid-svg-icons";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-registration',
@@ -19,21 +21,22 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
     <div>
       <h2 class="text-2xl pb-3">Создание пользователя</h2>
       <form class="" (ngSubmit)="registration()" #registrationForm="ngForm">
-        <div class="flex flex-col gap-2">
+        <div>
+           <div class="flex flex-col gap-2">
           <div>
             <label for="name">Имя:</label>
-            <input class="pl-8" type="text" id="name" name="name" required minlength="3" [(ngModel)]="name"
+            <input class="px-2" type="text" id="name" name="name" required minlength="3" [(ngModel)]="name"
                    pattern="[a-zA-Z]*">
             <i>
-              <fa-icon [icon]="faLock" class="text-blue-700 absolute left-11 top-[115px]"></fa-icon>
+              <fa-icon [icon]="faUser" class="text-black absolute right-11 top-[115px]"></fa-icon>
             </i>
           </div>
           <div>
             <label for="username">Логин:</label>
-            <input class="pl-8" type="text" id="username" name="username" required minlength="3" [(ngModel)]="username"
+            <input class="px-2" type="text" id="username" name="username" required minlength="3" [(ngModel)]="username"
                    pattern="[a-zA-Z]*">
             <i>
-              <fa-icon [icon]="faLock" class="text-blue-700 absolute left-11 top-[204px]"></fa-icon>
+              <fa-icon [icon]="faUser" class="text-black absolute right-11 top-[204px]"></fa-icon>
             </i>
 
           </div>
@@ -42,7 +45,7 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
             <input class="pl-8" type="password" id="password" name="password" required minlength="6"
                    [(ngModel)]="password">
             <i>
-              <fa-icon [icon]="faLock" class="text-blue-700 absolute left-11 top-[293px]"></fa-icon>
+              <fa-icon [icon]="faLock" class="text-black absolute left-11 top-[293px]"></fa-icon>
             </i>
           </div>
           <div>
@@ -50,24 +53,36 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
             <input class="pl-8" type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
                    [(ngModel)]="confirmPassword">
             <i>
-              <fa-icon [icon]="faLock" class="text-blue-700 absolute left-11 top-[382px]"></fa-icon>
+              <fa-icon [icon]="faLock" class="text-black absolute left-11 top-[382px]"></fa-icon>
             </i>
           </div>
           <div class="flex items-center gap-2 text-blue-700">
             <input type="checkbox" class="w-fit h-4 mr-2 border-blue-700 border-2 p-2" id="checkbox">
             <label for="checkbox" class="text-blue-700">Запомнить меня</label>
           </div>
-          <div class="custom-submit-button">
-            <button type="submit" [disabled]="!registrationForm.valid">Создать пользователя</button>
+          <div id="newOperation" class="custom-submit-button text-primary ">
+            <i>
+              <fa-icon [icon]="faSave" class=" pr-2 text-primary "  ></fa-icon>
+            </i>
+            <button type="submit" >Создать пользователя</button>
+<!--            [disabled]="!registrationForm.valid"-->
           </div>
         </div>
         <div *ngIf="error"
-             class="bg-white rounded-b-2xl  text-error shadow-md pt-4">
+             class="error-block ">
           <div class="alert">
-            <fa-icon [icon]="faLock" class="text-error"></fa-icon>
-            <p>Логин уже есть в системе. Пароли не совпадают </p>
+            <fa-icon [icon]="faLock" class="text-error absolute left-12"></fa-icon>
+            <div class="absolute left-20">
+                <h1>I</h1>
+                <h1>I</h1>
+                <h1>I</h1>
+              </div>
+            <p class=" absolute text-error left-1/2 text-center transform -translate-x-1/2">Логин уже есть в системе.<br>
+              Пароли не совпадают </p>
           </div>
         </div>
+        </div>
+
       </form>
     </div>
 
@@ -82,6 +97,8 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
 export class RegistrationComponent {
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
   faLock = faLock;
+  faSave = faSave;
+  faUser = faUser;
 
   constructor(private authService: AuthService, private router: Router) {
   }

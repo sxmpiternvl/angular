@@ -52,10 +52,10 @@
 }
 
 .alert {
-  @apply text-center border-primary border rounded-2xl py-1 flex flex-row;
+  @apply items-center text-center border-primary border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px];
 }
 .error-block {
-  @apply bg-white rounded-b-2xl fixed  py-4 px-2  text-error shadow-md
+  @apply bg-white  py-4   text-error
 }
 
  th{
@@ -67,32 +67,25 @@ $primary: #3498db;
 $primary-dark: #2980b9;
 $primary-light: #5da5db;
 
-//// Secondary Colors
-//$secondary: #2ecc71;
-//$secondary-dark: #27ae60;
-//$secondary-light: #52d98b;
-//
-//// Accent Colors
-//$accent: #f39c12;
-//$accent-dark: #d35400;
-//$accent-light: #ffbf7f;
-//
-//// Success and Error Colors
-//$success: #2ecc71;
-//$error: #e74c3c;
-//
-//// Other Colors
-//$text-color: #333;
-//$background-color: #fff;
-//// Add more colors as needed
-//
-//
-//body {
-//  background-color: $background-color;
-//  color: $text-color;
-//}
-//
-//div{
-//
-//}
-//
+
+$secondary: #2ecc71;
+$secondary-dark: #27ae60;
+$secondary-light: #52d98b;
+
+
+$accent: #f39c12;
+$accent-dark: #d35400;
+$accent-light: #ffbf7f;
+
+
+$success: #2ecc71;
+$error: #e74c3c;
+
+
+$text-color: #333;
+$background-color: #fff;
+
+
+
+
+

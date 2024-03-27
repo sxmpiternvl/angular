@@ -41,7 +41,7 @@ import {CommonModule} from "@angular/common";
                       class="resize-none h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5"
                       minlength="10"
                       maxlength="255"></textarea>
-            <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500':  count < 10 || count > 255 }">
+            <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': count!=0 && ( count < 10 || count > 255) }">
               Символов: {{ count }}/10-255</p>
           </div>
         </div>
@@ -50,8 +50,8 @@ import {CommonModule} from "@angular/common";
             <fa-icon [icon]="xmark" class="text-white"></fa-icon>
             <button (click)="this.cancel.emit()" class="text-white pl-1">Отменить</button>
           </div>
-          <div class="border p-2 rounded-xl border-blue-700 w-40">
-            <button type="submit" class="text-blue-700">
+          <div class="border p-2 rounded-xl border-blue-700 w-40  hover:bg-primary duration-300">
+            <button type="submit" class="text-blue-700 hover:text-white duration-300 " id="newOperation">
               <fa-icon [icon]="faSave" class="text-blue-700 pl-1"></fa-icon>
               Создать запись
             </button>

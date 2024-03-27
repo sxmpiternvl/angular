@@ -34,7 +34,7 @@ import {ModalComponent} from "../modal/modal.component";
           <div class="grid grid-cols-2 grid-rows-1 pb-2 overflow-y-scroll">
             <div class="h-12"><p class="text-2xl px-4 pt-4">Пользователи</p></div>
             @if(!currentUser){
-            <button class="flex justify-end px-4 pt-2" (click)="openModal('registration')" >
+              <button class="flex justify-end px-4 pt-2" (click)="openModal('registration')" >
               <div id="newOperation"
                    class="custom-btn-primary">
                 <p> Новый пользователь

@@ -20,14 +20,14 @@ import {DeleteOperationComponent} from "../delete-operation/delete-operation.com
     </div>
 
     <ng-template #modalContent>
-      <ng-container *ngIf="modalType === 'createOperation'">
+      <ng-container *ngIf="modalType == 'createOperation'">
         <app-create-operation (cancel)="closeModal()"></app-create-operation>
       </ng-container>
-      <ng-container *ngIf="modalType === 'registration'">
+      <ng-container *ngIf="modalType == 'registration'">
         <app-registration (cancel)="closeModal()"></app-registration>
       </ng-container>
-      <ng-container *ngIf="modalType === 'removeOperation'">
-        <app-delete-operation (cancel)="closeModal()" (confirm)="closeModal()" ></app-delete-operation>
+      <ng-container *ngIf="modalType == 'removeOperation'">
+        <app-delete-operation (cancel)="closeModal()" (confirm)="confirmDelete()"></app-delete-operation>
       </ng-container>
     </ng-template>
   `,
@@ -37,9 +37,14 @@ export class ModalComponent {
   @Input() show: boolean = false;
   @Input() modalType: string = '';
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
+  @Output() confirm: EventEmitter<void> = new EventEmitter<void>();
 
   closeModal(): void {
     this.close.emit();
+  }
+
+  confirmDelete(): void {
+    this.confirm.emit();
   }
 
 }

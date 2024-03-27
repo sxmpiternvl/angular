@@ -1,16 +1,22 @@
 <div>
   <h1 class="text-2xl pb-1">Удаление записи</h1>
-  <div>
-    <p>Подтвердите удаление записи:</p>
-    <textarea  name="comment" class="resize-none h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5" minlength="10" maxlength="255"></textarea>
-    <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': count < 10 || count > 255 }">Символов: {{ count }}/10-255</p>
-  </div>
+   <div>
+            <p>Причина удаления</p>
+            <textarea [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
+                      class="resize-none h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-3"
+                      minlength="10"
+                      maxlength="255"></textarea>
+            <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': count!=0 && ( count < 10 || count > 255 )}">
+              Символов: {{ count }}/10-255</p>
+          </div>
   <div class="grid grid-cols-2 pt-4">
-    <div class="bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32">
-      <button class="text-white pl-1" (click)="this.cancel.emit()">Отменить</button>
-    </div>
-    <div class="border p-2 rounded-xl border-blue-700 w-40">
-      <button class="text-blue-700"  (click)="this.confirm.emit()">Подтвердить</button>
+     <div class="bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32">
+            <fa-icon [icon]="xmark" class="text-white"></fa-icon>
+            <button (click)="this.cancel.emit()" class="text-white pl-1">Отменить</button>
+          </div>
+    <div class="border p-2 rounded-xl border-error">
+        <fa-icon [icon]="faTrash" class="text-error pr-1"></fa-icon>
+      <button class="text-error"  (click)="confirmDelete()">Да, удалить запись</button>
     </div>
   </div>
 </div>
