@@ -34,14 +34,14 @@ import {ModalComponent} from "../modal/modal.component";
           <div class="grid grid-cols-2 grid-rows-1 pb-2 overflow-y-scroll">
             <div class="h-12"><p class="text-2xl px-4 pt-4">Пользователи</p></div>
             @if(!currentUser){
-              <button class="flex justify-end px-4 pt-2" (click)="openModal('registration')" >
-              <div id="newOperation"
-                   class="custom-btn-primary">
-                <p> Новый пользователь
-                  <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
-                </p>
-              </div>
-            </button>
+            <button class="flex justify-end px-4 pt-2" (click)="registrationModal.open()" >
+            <div id="newOperation"
+                 class="custom-btn-primary">
+              <p> Новый пользователь
+                <fa-icon [icon]="plus" class="text-blue-700 "></fa-icon>
+              </p>
+            </div>
+          </button>
             }
           </div>
           <div class="bg-white rounded-2xl">
@@ -71,7 +71,12 @@ import {ModalComponent} from "../modal/modal.component";
         </div>
       </div>
     </div>
-    <app-modal [show]="showModal" [modalType]="modalName" (close)="closeModal()"></app-modal>
+
+     <app-modal #registrationModal [content]="modalRegistrationContent">
+        <ng-template #modalRegistrationContent>
+          <app-registration (close)="registrationModal.close()"></app-registration>
+        </ng-template>
+      </app-modal>
   `,
   animations: [routeAnimationState],
   styleUrl: './all-users.component.css'
@@ -83,31 +88,19 @@ export class AllUsersComponent {
   trash = faTrash;
   plus = faPlus;
   allUsers: { username: string, name: string; }[] = [];
-  showModal: boolean = false;
-  modalName: string = '';
 
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
+    this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
 
   getUsers(): void {
     this.allUsers = this.userService.getUsers();
-    this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
 
   removeUser(username: string): void {
     this.authService.removeUser(username);
-    location.reload();
-  }
-
-  openModal(modalType: string): void {
-    this.showModal = true;
-    this.modalName = modalType;
-  }
-
-  closeModal(): void {
-    this.showModal = false;
-    this.modalName = '';
+     this.allUsers = this.allUsers.filter(user => user.username != username);
   }
 }
 

@@ -7,7 +7,6 @@ import {AuthService} from "../auth-service";
 import {routeAnimationState} from "../route.animations";
 import {CommonModule} from "@angular/common";
 
-
 @Component({
   selector: 'app-create-operation',
   standalone: true,
@@ -48,7 +47,7 @@ import {CommonModule} from "@angular/common";
         <div class="grid grid-cols-2 pt-4">
           <div class="bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32">
             <fa-icon [icon]="xmark" class="text-white"></fa-icon>
-            <button (click)="this.cancel.emit()" class="text-white pl-1">Отменить</button>
+            <button (click)="this.close.emit()" class="text-white pl-1">Отменить</button>
           </div>
           <div class="border p-2 rounded-xl border-blue-700 w-40  hover:bg-primary duration-300">
             <button type="submit" class="text-blue-700 hover:text-white duration-300 " id="newOperation">
@@ -66,7 +65,7 @@ import {CommonModule} from "@angular/common";
 
 export class CreateOperationComponent {
   @HostBinding('@routeAnimationTrigger') routeAnimation = true;
-  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>();
   faSave = faSave;
   xmark = faXmark;
   receiver: any = null;
@@ -88,31 +87,34 @@ export class CreateOperationComponent {
     const currentUser = usersData[this.currentUsername];
     if (currentUser && currentUser.balance >= this.amount) {
       currentUser.balance -= this.amount;
-      let out = parseInt(currentUser.outgoing);
-      out += parseInt(this.amount.toString());
-      currentUser.outgoing = out;
+      let out = parseInt(currentUser.outgoing) || 0;
+      out += this.amount;
+      currentUser.outgoing = out.toString();
       localStorage.setItem('users', JSON.stringify(usersData));
+
       const receiverData = usersData[this.receiverUsername];
       if (receiverData) {
-        let balance = parseInt(receiverData.balance);
-        balance += parseInt(this.amount.toString());
-        receiverData.income += parseInt(this.amount.toString());
-        receiverData.balance = balance;
+        let balance = parseInt(receiverData.balance) || 0;
+        balance += this.amount;
+        receiverData.income = (parseInt(receiverData.income) || 0) + this.amount;
+        receiverData.balance = balance.toString();
         localStorage.setItem('users', JSON.stringify(usersData));
         const operation = {
+          id: Date.now(),
           from: this.currentUsername,
           to: this.receiverUsername,
           amount: this.amount,
           datetime: this.formattedDate,
+          comment: this.comment
         };
+
         const operationsList = JSON.parse(localStorage.getItem('operations') ?? '[]');
         operationsList.push(operation);
         localStorage.setItem('operations', JSON.stringify(operationsList));
-        location.reload();
-        this.cancel.emit();
+        this.close.emit();
       }
     }
-  }
+}
 
   getReceiver(): any {
     const receiverExists = localStorage.getItem(this.receiverUsername);

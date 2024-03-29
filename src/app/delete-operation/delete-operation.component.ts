@@ -16,12 +16,12 @@ export class DeleteOperationComponent {
   xmark = faXmark;
   faTrash=faTrash;
   comment: string = '';
-  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
-  @Output() confirm: EventEmitter<void> = new EventEmitter<void>();
+  @Output() close: EventEmitter<void> = new EventEmitter<void>();
+  @Output() submit: EventEmitter<void> = new EventEmitter<void>();
   count: number = 0;
 
   confirmDelete(): void {
-    this.confirm.emit();
+    this.submit.emit();
   }
 
     updateCharacterCount() {

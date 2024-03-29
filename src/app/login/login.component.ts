@@ -12,7 +12,6 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
 import {routeAnimationState} from "../route.animations";
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -49,10 +48,10 @@ import {routeAnimationState} from "../route.animations";
               <fa-icon [icon]="faLock" class="text-blue-700 absolute left-3 top-10"></fa-icon>
             </i>
           </div>
-          <div id="newOperation"
+          <div id="newOperation" (click)="login()"
                class="custom-submit-button">
             <fa-icon [icon]="faLockOpen" class="text-blue-700 px-2"></fa-icon>
-            <button type="submit">Войти в систему</button>
+            <button type="submit"> Войти в систему</button>
           </div>
           <div *ngIf="loginError"
                class="error-block">
@@ -70,12 +69,12 @@ import {routeAnimationState} from "../route.animations";
       </div>
     </div>
   `,
-   animations: [routeAnimationState],
+  animations: [routeAnimationState],
   //
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-   @HostBinding('@routeAnimationTrigger') routeAnimation = true;
+  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
   exTriangle = faExclamationTriangle;
   faCalendar = faCalendar;
   faUser = faUser;

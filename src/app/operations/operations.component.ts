@@ -13,11 +13,13 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../user.service";
 import {routeAnimationState} from "../route.animations";
 import {ModalComponent} from "../modal/modal.component";
+import {DeleteOperationComponent} from "../delete-operation/delete-operation.component";
+import {Operation} from "../operation";
 
 @Component({
   selector: 'app-operations',
   standalone: true,
-  imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent, ModalComponent, DeleteOperationComponent],
   template: `
     <div class="absolute inset-0 flex flex-col p-3 pb-10">
       <div class="bg-white p-2 rounded-2xl">
@@ -37,13 +39,10 @@ import {ModalComponent} from "../modal/modal.component";
             </div>
             <div class=""><p>Приход</p>
               @if(currentUser){
-              <p>
-              {{currentUser.income}}
-              </p>
+              <p>  {{currentUser.income}}  </p>
               }
               @else{
-              <p>
-              0</p>
+              <p>0</p>
               }
             </div>
           </div>
@@ -53,13 +52,10 @@ import {ModalComponent} from "../modal/modal.component";
             </div>
             <div class="ml-4"><p>Расход</p>
               @if(currentUser){
-              <p>
-              {{currentUser.outgoing}}
-              </p>
+              <p>  {{currentUser.outgoing}}    </p>
               }
               @else{
-              <p>
-              0</p>
+              <p>     0     </p>
               }
             </div>
           </div>
@@ -69,25 +65,20 @@ import {ModalComponent} from "../modal/modal.component";
             </div>
             <div class="ml-4"><p>Баланс на конец</p>
               @if(currentUser){
-              <p>
-              {{currentUser.balance}}
-              </p>
+              <p>     {{currentUser.balance}}      </p>
               }
               @else{
-              <p>
-              0</p>
+              <p>0</p>
               }
             </div>
           </div>
         </div>
       </div>
-
       <div class="bg-white mt-4 rounded-2xl w-full overflow-y-scroll flex-1 ">
         <div class="flex flex-row justify-between pb-2">
           <div class="h-12"><p class="text-2xl px-4 pt-4">Операции</p></div>
           <form>
-
-            <button class="flex justify-end px-4 pt-2" (click)="openModal('createOperation')">
+            <button class="flex justify-end px-4 pt-2" (click)="create.open()">
               <div id="newOperation"
                    class="custom-btn-primary">
                 <p> Новая операция
@@ -95,7 +86,6 @@ import {ModalComponent} from "../modal/modal.component";
                 </p>
               </div>
             </button>
-
           </form>
         </div>
         <div class=" bg-white rounded-2xl">
@@ -114,10 +104,11 @@ import {ModalComponent} from "../modal/modal.component";
               <td class="font-mono">{{operation.datetime}}</td>
               <td>{{ operation.from }}</td>
               <td>{{ operation.to }}</td>
-              <td class="font-mono">{{ operation.amount }}</td>
+              <td class="font-mono">{{operation.amount}}</td>
               <td>
-                <button (click)="openDeleteModal('removeOperation', i)">
-                  <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
+                <button>
+                  <fa-icon (click)="deleteOp.open(); this.removeOperationId=operation.id" [icon]="trash"
+                           class="text-black ml-4"></fa-icon>
                 </button>
               </td>
             </tr>
@@ -125,10 +116,17 @@ import {ModalComponent} from "../modal/modal.component";
           </table>
         </div>
       </div>
-
-      <app-modal [show]="showModal" [modalType]="modalType" (close)="closeModal()"
-                 (confirm)="ConfirmDelete()"></app-modal>
-    </div>
+      <app-modal #create [content]="modalContent">
+        <ng-template #modalContent>
+          <app-create-operation (close)="create.close(); updateFilteredOperations()"></app-create-operation>
+        </ng-template>
+      </app-modal>
+      <app-modal #deleteOp [content]="modalDeleteOperationContent">
+        <ng-template #modalDeleteOperationContent>
+          <app-delete-operation (submit)="this.removeOperation(this.removeOperationId); deleteOp.close()"
+                                (close)="deleteOp.close()"></app-delete-operation>
+        </ng-template>
+      </app-modal>
   `,
   styleUrl: './operations.component.css',
   animations: [routeAnimationState],
@@ -136,63 +134,39 @@ import {ModalComponent} from "../modal/modal.component";
 export class OperationsComponent {
   @HostBinding('@routeAnimationTrigger') routeAnimation = true;
   currentUsername = this.authService.getCurrentUsername();
-  operationsList: any[] = [];
-  filteredOperationsList: any[] = [];
+  operationsList: Operation[] = [];
+  filteredOperationsList: Operation[] = [];
   currentUser: any;
+  removeOperationId: number = -1;
   faHourGlasses = faHourglassStart;
   arrowTrendUp = faArrowTrendUp;
   arrowTrendDown = faArrowTrendDown;
   hourGlassEnd = faHourglassEnd;
   plus = faPlus;
   trash = faTrash;
-  showModal: boolean = false;
-  modalType: string = '';
-  modalIndex: number = -1;
 
   constructor(private authService: AuthService, private userService: UserService) {
-    this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
-    this.loadOperations();
+
     this.updateFilteredOperations();
   }
 
-  loadOperations(): void {
+
+  updateFilteredOperations(): void {
     const operationsData = localStorage.getItem('operations');
     if (operationsData) {
       this.operationsList = JSON.parse(operationsData);
     }
-  }
-
-  updateFilteredOperations(): void {
     this.filteredOperationsList = this.operationsList.filter(
-      operation => operation.from === this.currentUsername || operation.to === this.currentUsername
+      operation => operation.from == this.currentUsername || operation.to == this.currentUsername
     );
+    this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
 
-  removeOperation(index: number): void {
-      this.operationsList.splice(index, 1);
-      this.updateFilteredOperations();
-      localStorage.setItem('operations', JSON.stringify(this.operationsList));
-      this.closeModal();
-  }
-
-  openModal(modalType: string): void {
-    this.showModal = true;
-    this.modalType = modalType;
-  }
-
-  openDeleteModal(modalType: string, index: number): void {
-    this.showModal = true;
-    this.modalType = modalType;
-    this.modalIndex = index;
-  }
-
-  closeModal(): void {
-    this.showModal = false;
-    this.modalType = '';
-  }
-
-  ConfirmDelete(): void {
-    this.removeOperation(this.modalIndex);
-  }
+removeOperation(operationId: number): void {
+    const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
+    const filteredOperations = operationsList.filter((operation: Operation) => operation.id !== operationId);
+    localStorage.setItem('operations', JSON.stringify(filteredOperations));
+    this.updateFilteredOperations();
+}
 
 }
