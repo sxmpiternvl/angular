@@ -4,7 +4,7 @@ import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../auth-service";
-
+import {Operation} from "../operation";
 import {CommonModule} from "@angular/common";
 
 @Component({
@@ -75,47 +75,46 @@ export class CreateOperationComponent {
   comment: string = '';
   count: number = this.comment.length;
   operationsList: any[] = [];
-  currentDate: any = new Date();
-  formattedDate: any = `${this.currentDate.getDate().toString().padStart(2, '0')}.${(this.currentDate.getMonth() + 1).toString().padStart(2, '0')}.${this.currentDate.getFullYear()}`;
+
+
+  formattedDate: any = this.getDate();
 
   constructor(private authService: AuthService) {
     this.loadOperations();
   }
 
-  onSubmit(): void {
-    const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    const currentUser = usersData[this.currentUsername];
-    if (currentUser && currentUser.balance >= this.amount) {
-      currentUser.balance -= this.amount;
-      let out = parseInt(currentUser.outgoing) || 0;
-      out += this.amount;
-      currentUser.outgoing = out.toString();
+onSubmit(): void {
+  const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+  const currentUser = usersData[this.currentUsername];
+  if (currentUser && currentUser.balance >= this.amount) {
+    currentUser.balance -= this.amount;
+    currentUser.outgoing += this.amount;
+    localStorage.setItem('users', JSON.stringify(usersData));
+
+    const receiverData = usersData[this.receiverUsername];
+    if (receiverData) {
+      receiverData.balance += this.amount;
+      receiverData.income += this.amount;
       localStorage.setItem('users', JSON.stringify(usersData));
 
-      const receiverData = usersData[this.receiverUsername];
-      if (receiverData) {
-        let balance = parseInt(receiverData.balance) || 0;
-        balance += this.amount;
-        receiverData.income = (parseInt(receiverData.income) || 0) + this.amount;
-        receiverData.balance = balance.toString();
-        localStorage.setItem('users', JSON.stringify(usersData));
-        const operation = {
-          id: Date.now(),
-          from: this.currentUsername,
-          to: this.receiverUsername,
-          amount: this.amount,
-          datetime: this.formattedDate,
-          comment: this.comment
-        };
+      const operation: Operation = {
+        id: Date.now(),
+        from:currentUser.username,
+        to:receiverData.username,
+        fromUID: currentUser.uid,
+        toUID: receiverData.uid,
+        amount: this.amount,
+        datetime: this.getDate(),
+        comment: this.comment
+      };
 
-        const operationsList = JSON.parse(localStorage.getItem('operations') ?? '[]');
-        operationsList.push(operation);
-        localStorage.setItem('operations', JSON.stringify(operationsList));
-        this.close.emit();
-      }
+      const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
+      operationsList.push(operation);
+      localStorage.setItem('operations', JSON.stringify(operationsList));
+      this.close.emit();
     }
+  }
 }
-
   getReceiver(): any {
     const receiverExists = localStorage.getItem(this.receiverUsername);
     if (receiverExists) {
@@ -132,6 +131,15 @@ export class CreateOperationComponent {
 
   updateCharacterCount() {
     this.count = this.comment.length;
+  }
+
+    getDate(): string {
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear().toString();
+    const formattedDate = `${day}.${month}.${year}`;
+    return formattedDate;
   }
 
 }

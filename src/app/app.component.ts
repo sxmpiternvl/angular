@@ -29,9 +29,7 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private contexts: ChildrenOutletContexts) {
   }
-  getRouteAnimationData() {
-  return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
-}
+
 
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();

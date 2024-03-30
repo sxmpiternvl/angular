@@ -1,15 +1,17 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../auth-service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {CreateOperationComponent} from "../create-operation/create-operation.component";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faHourglassStart} from "@fortawesome/free-solid-svg-icons";
-import {faArrowTrendUp} from "@fortawesome/free-solid-svg-icons";
-import {faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
-import {faHourglassEnd} from "@fortawesome/free-solid-svg-icons";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowTrendDown,
+  faArrowTrendUp,
+  faHourglassEnd,
+  faHourglassStart,
+  faPlus,
+  faTrash
+} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../user.service";
 import {ModalComponent} from "../modal/modal.component";
 import {DeleteOperationComponent} from "../delete-operation/delete-operation.component";
@@ -29,7 +31,7 @@ import {Operation} from "../operation";
               <fa-icon [icon]="faHourGlasses"></fa-icon>
             </div>
             <div class=""><p>Баланс на начало</p>
-              <p>0</p>
+              <p>10000</p>
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
@@ -130,8 +132,6 @@ import {Operation} from "../operation";
   styleUrl: './operations.component.css',
 })
 export class OperationsComponent {
-  currentUsername = this.authService.getCurrentUsername();
-  operationsList: Operation[] = [];
   filteredOperationsList: Operation[] = [];
   currentUser: any;
   removeOperationId: number = -1;
@@ -143,27 +143,32 @@ export class OperationsComponent {
   trash = faTrash;
 
   constructor(private authService: AuthService, private userService: UserService) {
-
     this.updateFilteredOperations();
   }
-
 
   updateFilteredOperations(): void {
-    const operationsData = localStorage.getItem('operations');
-    if (operationsData) {
-      this.operationsList = JSON.parse(operationsData);
+    this.filteredOperationsList = [];
+    const operationsData: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
+    if (this.authService.isAuthenticated()) {
+      this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
+      if (this.currentUser && this.currentUser.uid) {
+        const currentUserUID = this.currentUser.uid;
+
+        this.filteredOperationsList = operationsData.filter(operation =>
+          operation.fromUID === currentUserUID || operation.toUID === currentUserUID
+        );
+      }
+    } else {
+      this.filteredOperationsList = operationsData;
+      console.log(this.filteredOperationsList);
     }
-    this.filteredOperationsList = this.operationsList.filter(
-      operation => operation.from == this.currentUsername || operation.to == this.currentUsername
-    );
-    this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
 
-removeOperation(operationId: number): void {
+  removeOperation(operationId: number): void {
     const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
-    const filteredOperations = operationsList.filter((operation: Operation) => operation.id !== operationId);
+    const filteredOperations = operationsList.filter((operation: Operation) => operation.id != operationId);
     localStorage.setItem('operations', JSON.stringify(filteredOperations));
     this.updateFilteredOperations();
-}
+  }
 
 }

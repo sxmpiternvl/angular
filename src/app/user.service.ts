@@ -28,6 +28,7 @@ export class UserService {
     const userData = usersData[username];
     if (userData) {
        const user = {
+         uid: userData.uid,
         username: userData.username,
         balance: userData.balance,
         name: userData.name,

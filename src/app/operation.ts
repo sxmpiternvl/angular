@@ -5,4 +5,6 @@ export interface Operation {
   amount: number;
   datetime: string;
   comment: string;
+  fromUID: string,
+  toUID: string,
 }

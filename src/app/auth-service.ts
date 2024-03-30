@@ -42,9 +42,9 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn');
   }
 
-    registration(username: string, password: string, name: string): void {
+    registration(username: string, password: string, name: string, uid:string): void {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    usersData[username] = { username, password, name, balance: 10000, income: 0, outgoing: 0 };
+    usersData[username] = { username, password, name, balance: 10000, income: 0, outgoing: 0, uid };
     localStorage.setItem('users', JSON.stringify(usersData));
   }
 

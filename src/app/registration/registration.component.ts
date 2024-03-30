@@ -103,8 +103,9 @@ export class RegistrationComponent {
   faUser = faUser;
 
   constructor(private authService: AuthService, private router: Router) {
-  }
 
+  }
+  uid: string = Date.now().toString();
   confirmPassword: string = '';
   username: string = '';
   password: string = '';
@@ -117,8 +118,8 @@ export class RegistrationComponent {
       this.error = true;
       return;
     }
-    if (this.username && this.password && this.name) {
-      this.authService.registration(this.username, this.password, this.name);
+    if (this.username && this.password && this.name && this.uid) {
+      this.authService.registration(this.username, this.password, this.name, this.uid);
       this.authService.login(this.username, this.password);
       this.router.navigate(['operations']);
     }
