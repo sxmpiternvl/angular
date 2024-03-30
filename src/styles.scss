@@ -1,3 +1,13 @@
+ .remove-arrow::-webkit-inner-spin-button,
+        .remove-arrow::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .remove-arrow {
+            -moz-appearance: textfield;
+        }
+
 .custom-btn-primary {
   @apply rounded-xl pt-1.5 px-3 w-fit text-center h-10 text-primary border-2 border-primary align-text-bottom
                     hover:bg-blue-700 hover:text-white transition-colors;

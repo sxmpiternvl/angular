@@ -11,7 +11,6 @@ import {faHourglassEnd} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../user.service";
-import {routeAnimationState} from "../route.animations";
 import {ModalComponent} from "../modal/modal.component";
 import {DeleteOperationComponent} from "../delete-operation/delete-operation.component";
 import {Operation} from "../operation";
@@ -129,10 +128,8 @@ import {Operation} from "../operation";
       </app-modal>
   `,
   styleUrl: './operations.component.css',
-  animations: [routeAnimationState],
 })
 export class OperationsComponent {
-  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
   currentUsername = this.authService.getCurrentUsername();
   operationsList: Operation[] = [];
   filteredOperationsList: Operation[] = [];

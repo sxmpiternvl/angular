@@ -10,7 +10,7 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
 import {faCalendar} from "@fortawesome/free-solid-svg-icons";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
-import {routeAnimationState} from "../route.animations";
+
 
 @Component({
   selector: 'app-login',
@@ -69,12 +69,11 @@ import {routeAnimationState} from "../route.animations";
       </div>
     </div>
   `,
-  animations: [routeAnimationState],
-  //
+
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
+
   exTriangle = faExclamationTriangle;
   faCalendar = faCalendar;
   faUser = faUser;

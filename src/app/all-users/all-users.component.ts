@@ -7,7 +7,7 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {AuthService} from "../auth-service";
-import {routeAnimationState} from "../route.animations";
+
 import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../modal/modal.component";
 
@@ -78,11 +78,10 @@ import {ModalComponent} from "../modal/modal.component";
         </ng-template>
       </app-modal>
   `,
-  animations: [routeAnimationState],
+
   styleUrl: './all-users.component.css'
 })
 export class AllUsersComponent {
-  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
   currentUser: any;
   faUser = faUser;
   trash = faTrash;

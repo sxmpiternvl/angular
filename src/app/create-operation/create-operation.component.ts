@@ -4,7 +4,7 @@ import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../auth-service";
-import {routeAnimationState} from "../route.animations";
+
 import {CommonModule} from "@angular/common";
 
 @Component({
@@ -31,7 +31,7 @@ import {CommonModule} from "@angular/common";
           </div>
           <div>
             <p>Сумма:</p>
-            <input type="text" [(ngModel)]="this.amount" name="amount"
+            <input class="remove-arrow" type="number" [(ngModel)]="this.amount" name="amount"
                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
           </div>
           <div>
@@ -60,11 +60,11 @@ import {CommonModule} from "@angular/common";
     </div>
   `,
   styleUrl: './create-operation.component.css',
-  animations: [routeAnimationState],
+
 })
 
 export class CreateOperationComponent {
-  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
+
   @Output() close = new EventEmitter<void>();
   faSave = faSave;
   xmark = faXmark;

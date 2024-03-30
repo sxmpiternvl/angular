@@ -7,7 +7,7 @@ import {faArrowTrendUp} from "@fortawesome/free-solid-svg-icons";
 import {faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
 import {faPiggyBank} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {routeAnimationState} from "../route.animations";
+
 
 
 @Component({
@@ -130,10 +130,10 @@ import {routeAnimationState} from "../route.animations";
 
   `,
   styleUrl: './balances.component.css',
-   animations: [routeAnimationState],
+
 })
 export class BalancesComponent {
-  @HostBinding('@routeAnimationTrigger') routeAnimation = true;
+
   currentUser: any;
   faTrendUp = faArrowTrendUp;
   faTrendDown = faArrowTrendDown;
