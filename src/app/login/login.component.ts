@@ -81,12 +81,9 @@ import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
                class="error-block">
             <div class="alert ">
               <fa-icon [icon]="exTriangle" class="text-error px-4"></fa-icon>
-              <div class="flex flex-col py-0">
-                <h1>I</h1>
-                <h1>I</h1>
-                <h1>I</h1>
+              <div class="border-l border-error">
+                <p class="px-2">Неверный логин или пароль. Повторите попытку</p>
               </div>
-              <p class="px-2">Неверный логин или пароль. Повторите попытку</p>
             </div>
           </div>
         </form>

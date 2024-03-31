@@ -70,17 +70,14 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
             </div>
           </div>
           <div *ngIf="error"
-               class="error-block ">
+               class="error-block">
             <div class="alert">
-              <fa-icon [icon]="faLock" class="text-error absolute left-12"></fa-icon>
-              <div class="absolute left-20">
-                <h1>I</h1>
-                <h1>I</h1>
-                <h1>I</h1>
+              <fa-icon [icon]="faLock" class="text-error px-4"></fa-icon>
+              <div class="border-l border-error px-4">
+                <p class=" px-4">Логин уже есть в
+                  системе.<br>
+                  Пароли не совпадают </p>
               </div>
-              <p class=" absolute text-error left-1/2 text-center transform -translate-x-1/2">Логин уже есть в
-                системе.<br>
-                Пароли не совпадают </p>
             </div>
           </div>
         </div>

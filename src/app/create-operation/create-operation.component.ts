@@ -16,7 +16,6 @@ import {CommonModule} from "@angular/common";
     CommonModule
   ],
   template: `
-
     <div>
       <form (ngSubmit)="onSubmit()">
         <h1 class="text-2xl pb-1"> Создание записи</h1>
@@ -26,18 +25,17 @@ import {CommonModule} from "@angular/common";
             {{this.formattedDate}}
           </div>
           <p>Кому:</p>
-          <div>
-            <input (input)="getReceiver()" type="text" [(ngModel)]="this.receiverUsername" name="receiverUsername">
-          </div>
+          <select [(ngModel)]="receiverUsername" name="receiverUsername" class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full">
+            <option class="bg-slate-50 " *ngFor="let user of userList" [value]="user.username">{{ user.username }}</option>
+          </select>
           <div>
             <p>Сумма:</p>
-            <input class="remove-arrow" type="number" [(ngModel)]="this.amount" name="amount"
-                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <input class="remove-arrow" type="number" [(ngModel)]="this.amount" name="amount">
           </div>
           <div>
             <p>Комментарий</p>
             <textarea [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
-                      class="resize-none h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-1.5"
+                      class="resize-none h-[120px] w-full align-text-top border-0 rounded-2xl bg-slate-50 p-3 "
                       minlength="10"
                       maxlength="255"></textarea>
             <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': count!=0 && ( count < 10 || count > 255) }">
@@ -64,39 +62,34 @@ import {CommonModule} from "@angular/common";
 })
 
 export class CreateOperationComponent {
-
   @Output() close = new EventEmitter<void>();
+  userList: any[] = [];
   faSave = faSave;
   xmark = faXmark;
-  receiver: any = null;
   receiverUsername = '';
   currentUsername: string = this.authService.getCurrentUsername();
   amount: number = 0;
   comment: string = '';
   count: number = this.comment.length;
-  operationsList: any[] = [];
-
 
   formattedDate: any = this.getDate();
 
   constructor(private authService: AuthService) {
-    this.loadOperations();
+    this.loadUserList();
   }
 
 onSubmit(): void {
   const usersData = JSON.parse(localStorage.getItem('users') || '{}');
   const currentUser = usersData[this.currentUsername];
+  const receiverData = usersData[this.receiverUsername];
   if (currentUser && currentUser.balance >= this.amount) {
     currentUser.balance -= this.amount;
     currentUser.outgoing += this.amount;
     localStorage.setItem('users', JSON.stringify(usersData));
-
-    const receiverData = usersData[this.receiverUsername];
     if (receiverData) {
       receiverData.balance += this.amount;
       receiverData.income += this.amount;
       localStorage.setItem('users', JSON.stringify(usersData));
-
       const operation: Operation = {
         id: Date.now(),
         from:currentUser.username,
@@ -107,7 +100,6 @@ onSubmit(): void {
         datetime: this.getDate(),
         comment: this.comment
       };
-
       const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
       operationsList.push(operation);
       localStorage.setItem('operations', JSON.stringify(operationsList));
@@ -115,18 +107,11 @@ onSubmit(): void {
     }
   }
 }
-  getReceiver(): any {
-    const receiverExists = localStorage.getItem(this.receiverUsername);
-    if (receiverExists) {
-      this.receiver = JSON.parse(receiverExists);
-    }
-  }
 
-  loadOperations(): void {
-    const operationsData = localStorage.getItem('operations');
-    if (operationsData) {
-      this.operationsList = JSON.parse(operationsData);
-    }
+
+  loadUserList(): void {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    this.userList = Object.values(usersData); // Преобразование объекта пользователей в массив
   }
 
   updateCharacterCount() {

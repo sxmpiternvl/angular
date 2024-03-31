@@ -31,7 +31,11 @@ import {Operation} from "../operation";
               <fa-icon [icon]="faHourGlasses"></fa-icon>
             </div>
             <div class=""><p>Баланс на начало</p>
-              <p>10000</p>
+              @if (currentUser) {
+                <p> 10000 </p>
+              } @else {
+                <p>***</p>
+              }
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
@@ -40,10 +44,9 @@ import {Operation} from "../operation";
             </div>
             <div class=""><p>Приход</p>
               @if(currentUser){
-              <p>  {{currentUser.income}}  </p>
-              }
-              @else{
-              <p>0</p>
+                <p>{{currentUser.income}}</p>
+              } @else {
+                <p>***</p>
               }
             </div>
           </div>
@@ -52,11 +55,10 @@ import {Operation} from "../operation";
               <fa-icon [icon]="arrowTrendDown"></fa-icon>
             </div>
             <div class="ml-4"><p>Расход</p>
-              @if(currentUser){
-              <p>  {{currentUser.outgoing}}    </p>
-              }
-              @else{
-              <p>     0     </p>
+              @if (currentUser){
+                <p>{{currentUser.outgoing}}</p>
+              } @else {
+                <p> *** </p>
               }
             </div>
           </div>
@@ -65,11 +67,10 @@ import {Operation} from "../operation";
               <fa-icon [icon]="hourGlassEnd"></fa-icon>
             </div>
             <div class="ml-4"><p>Баланс на конец</p>
-              @if(currentUser){
-              <p>     {{currentUser.balance}}      </p>
-              }
-              @else{
-              <p>0</p>
+              @if (currentUser) {
+                <p>{{ currentUser.balance}}</p>
+              } @else {
+                <p>***</p>
               }
             </div>
           </div>
@@ -102,10 +103,10 @@ import {Operation} from "../operation";
             </thead>
             <tbody class="w-full">
             <tr *ngFor="let operation of filteredOperationsList; let i = index">
-              <td class="font-mono">{{operation.datetime}}</td>
+              <td class="font-mono">{{ operation.datetime }}</td>
               <td>{{ operation.from }}</td>
               <td>{{ operation.to }}</td>
-              <td class="font-mono">{{operation.amount}}</td>
+              <td class="font-mono">{{ operation.amount }}</td>
               <td>
                 <button>
                   <fa-icon (click)="deleteOp.open(); this.removeOperationId=operation.id" [icon]="trash"
@@ -128,6 +129,7 @@ import {Operation} from "../operation";
                                 (close)="deleteOp.close()"></app-delete-operation>
         </ng-template>
       </app-modal>
+    </div>
   `,
   styleUrl: './operations.component.css',
 })
@@ -155,7 +157,7 @@ export class OperationsComponent {
         const currentUserUID = this.currentUser.uid;
 
         this.filteredOperationsList = operationsData.filter(operation =>
-          operation.fromUID === currentUserUID || operation.toUID === currentUserUID
+          operation.fromUID == currentUserUID || operation.toUID == currentUserUID
         );
       }
     } else {
@@ -163,7 +165,6 @@ export class OperationsComponent {
       console.log(this.filteredOperationsList);
     }
   }
-
   removeOperation(operationId: number): void {
     const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
     const filteredOperations = operationsList.filter((operation: Operation) => operation.id != operationId);

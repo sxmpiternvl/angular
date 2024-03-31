@@ -16,19 +16,48 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
   imports: [CommonModule, FormsModule, FaIconComponent],
 
   template: `
-    <div class=" h-[calc(100vh-33px)]">
-      <div class="bg-white h-[80%] overflow-y-scroll rounded-2xl">
+    <div class="absolute inset-0 flex flex-col p-3 pb-10">
+      <div class="bg-white flex-1 overflow-y-scroll rounded-2xl">
         <p class="fixed sticky top-0 bg-white  overflow-hidden mb-2 text-4xl p-4">Балансы пользователей</p>
-        @if(!isLoggedIn()){
-        <div *ngFor="let user of allUsers" class="">
-          <p class="px-4 text-2xl font-light"> {{ user.username }}</p>
+        @if (!isLoggedIn()) {
+          <div *ngFor="let user of allUsers" class="">
+            <p class="px-4 text-2xl font-light"> {{ user.username }}</p>
+            <div class="grid grid-cols-3 border-b p-4 mb-2.5">
+              <div class="flex gap-2 flex-row items-center">
+                <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
+                  <fa-icon [icon]="faTrendUp"></fa-icon>
+                </div>
+                <div class=""><p>Всего приход</p>
+                  <p>{{ user.income }}</p>
+                </div>
+              </div>
+              <div class="flex gap-2 flex-row items-center">
+                <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
+                  <fa-icon [icon]="faTrendDown"></fa-icon>
+                </div>
+                <div class=""><p>Всего расход</p>
+                  <p>{{ user.outgoing }}</p>
+                </div>
+              </div>
+              <div class="flex gap-2 flex-row items-center">
+                <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
+                  <fa-icon [icon]="faPiggy"></fa-icon>
+                </div>
+                <div class=""><p>Баланс</p>
+                  <p>
+                    Balance: {{ user.balance }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        } @else {
           <div class="grid grid-cols-3 border-b p-4 mb-2.5">
             <div class="flex gap-2 flex-row items-center">
               <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
                 <fa-icon [icon]="faTrendUp"></fa-icon>
               </div>
               <div class=""><p>Всего приход</p>
-                <p>{{user.income}}</p>
+                <p>{{ currentUser.income }}</p>
               </div>
             </div>
             <div class="flex gap-2 flex-row items-center">
@@ -36,7 +65,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
                 <fa-icon [icon]="faTrendDown"></fa-icon>
               </div>
               <div class=""><p>Всего расход</p>
-                <p>{{user.outgoing}}</p>
+                <p>{{ currentUser.outgoing }}</p>
               </div>
             </div>
             <div class="flex gap-2 flex-row items-center">
@@ -45,37 +74,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
               </div>
               <div class=""><p>Баланс</p>
                 <p>
-                  Balance: {{  user.balance  }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        }
-        @else{
-<div class="grid grid-cols-3 border-b p-4 mb-2.5">
-            <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
-                <fa-icon [icon]="faTrendUp"></fa-icon>
-              </div>
-              <div class=""><p>Всего приход</p>
-                <p>{{currentUser.income}}</p>
-              </div>
-            </div>
-            <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
-                <fa-icon [icon]="faTrendDown"></fa-icon>
-              </div>
-              <div class=""><p>Всего расход</p>
-                <p>{{currentUser.outgoing}}</p>
-              </div>
-            </div>
-            <div class="flex gap-2 flex-row items-center">
-              <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
-                <fa-icon [icon]="faPiggy"></fa-icon>
-              </div>
-              <div class=""><p>Баланс</p>
-                <p>
-                 {{  currentUser.balance  }}</p>
+                  {{ currentUser.balance }}</p>
               </div>
             </div>
           </div>
@@ -83,18 +82,17 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
       </div>
 
       <div class="bg-white  mt-4 rounded-2xl">
-        <p class=" py-2 px-4 text-2xl">Итог</p>
-        <div class="px-4  grid grid-cols-3">
-          <div class="flex gap-2 flex-row items-center pb-2">
+        <p class=" pt-4 pb-2 px-4 text-2xl">Итог</p>
+        <div class="px-4  grid grid-cols-3 pb-4">
+          <div class="flex gap-2 flex-row items-center ">
             <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
               <fa-icon [icon]="faTrendUp"></fa-icon>
             </div>
             <div class=""><p>Всего приход </p>
-              @if(!isLoggedIn()){
-              <p>{{ getTotalIncome() }}</p>
-              }
-              @else{
-              <p>{{currentUser.income}}</p>
+              @if (!isLoggedIn()) {
+                <p>{{ getTotalIncome() }}</p>
+              } @else {
+                <p>{{ currentUser.income }}</p>
               }
             </div>
           </div>
@@ -103,11 +101,10 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
               <fa-icon [icon]="faTrendDown"></fa-icon>
             </div>
             <div class=""><p>Всего расход</p>
-               @if(!isLoggedIn()){
-              <p>{{ getTotalOutgoing() }}</p>
-              }
-              @else{
-              <p>{{currentUser.outgoing}}</p>
+              @if (!isLoggedIn()) {
+                <p>{{ getTotalOutgoing() }}</p>
+              } @else {
+                <p>{{ currentUser.outgoing }}</p>
               }
             </div>
           </div>
@@ -116,11 +113,10 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
               <fa-icon [icon]="faPiggy"></fa-icon>
             </div>
             <div class=""><p>Баланс</p>
-               @if(!isLoggedIn()){
-              <p>{{ getTotalBalance() }}</p>
-              }
-              @else{
-              <p>{{currentUser.balance}}</p>
+              @if (!isLoggedIn()) {
+                <p>{{ getTotalBalance() }}</p>
+              } @else {
+                <p>{{ currentUser.balance }}</p>
               }
             </div>
           </div>
