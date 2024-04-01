@@ -23,22 +23,22 @@ export class UserService {
     return usersList;
   }
 
-  getUserByUsername(username: string): { username: string; balance: number; name: string; income: number; outgoing: number } | null {
+  getUserByUsername(username: string): { username: string; balance: number; name: string; income: number; outgoing: number; uid:string } | null {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const userData = usersData[username];
     if (userData) {
-       const user = {
-         uid: userData.uid,
+      const user = {
+        uid: userData.uid,
         username: userData.username,
         balance: userData.balance,
         name: userData.name,
         income: userData.income,
         outgoing: userData.outgoing
-    };
-    return user;
+      };
+      return user;
     }
     return null;
 
-}
+  }
 
 }

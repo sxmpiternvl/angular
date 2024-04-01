@@ -7,7 +7,7 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {AuthService} from "../auth-service";
-
+import {Operation} from "../operation";
 import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../modal/modal.component";
 
@@ -60,7 +60,7 @@ import {ModalComponent} from "../modal/modal.component";
                 <td class="">{{ user.name }}</td>
                 <td class="">{{ user.username }}</td>
                 <td class="">
-                  <button (click)="removeUser(user.username)">
+                  <button (click)="remove(user.username)">
                     <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
                   </button>
                 </td>
@@ -87,6 +87,7 @@ export class AllUsersComponent {
   trash = faTrash;
   plus = faPlus;
   allUsers: { username: string, name: string; }[] = [];
+  operations: any;
 
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
@@ -97,25 +98,22 @@ export class AllUsersComponent {
     this.allUsers = this.userService.getUsers();
   }
 
-  removeUser(username: string): void {
+remove(username: string): void {
+  const removeUser = this.userService.getUserByUsername(username);
+  if (removeUser) {
+    this.operations = localStorage.getItem('operations');
+    if (this.operations) {
+      const allOperations: Operation[] = JSON.parse(this.operations);
+      const updatedOperations = allOperations.filter(operation =>
+        (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
+      );
+      localStorage.setItem('operations', JSON.stringify(updatedOperations));
+    }
     this.authService.removeUser(username);
      this.allUsers = this.allUsers.filter(user => user.username != username);
   }
 }
 
 
-// remove(): void {
-//   const removeUsername = localStorage.getItem(this.removeUser);
-//   if (removeUsername) {
-//     this.operations = localStorage.getItem('operations');
-//     if (this.operations) {
-//       const allOperations: Operation[] = JSON.parse(this.operations);
-//       const updatedOperations = allOperations.filter((operation: Operation) =>
-//         (operation.from !== this.removeUser) && (operation.to !== this.removeUser)
-//       );
-//       localStorage.setItem('operations', JSON.stringify(updatedOperations));
-//     }
-//     localStorage.removeItem(this.removeUser);
-//     location.reload();
-//   }
-// }
+}
+

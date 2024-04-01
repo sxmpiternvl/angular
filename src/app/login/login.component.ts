@@ -80,9 +80,9 @@ import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
           <div *ngIf="loginError"
                class="error-block">
             <div class="alert ">
-              <fa-icon [icon]="exTriangle" class="text-error px-4"></fa-icon>
+              <fa-icon [icon]="exTriangle" class="text-error pr-2"></fa-icon>
               <div class="border-l border-error">
-                <p class="px-2">Неверный логин или пароль. Повторите попытку</p>
+                <p class="pl-1">Неверный логин или пароль. Повторите попытку</p>
               </div>
             </div>
           </div>

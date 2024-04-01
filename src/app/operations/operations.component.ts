@@ -155,7 +155,6 @@ export class OperationsComponent {
       this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
       if (this.currentUser && this.currentUser.uid) {
         const currentUserUID = this.currentUser.uid;
-
         this.filteredOperationsList = operationsData.filter(operation =>
           operation.fromUID == currentUserUID || operation.toUID == currentUserUID
         );
@@ -171,5 +170,7 @@ export class OperationsComponent {
     localStorage.setItem('operations', JSON.stringify(filteredOperations));
     this.updateFilteredOperations();
   }
+
+
 
 }

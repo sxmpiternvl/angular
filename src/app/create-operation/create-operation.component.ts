@@ -20,17 +20,23 @@ import {CommonModule} from "@angular/common";
       <form (ngSubmit)="onSubmit()">
         <h1 class="text-2xl pb-1"> Создание записи</h1>
         <div>
-          <p class="p-0.5">Дата</p>
+          <p class="p-0.5">Даqта</p>
           <div class="bg-slate-50 rounded-2xl px-2 py-2 font-mono my-2">
             {{this.formattedDate}}
           </div>
           <p>Кому:</p>
-          <select [(ngModel)]="receiverUsername" name="receiverUsername" class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full">
-            <option class="bg-slate-50 " *ngFor="let user of userList" [value]="user.username">{{ user.username }}</option>
+          <select [(ngModel)]="receiverUsername" name="receiverUsername"
+                  class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full">
+            <ng-container *ngFor="let user of userList">
+              <ng-container *ngIf="user.username !== currentUsername">
+                <option class="bg-slate-50" [value]="user.username">{{ user.username }}</option>
+              </ng-container>
+            </ng-container>
           </select>
           <div>
             <p>Сумма:</p>
-            <input class="remove-arrow" type="number" [(ngModel)]="this.amount" name="amount">
+            <input class="remove-arrow" type="text" [(ngModel)]="this.amount" name="amount"
+                   (input)="handleInput($event)">
           </div>
           <div>
             <p>Комментарий</p>
@@ -58,19 +64,18 @@ import {CommonModule} from "@angular/common";
     </div>
   `,
   styleUrl: './create-operation.component.css',
-
 })
 
 export class CreateOperationComponent {
   @Output() close = new EventEmitter<void>();
+  currentUsername: string = this.authService.getCurrentUsername();
+  amount: string = '';
+  comment: string = '';
   userList: any[] = [];
+  receiverUsername = '';
+  count: number = this.comment.length;
   faSave = faSave;
   xmark = faXmark;
-  receiverUsername = '';
-  currentUsername: string = this.authService.getCurrentUsername();
-  amount: number = 0;
-  comment: string = '';
-  count: number = this.comment.length;
 
   formattedDate: any = this.getDate();
 
@@ -78,53 +83,65 @@ export class CreateOperationComponent {
     this.loadUserList();
   }
 
-onSubmit(): void {
-  const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-  const currentUser = usersData[this.currentUsername];
-  const receiverData = usersData[this.receiverUsername];
-  if (currentUser && currentUser.balance >= this.amount) {
-    currentUser.balance -= this.amount;
-    currentUser.outgoing += this.amount;
-    localStorage.setItem('users', JSON.stringify(usersData));
-    if (receiverData) {
-      receiverData.balance += this.amount;
-      receiverData.income += this.amount;
+  onSubmit(): void {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    const currentUser = usersData[this.currentUsername];
+    const receiverData = usersData[this.receiverUsername];
+    if (currentUser && currentUser.balance >= this.amount) {
+      currentUser.balance -= parseFloat(this.amount);
+      currentUser.outgoing += parseFloat(this.amount);
       localStorage.setItem('users', JSON.stringify(usersData));
-      const operation: Operation = {
-        id: Date.now(),
-        from:currentUser.username,
-        to:receiverData.username,
-        fromUID: currentUser.uid,
-        toUID: receiverData.uid,
-        amount: this.amount,
-        datetime: this.getDate(),
-        comment: this.comment
-      };
-      const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
-      operationsList.push(operation);
-      localStorage.setItem('operations', JSON.stringify(operationsList));
-      this.close.emit();
+      if (receiverData) {
+        receiverData.balance += parseFloat(this.amount);
+        receiverData.income += parseFloat(this.amount);
+        localStorage.setItem('users', JSON.stringify(usersData));
+        const operation: Operation = {
+          id: Date.now(),
+          from: currentUser.username,
+          to: receiverData.username,
+          fromUID: currentUser.uid,
+          toUID: receiverData.uid,
+          amount: parseFloat(this.amount),
+          datetime: this.getDate(),
+          comment: this.comment
+        };
+        const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
+        operationsList.push(operation);
+        localStorage.setItem('operations', JSON.stringify(operationsList));
+        this.close.emit();
+      }
     }
+  }
+
+loadUserList(): void {
+  const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+  this.userList = [];
+  for (const key in usersData) {
+    this.userList.push(usersData[key]);
   }
 }
 
+  handleInput(event: any): void {
+    let inputValue = event.target.value;
+    if (inputValue.startsWith('.')) {
+      inputValue = '0' + inputValue;
+    }
+    inputValue = inputValue.replace(/[^0-9.]/g, '');
+    const firstDotIndex = inputValue.indexOf('.');
+    if (firstDotIndex != -1) {
+      inputValue = inputValue.substring(0, firstDotIndex + 1) + inputValue.substring(firstDotIndex + 1).replace(/\./g, '');
+    }
 
-  loadUserList(): void {
-    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-    this.userList = Object.values(usersData); // Преобразование объекта пользователей в массив
+    event.target.value = inputValue;
+    this.amount = inputValue;
   }
 
   updateCharacterCount() {
     this.count = this.comment.length;
   }
 
-    getDate(): string {
-    const currentDate = new Date();
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = currentDate.getFullYear().toString();
-    const formattedDate = `${day}.${month}.${year}`;
-    return formattedDate;
+  getDate(): string {
+    return new Date().toLocaleDateString('ru-RU');
   }
 
 }
