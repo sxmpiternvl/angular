@@ -32,7 +32,7 @@ import {Operation} from "../operation";
             </div>
             <div class=""><p>Баланс на начало</p>
               @if (currentUser) {
-                <p> 10000 </p>
+                <p> {{currentUser.balance}} </p>
               } @else {
                 <p>***</p>
               }
@@ -166,10 +166,31 @@ export class OperationsComponent {
   }
   removeOperation(operationId: number): void {
     const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
-    const filteredOperations = operationsList.filter((operation: Operation) => operation.id != operationId);
-    localStorage.setItem('operations', JSON.stringify(filteredOperations));
-    this.updateFilteredOperations();
+    const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
+    const operationToRemove = operationsList.find(operation => operation.id === operationId);
+    if (operationToRemove) {
+      let sender, receiver;
+      for (let username in usersData) {
+        if (usersData[username].uid == operationToRemove.fromUID) {
+          sender = usersData[username];
+        } else if (usersData[username].uid == operationToRemove.toUID) {
+          receiver = usersData[username];
+        }
+      }
+      if (sender) {
+        sender.outgoing -= operationToRemove.amount;
+      }
+      if (receiver) {
+        receiver.income -= operationToRemove.amount;
+      }
+      localStorage.setItem('users', JSON.stringify(usersData));
+      const filteredOperations = operationsList.filter(operation => operation.id !== operationId);
+      localStorage.setItem('operations', JSON.stringify(filteredOperations));
+      this.updateFilteredOperations();
+    }
   }
+
+
 
 
 

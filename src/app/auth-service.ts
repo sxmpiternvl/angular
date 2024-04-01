@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Operation} from "./operation";
 
 @Injectable({
   providedIn: 'root'
@@ -57,15 +58,29 @@ export class AuthService {
   }
 
   removeUser(username: string): void {
-  const usersData: { [key: string]: any } = JSON.parse(localStorage.getItem('users') ?? '{}');
-  const updatedUsersData: { [key: string]: any } = {};
-  for (const key in usersData) {
-    if (key !== username) {
-      updatedUsersData[key] = usersData[key];
-    }
+    const usersData: { [key: string]: any } = JSON.parse(localStorage.getItem('users') ?? '{}');
+    const operations: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
+    const filteredOperations = operations.filter(operation => operation.from !== username && operation.to !== username);
+    Object.keys(usersData).forEach(userKey => {
+      if (userKey !== username) {
+        let income = 0;
+        let outgoing = 0;
+        filteredOperations.forEach(operation => {
+          if (operation.to === userKey) {
+            income += operation.amount;
+          }
+          if (operation.from === userKey) {
+            outgoing += operation.amount;
+          }
+        });
+        usersData[userKey].income = income;
+        usersData[userKey].outgoing = outgoing;
+      }
+    });
+    delete usersData[username];
+    localStorage.setItem('users', JSON.stringify(usersData));
+    localStorage.setItem('operations', JSON.stringify(filteredOperations));
   }
-  localStorage.setItem('users', JSON.stringify(updatedUsersData));
-}
 
 }
 
