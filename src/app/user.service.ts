@@ -28,7 +28,7 @@ export class UserService {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const userData = usersData[username];
     if (userData) {
-      const user = {
+      return {
         uid: userData.uid,
         username: userData.username,
         balance: userData.balance,
@@ -37,7 +37,6 @@ export class UserService {
         outgoing: userData.outgoing,
         currentBalance: userData.currentBalance,
       };
-      return user;
     }
     return null;
   }
@@ -45,5 +44,7 @@ export class UserService {
   getCurrentBalance(balance: number, income: number, outgoing: number){
     return balance - outgoing + income;
   }
+
+
 
 }

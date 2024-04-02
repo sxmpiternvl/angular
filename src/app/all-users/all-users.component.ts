@@ -98,21 +98,40 @@ export class AllUsersComponent {
     this.allUsers = this.userService.getUsers();
   }
 
-remove(username: string): void {
-  const removeUser = this.userService.getUserByUsername(username);
-  if (removeUser) {
-    this.operations = localStorage.getItem('operations');
-    if (this.operations) {
-      const allOperations: Operation[] = JSON.parse(this.operations);
-      const updatedOperations = allOperations.filter(operation =>
-        (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
-      );
-      localStorage.setItem('operations', JSON.stringify(updatedOperations));
+  remove(username: string): void {
+    const removeUser = this.userService.getUserByUsername(username);
+    if (removeUser) {
+      this.operations = localStorage.getItem('operations');
+      const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+      if (this.operations) {
+        const allOperations: Operation[] = JSON.parse(this.operations);
+        allOperations.forEach(operation => {
+          if (operation.fromUID == removeUser.uid || operation.toUID == removeUser.uid) {
+            if (operation.fromUID == removeUser.uid && usersData[operation.to]) {
+              usersData[operation.to].income -= operation.amount;
+            } else if (operation.toUID == removeUser.uid && usersData[operation.from]) {
+              usersData[operation.from].outgoing -= operation.amount;
+            }
+            if (usersData[operation.from]) {
+              const sender = usersData[operation.from];
+              sender.currentBalance = sender.balance + sender.income - sender.outgoing;
+            }
+            if (usersData[operation.to]) {
+              const receiver = usersData[operation.to];
+              receiver.currentBalance = receiver.balance + receiver.income - receiver.outgoing;
+            }
+          }
+        });
+        const updatedOperations = allOperations.filter(operation =>
+          (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
+        );
+        localStorage.setItem('operations', JSON.stringify(updatedOperations));
+      }
+      localStorage.setItem('users', JSON.stringify(usersData));
+      this.authService.removeUser(username);
+      this.allUsers = this.allUsers.filter(user => user.username != username);
     }
-    this.authService.removeUser(username);
-     this.allUsers = this.allUsers.filter(user => user.username != username);
   }
-}
 
 
 }

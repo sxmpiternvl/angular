@@ -22,7 +22,7 @@ import {CommonModule} from "@angular/common";
         <div>
           <p class="p-0.5">Даqта</p>
           <div class="bg-slate-50 rounded-2xl px-2 py-2 font-mono my-2">
-            {{this.formattedDate}}
+            {{ this.formattedDate }}
           </div>
           <p>Кому:</p>
           <select [(ngModel)]="receiverUsername" name="receiverUsername"
@@ -36,7 +36,7 @@ import {CommonModule} from "@angular/common";
           <div>
             <p>Сумма:</p>
             <input class="remove-arrow" type="text" [(ngModel)]="this.amount" name="amount"
-                   (input)="handleInput($event)">
+                   (input)="onInput($event)" (ngModelChange)="onChange($event)">
           </div>
           <div>
             <p>Комментарий</p>
@@ -49,16 +49,15 @@ import {CommonModule} from "@angular/common";
           </div>
         </div>
         <div class="grid grid-cols-2 pt-4">
-          <div class="bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32">
+          <button (click)="this.close.emit()" class="custom-btn-neutral">
             <fa-icon [icon]="xmark" class="text-white"></fa-icon>
-            <button (click)="this.close.emit()" class="text-white pl-1">Отменить</button>
-          </div>
-          <div class="border p-2 rounded-xl border-blue-700 w-40  hover:bg-primary duration-300">
-            <button type="submit" class="text-blue-700 hover:text-white duration-300 " id="newOperation">
-              <fa-icon [icon]="faSave" class="text-blue-700 pl-1"></fa-icon>
-              Создать запись
-            </button>
-          </div>
+            <span class="pl-1">Отменить</span>
+          </button>
+          <button type="submit" id="newOperation"
+                  class="border p-2 rounded-xl border-blue-700 w-40 hover:bg-primary duration-300 flex items-center justify-center text-blue-700 hover:text-white">
+            <fa-icon [icon]="faSave" class="text-blue-700"></fa-icon>
+            <span class="pl-1">Создать запись</span>
+          </button>
         </div>
       </form>
     </div>
@@ -113,27 +112,27 @@ export class CreateOperationComponent {
     }
   }
 
-loadUserList(): void {
-  const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-  this.userList = [];
-  for (const key in usersData) {
-    this.userList.push(usersData[key]);
+  loadUserList(): void {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    this.userList = [];
+    for (const key in usersData) {
+      this.userList.push(usersData[key]);
+    }
   }
-}
 
-  handleInput(event: any): void {
-    let inputValue = event.target.value;
+  onInput(event: any): void {
+    const inputElement = event.target;
+    let inputValue = inputElement.value;
     if (inputValue.startsWith('.')) {
       inputValue = '0' + inputValue;
     }
     inputValue = inputValue.replace(/[^0-9.]/g, '');
-    const firstDotIndex = inputValue.indexOf('.');
-    if (firstDotIndex != -1) {
-      inputValue = inputValue.substring(0, firstDotIndex + 1) + inputValue.substring(firstDotIndex + 1).replace(/\./g, '');
-    }
-
     event.target.value = inputValue;
     this.amount = inputValue;
+  }
+
+  onChange(event: any) {
+
   }
 
   updateCharacterCount() {
@@ -144,4 +143,5 @@ loadUserList(): void {
     return new Date().toLocaleDateString('ru-RU');
   }
 
+  protected readonly onchange = onchange;
 }

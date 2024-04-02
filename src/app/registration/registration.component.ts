@@ -61,13 +61,13 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
               <input type="checkbox" class="w-fit h-4 mr-2 border-blue-700 border-2 p-2" id="checkbox">
               <label for="checkbox" class="text-blue-700">Запомнить меня</label>
             </div>
-            <div id="newOperation" class="custom-submit-button text-primary">
+            <button type="submit" id="newOperation" class="custom-submit-button text-primary">
               <i>
                 <fa-icon [icon]="faSave" class=" pr-2 text-primary "></fa-icon>
               </i>
-              <button type="submit">Создать пользователя</button>
+              <span>Создать пользователя</span>
               <!--            [disabled]="!registrationForm.valid"-->
-            </div>
+            </button>
           </div>
           <div *ngIf="error"
                class="error-block">
@@ -81,10 +81,8 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
             </div>
           </div>
         </div>
-
       </form>
     </div>
-
     <div class="absolute right-2 top-2">
       <button (click)="this.close.emit()">
         x
@@ -107,11 +105,11 @@ export class RegistrationComponent {
   username: string = '';
   password: string = '';
   name: string = '';
-  balance: number = 10000;
-  income = 0;
+  balance: number = 0;
+  income = 10000;
   outgoing = 0;
   error: boolean = false;
-currentBalance = this.balance-this.outgoing+this.income;
+  currentBalance = this.balance - this.outgoing + this.income;
 
   registration(): void {
     if (!this.authService.isUnique(this.username) || this.password != this.confirmPassword) {

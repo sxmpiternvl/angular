@@ -138,28 +138,24 @@ export class OperationsComponent {
   filteredOperationsList: Operation[] = [];
   currentUser: any;
   removeOperationId: number = -1;
+  balanceCurrent: number = 0;
   faHourGlasses = faHourglassStart;
   arrowTrendUp = faArrowTrendUp;
   arrowTrendDown = faArrowTrendDown;
   hourGlassEnd = faHourglassEnd;
   plus = faPlus;
   trash = faTrash;
-  balanceCurrent: number = 0;
-
   constructor(private authService: AuthService, private userService: UserService) {
     this.updateFilteredOperations();
   }
-
   updateFilteredOperations(): void {
     this.filteredOperationsList = [];
     const operationsData: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
     const currentUserUsername = this.authService.getCurrentUsername();
-
     if (currentUserUsername) {
       this.currentUser = this.userService.getUserByUsername(currentUserUsername);
-
-      if (this.currentUser && typeof this.currentUser.balance !== 'undefined') {
-        const currentUserUID = this.currentUser.uid;
+      if (this.currentUser) {
+        let currentUserUID = this.currentUser.uid;
         this.filteredOperationsList = operationsData.filter(operation =>
           operation.fromUID == currentUserUID || operation.toUID == currentUserUID
         );
@@ -167,7 +163,6 @@ export class OperationsComponent {
     } else {
       this.filteredOperationsList = operationsData;
     }
-
     if (this.currentUser) {
       this.balanceCurrent = this.userService.getCurrentBalance(
         this.currentUser.balance,
@@ -179,7 +174,7 @@ export class OperationsComponent {
   removeOperation(operationId: number): void {
     const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    const operationToRemove = operationsList.find(operation => operation.id === operationId);
+    const operationToRemove = operationsList.find(operation => operation.id == operationId);
     if (operationToRemove) {
       let sender, receiver;
       for (let username in usersData) {
@@ -191,18 +186,17 @@ export class OperationsComponent {
       }
       if (sender) {
         sender.outgoing -= operationToRemove.amount;
+        sender.currentBalance +=operationToRemove.amount;
       }
       if (receiver) {
         receiver.income -= operationToRemove.amount;
+        receiver.currentBalance -= operationToRemove.amount;
       }
       localStorage.setItem('users', JSON.stringify(usersData));
-      const filteredOperations = operationsList.filter(operation => operation.id !== operationId);
+      const filteredOperations = operationsList.filter(operation => operation.id != operationId);
       localStorage.setItem('operations', JSON.stringify(filteredOperations));
       this.updateFilteredOperations();
     }
   }
-
-
-
 
 }

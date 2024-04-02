@@ -45,7 +45,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
                 </div>
                 <div class=""><p>Баланс</p>
                   <p>
-                    Balance: {{getBalanceCurrent(user)}}</p>
+                    Balance: {{ user.currentBalance }}</p>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
               </div>
               <div class=""><p>Баланс</p>
                 <p>
-                  {{getBalanceCurrent(currentUser)}}</p>
+                  {{currentUser.currentBalance}}</p>
               </div>
             </div>
           </div>
@@ -136,7 +136,6 @@ export class BalancesComponent {
   faPiggy = faPiggyBank;
   allUsers: { username: string, balance: number; income: number; outgoing: number, currentBalance: number }[] = [];
   operations: any;
-  balanceCurrent: number = 0;
 
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
@@ -172,13 +171,9 @@ export class BalancesComponent {
   getTotalBalance(): number {
     let totalBalance = 0;
     this.allUsers.forEach(user => {
-      totalBalance += this.userService.getCurrentBalance(user.balance, user.income,user.outgoing);
+      totalBalance += user.currentBalance;
     });
     return totalBalance;
-  }
-
-  getBalanceCurrent(user: any): number {
-    return this.userService.getCurrentBalance(user.balance, user.income,user.outgoing);
   }
 
 }
