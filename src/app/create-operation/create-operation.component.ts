@@ -87,12 +87,12 @@ export class CreateOperationComponent {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     const receiverData = usersData[this.receiverUsername];
-    if (currentUser && currentUser.balance >= this.amount) {
-      currentUser.balance -= parseFloat(this.amount);
+    if (currentUser && currentUser.currentBalance >= this.amount) {
+      currentUser.currentBalance -= parseFloat(this.amount);
       currentUser.outgoing += parseFloat(this.amount);
       localStorage.setItem('users', JSON.stringify(usersData));
       if (receiverData) {
-        receiverData.balance += parseFloat(this.amount);
+        receiverData.currentBalance += parseFloat(this.amount);
         receiverData.income += parseFloat(this.amount);
         localStorage.setItem('users', JSON.stringify(usersData));
         const operation: Operation = {

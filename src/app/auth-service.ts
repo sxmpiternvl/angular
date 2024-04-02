@@ -9,14 +9,12 @@ export class AuthService {
     this.usersExists();
   }
 
-   usersExists(): void {
+  usersExists(): void {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     if (!usersData) {
       localStorage.setItem('users', JSON.stringify({}));
     }
   }
-
-
 
   login(username: string, password: string): boolean {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
@@ -43,13 +41,13 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn');
   }
 
-    registration(username: string, password: string, name: string, uid:string): void {
+  registration(username: string, password: string, name: string, uid: string, income: number, outgoing: number, currentBalance: number, balance: number): void {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    usersData[username] = { username, password, name, balance: 10000, income: 0, outgoing: 0, uid };
+    usersData[username] = {username, password, name, balance, income, outgoing, uid, currentBalance};
     localStorage.setItem('users', JSON.stringify(usersData));
   }
 
-   getCurrentUsername(): string {
+  getCurrentUsername(): string {
     const username = localStorage.getItem('isLoggedIn');
     if (username) {
       return username;

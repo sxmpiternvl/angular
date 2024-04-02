@@ -100,15 +100,18 @@ export class RegistrationComponent {
   faUser = faUser;
 
   constructor(private authService: AuthService, private router: Router) {
-
   }
+
   uid: string = Date.now().toString();
   confirmPassword: string = '';
   username: string = '';
   password: string = '';
   name: string = '';
-  balance: number = 0;
+  balance: number = 10000;
+  income = 0;
+  outgoing = 0;
   error: boolean = false;
+currentBalance = this.balance-this.outgoing+this.income;
 
   registration(): void {
     if (!this.authService.isUnique(this.username) || this.password != this.confirmPassword) {
@@ -116,7 +119,7 @@ export class RegistrationComponent {
       return;
     }
     if (this.username && this.password && this.name && this.uid) {
-      this.authService.registration(this.username, this.password, this.name, this.uid);
+      this.authService.registration(this.username, this.password, this.name, this.uid, this.income, this.outgoing, this.currentBalance, this.balance);
       this.authService.login(this.username, this.password);
       this.router.navigate(['operations']);
     }

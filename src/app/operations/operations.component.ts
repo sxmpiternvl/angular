@@ -68,7 +68,7 @@ import {Operation} from "../operation";
             </div>
             <div class="ml-4"><p>Баланс на конец</p>
               @if (currentUser) {
-                <p>{{ currentUser.balance}}</p>
+                <p>{{ this.balanceCurrent}}</p>
               } @else {
                 <p>***</p>
               }
@@ -101,6 +101,7 @@ import {Operation} from "../operation";
               <th>Action</th>
             </tr>
             </thead>
+
             <tbody class="w-full">
             <tr *ngFor="let operation of filteredOperationsList; let i = index">
               <td class="font-mono">{{ operation.datetime }}</td>
@@ -143,6 +144,7 @@ export class OperationsComponent {
   hourGlassEnd = faHourglassEnd;
   plus = faPlus;
   trash = faTrash;
+  balanceCurrent: number = 0;
 
   constructor(private authService: AuthService, private userService: UserService) {
     this.updateFilteredOperations();
@@ -151,9 +153,12 @@ export class OperationsComponent {
   updateFilteredOperations(): void {
     this.filteredOperationsList = [];
     const operationsData: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
-    if (this.authService.isAuthenticated()) {
-      this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
-      if (this.currentUser && this.currentUser.uid) {
+    const currentUserUsername = this.authService.getCurrentUsername();
+
+    if (currentUserUsername) {
+      this.currentUser = this.userService.getUserByUsername(currentUserUsername);
+
+      if (this.currentUser && typeof this.currentUser.balance !== 'undefined') {
         const currentUserUID = this.currentUser.uid;
         this.filteredOperationsList = operationsData.filter(operation =>
           operation.fromUID == currentUserUID || operation.toUID == currentUserUID
@@ -161,7 +166,14 @@ export class OperationsComponent {
       }
     } else {
       this.filteredOperationsList = operationsData;
-      console.log(this.filteredOperationsList);
+    }
+
+    if (this.currentUser) {
+      this.balanceCurrent = this.userService.getCurrentBalance(
+        this.currentUser.balance,
+        this.currentUser.income,
+        this.currentUser.outgoing
+      );
     }
   }
   removeOperation(operationId: number): void {
@@ -189,7 +201,6 @@ export class OperationsComponent {
       this.updateFilteredOperations();
     }
   }
-
 
 
 

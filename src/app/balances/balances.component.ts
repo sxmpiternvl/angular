@@ -45,7 +45,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
                 </div>
                 <div class=""><p>Баланс</p>
                   <p>
-                    Balance: {{ user.balance }}</p>
+                    Balance: {{getBalanceCurrent(user)}}</p>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
               </div>
               <div class=""><p>Баланс</p>
                 <p>
-                  {{ currentUser.balance }}</p>
+                  {{getBalanceCurrent(currentUser)}}</p>
               </div>
             </div>
           </div>
@@ -102,9 +102,9 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
             </div>
             <div class=""><p>Всего расход</p>
               @if (!isLoggedIn()) {
-                <p>{{ getTotalOutgoing() }}</p>
+                <p>{{getTotalOutgoing()}}</p>
               } @else {
-                <p>{{ currentUser.outgoing }}</p>
+                <p>{{currentUser.outgoing}}</p>
               }
             </div>
           </div>
@@ -116,7 +116,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
               @if (!isLoggedIn()) {
                 <p>{{ getTotalBalance() }}</p>
               } @else {
-                <p>{{ currentUser.balance }}</p>
+                <p>{{currentUser.currentBalance}}</p>
               }
             </div>
           </div>
@@ -134,8 +134,9 @@ export class BalancesComponent {
   faTrendUp = faArrowTrendUp;
   faTrendDown = faArrowTrendDown;
   faPiggy = faPiggyBank;
-  allUsers: { username: string, balance: number; income: number; outgoing: number }[] = [];
+  allUsers: { username: string, balance: number; income: number; outgoing: number, currentBalance: number }[] = [];
   operations: any;
+  balanceCurrent: number = 0;
 
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
@@ -160,6 +161,7 @@ export class BalancesComponent {
   }
 
   getTotalOutgoing(): number {
+    console.log(this.allUsers);
     let totalOutgoing = 0;
     this.allUsers.forEach(user => {
       totalOutgoing += user.outgoing;
@@ -170,9 +172,13 @@ export class BalancesComponent {
   getTotalBalance(): number {
     let totalBalance = 0;
     this.allUsers.forEach(user => {
-      totalBalance += user.balance;
+      totalBalance += this.userService.getCurrentBalance(user.balance, user.income,user.outgoing);
     });
     return totalBalance;
+  }
+
+  getBalanceCurrent(user: any): number {
+    return this.userService.getCurrentBalance(user.balance, user.income,user.outgoing);
   }
 
 }
