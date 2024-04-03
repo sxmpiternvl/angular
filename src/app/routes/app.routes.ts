@@ -1,9 +1,9 @@
 import {Routes} from '@angular/router';
-import {BalancesComponent} from "./balances/balances.component";
-import {OperationsComponent} from "./operations/operations.component";
-import {LoginComponent} from "./login/login.component";
-import {RegistrationComponent} from "./registration/registration.component";
-import {AllUsersComponent} from "./all-users/all-users.component";
+import {BalancesComponent} from "../Components/balances/balances.component";
+import {OperationsComponent} from "../Components/operations/operations.component";
+import {LoginComponent} from "../Components/login/login.component";
+import {RegistrationComponent} from "../Components/registration/registration.component";
+import {AllUsersComponent} from "../Components/all-users/all-users.component";
 
 export const routes: Routes = [
   {

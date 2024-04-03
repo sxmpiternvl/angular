@@ -24,7 +24,6 @@ export class ModalComponent {
   open(): void {
     this.isVisible = true;
   }
-
   close(): void {
     this.isVisible = false;
     this.onClose.emit();

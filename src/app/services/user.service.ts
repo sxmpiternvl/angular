@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {UserInterface} from "../interface/user";
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,18 @@ export class UserService {
   constructor() {
   }
 
-  getUsers(): { username: string; balance: number; name: string; income: number; outgoing: number; currentBalance: number }[] {
+  getUsers(): {
+    username: string;
+    balance: number;
+    name: string;
+    income: number;
+    outgoing: number;
+    currentBalance: number;
+    uid: string;
+    password: string
+  }[] {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    const usersList: { username: string; balance: number; name: string; income: number; outgoing: number; currentBalance: number }[] = [];
+    const usersList: UserInterface[] = [];
     Object.keys(usersData).forEach((key) => {
       const userData = usersData[key];
       const username = userData.username;
@@ -18,18 +28,20 @@ export class UserService {
       const income = userData.income;
       const outgoing = userData.outgoing;
       const currentBalance = userData.currentBalance;
-      usersList.push({username, balance, name, income, outgoing, currentBalance});
+      const password = userData.password;
+      const uid = userData.uid;
+      usersList.push({username, balance, name, income, outgoing, currentBalance, password, uid});
     });
-    console.log(usersList);
     return usersList;
   }
 
-  getUserByUsername(username: string): { username: string; balance: number; name: string; income: number; outgoing: number; uid:string, currentBalance: number } | null {
+  getUserByUsername(username: string): UserInterface | null {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const userData = usersData[username];
     if (userData) {
       return {
         uid: userData.uid,
+        password: userData.password,
         username: userData.username,
         balance: userData.balance,
         name: userData.name,
@@ -40,11 +52,5 @@ export class UserService {
     }
     return null;
   }
-
-  getCurrentBalance(balance: number, income: number, outgoing: number){
-    return balance - outgoing + income;
-  }
-
-
 
 }

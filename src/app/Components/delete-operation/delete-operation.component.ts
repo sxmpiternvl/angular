@@ -13,17 +13,15 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
   styleUrl: './delete-operation.component.css'
 })
 export class DeleteOperationComponent {
-  xmark = faXmark;
-  faTrash=faTrash;
-  comment: string = '';
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() submit: EventEmitter<void> = new EventEmitter<void>();
   count: number = 0;
-
+  xmark = faXmark;
+  faTrash=faTrash;
+  comment: string = '';
   confirmDelete(): void {
     this.submit.emit();
   }
-
     updateCharacterCount() {
     this.count = this.comment.length;
   }

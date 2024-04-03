@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Operation} from "./operation";
+import {Operation} from "../interface/operation";
+import {UserInterface} from "../interface/user";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AuthService {
   login(username: string, password: string): boolean {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const user = usersData[username];
-    if (user && user.password === password) {
+    if (user && user.password == password) {
       localStorage.setItem('isLoggedIn', username);
       return true;
     } else {
@@ -41,9 +42,18 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn');
   }
 
-  registration(username: string, password: string, name: string, uid: string, income: number, outgoing: number, currentBalance: number, balance: number): void {
+  registration(user: UserInterface): void {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    usersData[username] = {username, password, name, balance, income, outgoing, uid, currentBalance};
+    usersData[user.username] = {
+      username: user.username,
+      password: user.password,
+      name: user.name,
+      uid: user.uid,
+      income: user.income,
+      outgoing: user.outgoing,
+      balance: user.balance,
+      currentBalance: user.currentBalance
+    };
     localStorage.setItem('users', JSON.stringify(usersData));
   }
 
@@ -56,7 +66,7 @@ export class AuthService {
   }
 
   removeUser(username: string): void {
-    const usersData: { [key: string]: any } = JSON.parse(localStorage.getItem('users') ?? '{}');
+    const usersData: { [key: string]: UserInterface } = JSON.parse(localStorage.getItem('users') ?? '{}');
     const operations: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
     const filteredOperations = operations.filter(operation => operation.from !== username && operation.to !== username);
     Object.keys(usersData).forEach(userKey => {

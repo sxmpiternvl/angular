@@ -1,7 +1,6 @@
 import { animate, style, transition, trigger, query, group } from '@angular/animations';
 
 export const sAnimation = trigger('routeAnimations', [
-
   transition('* <=> *', [
     group([
       query(':leave', [

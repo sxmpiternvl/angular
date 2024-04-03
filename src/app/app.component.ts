@@ -1,16 +1,14 @@
 import {Component} from '@angular/core';
 import {ChildrenOutletContexts, RouterOutlet} from '@angular/router';
-import { RouterLink } from "@angular/router";
-import { AuthService } from "./auth-service";
-import { CommonModule } from "@angular/common";
-import { RouterLinkActive } from "@angular/router";
-import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import { faSignature } from "@fortawesome/free-solid-svg-icons";
-import { faPiggyBank } from "@fortawesome/free-solid-svg-icons";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {sAnimation} from "./animation";
+import {RouterLink} from "@angular/router";
+import {AuthService} from "./services/auth-service";
+import {CommonModule} from "@angular/common";
+import {RouterLinkActive} from "@angular/router";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faUsers} from "@fortawesome/free-solid-svg-icons";
+import {faSignature} from "@fortawesome/free-solid-svg-icons";
+import {faPiggyBank} from "@fortawesome/free-solid-svg-icons";
+import {sAnimation} from "./animation/animation";
 
 @Component({
   selector: 'app-root',
@@ -18,7 +16,7 @@ import {sAnimation} from "./animation";
   imports: [RouterOutlet, RouterLink, CommonModule, RouterLinkActive, FaIconComponent],
   templateUrl: 'app.component.html',
   styleUrl: './app.component.css',
-   animations: [sAnimation]
+  animations: [sAnimation]
 })
 
 export class AppComponent {
@@ -44,8 +42,8 @@ export class AppComponent {
     return this.authService.getCurrentUsername();
   }
 
- getDate(): string {
-  return new Date().toLocaleDateString('ru-RU');
-}
+  getDate(): string {
+    return new Date().toLocaleDateString('ru-RU');
+  }
 
 }
