@@ -24,39 +24,31 @@
       </svg>
       <div class="flex-col justify-between text-gray-500 ">
         <ul>
-          <div class="flex align-text-top">
-            <fa-icon [icon]="faUsers" class="text-gray-500"></fa-icon>
+          @for (link of links; track link) {
+            <div class="flex align-text-top font-bold">
+              <fa-icon [icon]="link.icon" [ngClass]="{'text-blue-600': rla.isActive}"></fa-icon>
+              <li class="pb-4 ml-2.5">
+                <a [routerLink]="link.path" routerLinkActive="active text-blue-600" #rla="routerLinkActive">{{ link.label }}</a>
+              </li>
+            </div>
+          }
 
-            <li class="pb-4 ml-2.5 "><a routerLink="/allUsers" routerLinkActive=text-blue-600
-                                        class="hover:text-blue-700 font-semibold">Пользователи</a></li>
-          </div>
-          <div class="flex">
-            <fa-icon [icon]="faSignature" class="text-gray-500"></fa-icon>
-            <li class="pb-4 ml-2.5"><a routerLink="/operations" routerLinkActive=text-blue-600
-                                       class="hover:text-blue-700 font-semibold">Операции</a></li>
-          </div>
-          <div class="flex">
-            <fa-icon [icon]="faPiggy" class="text-gray-500"></fa-icon>
-
-            <li class="pb-4 ml-2.5"><a routerLink="/balances" routerLinkActive=text-blue-600
-                                       class="hover:text-blue-700 font-semibold">Балансы</a></li>
-          </div>
-          <div *ngIf="!isLoggedIn()" class="flex">
-            <fa-icon [icon]="faSignature" class="text-gray-500"></fa-icon>
-            <li class="pb-4 ml-2.5"><a routerLink="/"
-                                       class="hover:text-blue-700 font-semibold">Login</a></li>
-          </div>
+          @if (!isLoggedIn()) {
+            <div class="flex fixed bottom-10 hover:text-blue-600 items-center">
+              <li class="pb-4 ml-2.5"><a routerLink="/"
+                                         class="hover:text-blue-700 font-bold ">Login</a></li>
+            </div>
+          } @else {
+            <div class="flex fixed bottom-10 hover:text-blue-600">
+              <fa-icon [icon]="faLock"></fa-icon>
+              <button (click)="logout()"
+                      routerLink="/allUsers"
+                      class="pb-4 text-left  font-bold ml-2.5">Выйти из системы
+              </button>
+            </div>
+          }
         </ul>
-        <div *ngIf="isLoggedIn()" class="flex fixed bottom-10">
-          <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M2.1875 6V4.6875C2.1875 2.52734 3.9375 0.75 6.125 0.75C8.28516 0.75 10.0625 2.52734 10.0625 4.6875V6H10.5C11.457 6 12.25 6.79297 12.25 7.75V13C12.25 13.9844 11.457 14.75 10.5 14.75H1.75C0.765625 14.75 0 13.9844 0 13V7.75C0 6.79297 0.765625 6 1.75 6H2.1875ZM3.9375 6H8.3125V4.6875C8.3125 3.48438 7.32812 2.5 6.125 2.5C4.89453 2.5 3.9375 3.48438 3.9375 4.6875V6Z"
-              fill="#403AFF"/>
-          </svg>
-          <button (click)="logout()"
-                  class="pb-4 text-left text-blue-600 font-semibold ml-2.5">Выйти из системы
-          </button>
-        </div>
+
       </div>
     </nav>
   </div>
@@ -66,8 +58,11 @@
     </div>
   </div>
 </div>
-<div *ngIf="isLoggedIn()" class="fixed bottom-0 left-0 w-full text-black px-4 border-t-2 bg-white">
-  <p class="align-middle pl-96 text-right text-black"><span class="p-4 ">Сегодня: <span
-    class="font-bold">{{getDate()}}</span> </span> Текущий пользователь: <span
-    class="font-bold"> {{getCurrentUsername()}}</span></p>
-</div>
+@if (isLoggedIn()) {
+  <div class="fixed bottom-0 left-0 w-full text-black px-4 border-t-2 bg-white">
+    <p class="align-middle pl-96 text-right text-black"><span class="p-4 ">Сегодня: <span
+      class="font-bold">{{ getDate() }}</span> </span> Текущий пользователь: <span
+      class="font-bold"> {{ getCurrentUsername() }}</span></p>
+  </div>
+}
+

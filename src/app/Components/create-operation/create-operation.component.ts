@@ -22,6 +22,7 @@ import {UserInterface} from "../../interface/user";
 
 export class CreateOperationComponent {
   @Output() close = new EventEmitter<void>();
+  allowedRegex = /^[0-9]*\.?[0-9]*$/;
   currentUsername: string = this.authService.getCurrentUsername();
   amount: string = '';
   comment: string = '';
@@ -82,13 +83,13 @@ export class CreateOperationComponent {
     if (event.key.length > 1) {
       return;
     }
-    const allowedRegex = /^[0-9]*\.?[0-9]*$/;
+
     const newAmount = this.amount + event.key;
     if (event.key == '.' && !this.amount) {
       this.amount = '0.';
       event.preventDefault();
     }
-    if (!allowedRegex.test(newAmount)) {
+    if (!this.allowedRegex.test(newAmount)) {
       event.preventDefault();
     }
   }
@@ -97,6 +98,13 @@ export class CreateOperationComponent {
     if (event.key == ' ' && this.comment.endsWith(' ')) {
       event.preventDefault();
     }
+  }
+
+  isAmountAvailable(): boolean {
+    const amountNumber = parseFloat(this.amount);
+    const currentUser = this.userList.find(user => user.username == this.currentUsername);
+    if (!currentUser) return false;
+    return amountNumber > currentUser.currentBalance;
   }
 
 }

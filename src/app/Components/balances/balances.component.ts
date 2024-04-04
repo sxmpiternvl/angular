@@ -29,6 +29,7 @@ export class BalancesComponent {
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
+
   }
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
@@ -40,7 +41,7 @@ export class BalancesComponent {
   getTotalIncome(): number {
     let totalIncome = 0;
     for (const user of this.allUsers) {
-      totalIncome += user.income;
+      totalIncome += (user.income+user.balance);
     }
     return totalIncome;
   }

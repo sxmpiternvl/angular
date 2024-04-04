@@ -1,101 +1,66 @@
- .remove-arrow::-webkit-inner-spin-button,
-        .remove-arrow::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+@use "sass:map";
 
-        .remove-arrow {
-            -moz-appearance: textfield;
-        }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.custom-btn-primary {
-  @apply rounded-xl pt-1.5 px-3 w-fit text-center h-10 text-primary border-2 border-primary align-text-bottom
-                    hover:bg-blue-700 hover:text-white transition-colors;
+body {
+  background-color: #f8f7f7;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.custom-btn-secondary {
-  @apply px-4 py-2 bg-secondary text-white rounded-md shadow-md hover:bg-secondary-dark;
+th {
+  @apply px-4 pb-2.5 w-[20%] p-2.5;
 }
 
-.custom-btn-error {
-  @apply rounded-xl pt-1.5 px-3 w-fit text-center h-10 text-error border-2 border-error align-text-bottom
-                    hover:bg-error hover:text-white transition-colors  ;
+td {
+  @apply px-4 py-2.5 w-[20%] text-center;
 }
 
-.custom-btn-success {
-  @apply px-4 py-2 bg-success text-white rounded-md shadow-md hover:bg-success-dark;
+::-webkit-scrollbar {
+  display: none;
 }
 
-.custom-btn-neutral {
-  @apply bg-black px-4 py-2 rounded-xl mx-4 ml-10 w-32 text-white flex items-center justify-center;
-}
-
-.custom-btn-base {
-  @apply px-4 py-2 bg-base text-neutral rounded-md shadow-md hover:bg-base-dark;
-}
-
-.stat-primary {
-  @apply bg-primary rounded-xl px-2 py-2 w-12 text-2xl text-center;
-}
-
-.stat-secondary {
-  @apply bg-secondary rounded-xl px-2 py-2 w-12 text-2xl text-center;
-}
-
-.stat-error {
-  @apply bg-error rounded-xl px-2 py-2 w-12 text-2xl text-center;
-}
-
-.stat-success {
-  @apply bg-success rounded-xl px-2 py-2 w-12 text-2xl text-center;
-}
-
-.stat-neutral {
-  @apply bg-neutral rounded-xl px-2 py-2 w-12 text-2xl text-center;
-}
-
-.stat-base {
-  @apply bg-base rounded-xl px-2 py-2 w-12 text-2xl text-center;
-}
-
-.custom-submit-button{
- @apply content-center text-center border-primary border border-solid rounded-2xl py-1 hover:text-white hover:bg-primary duration-500;
+input {
+  @apply bg-slate-50 rounded-2xl px-2 py-2 w-full mb-2 mt-2 focus:outline-none;
 }
 
 .alert {
-  @apply items-center text-center border-primary border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px];
+  @apply items-center text-center border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px];
 }
+
 .error-block {
-  @apply bg-white  py-4   text-error
+  @apply bg-white py-4 text-error
 }
 
- th{
- @apply p-2.5;
+$primary: "blue-700";
+$secondary: "gray-500";
+$success: "green-500";
+$error: "red-500";
+$neutral: "black";
+
+$colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "error": $error,
+  "neutral": $neutral
+);
+
+@each $name, $color in $colors {
+  .custom-btn-#{$name} {
+    @apply text-#{$color} border-#{$color} rounded-xl px-3 content-center text-center h-10 border hover:bg-#{$color}
+    hover:text-white transition-colors;
+  }
+  .custom-btn-#{$name}-filled {
+    @apply bg-#{$color} text-white border-#{$color} rounded-xl px-3 content-center text-center h-10 border hover:text-white
+    transition-colors;
+  }
+  .stat-#{$name} {
+    @apply bg-#{$color} rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
+  }
 }
-
-
-$primary: #3498db;
-$primary-dark: #2980b9;
-$primary-light: #5da5db;
-
-
-$secondary: #2ecc71;
-$secondary-dark: #27ae60;
-$secondary-light: #52d98b;
-
-
-$accent: #f39c12;
-$accent-dark: #d35400;
-$accent-light: #ffbf7f;
-
-
-$success: #2ecc71;
-$error: #e74c3c;
-
-
-$text-color: #333;
-$background-color: #fff;
-
 
 
 

@@ -9,6 +9,8 @@ import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {faSignature} from "@fortawesome/free-solid-svg-icons";
 import {faPiggyBank} from "@fortawesome/free-solid-svg-icons";
 import {sAnimation} from "./animation/animation";
+import {faLock} from "@fortawesome/free-solid-svg-icons";
+import {timeout} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -20,14 +22,14 @@ import {sAnimation} from "./animation/animation";
 })
 
 export class AppComponent {
-  faUsers = faUsers;
-  faSignature = faSignature;
-  faPiggy = faPiggyBank;
+  links = [
+    { path: '/allUsers', icon: faUsers, label: 'Пользователи' },
+    { path: '/operations', icon: faSignature, label: 'Операции' },
+    { path: '/balances', icon: faPiggyBank, label: 'Балансы' },
+  ];
   title = 'home';
-
   constructor(private authService: AuthService, private contexts: ChildrenOutletContexts) {
   }
-
 
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
@@ -35,15 +37,16 @@ export class AppComponent {
 
   logout(): void {
     this.authService.logout();
-    location.reload();
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   }
-
   getCurrentUsername(): string {
     return this.authService.getCurrentUsername();
   }
-
   getDate(): string {
     return new Date().toLocaleDateString('ru-RU');
   }
 
+  protected readonly faLock = faLock;
 }

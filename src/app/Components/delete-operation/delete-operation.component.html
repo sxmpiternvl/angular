@@ -10,13 +10,13 @@
       Символов: {{ count }}/10-255</p>
   </div>
   <div class="grid grid-cols-2 pt-4">
-    <button class="custom-btn-neutral" (click)="this.close.emit()">
+    <button class="custom-btn-neutral-filled mx-4" (click)="this.close.emit()">
       <fa-icon [icon]="xmark" class="text-white"></fa-icon>
-      <span  class="text-white pl-1">Отменить</span>
+      <span  class="pl-1">Отменить</span>
     </button>
     <button (click)="confirmDelete()">
-      <div class="custom-btn-error text-white" id="newOperation">
-      <fa-icon [icon]="faTrash" class="text-error  pr-1"></fa-icon>
+      <div class="custom-btn-error mx-2" >
+      <fa-icon [icon]="faTrash" class="pr-1"></fa-icon>
       <button class=>Да, удалить запись</button>
     </div>
     </button>

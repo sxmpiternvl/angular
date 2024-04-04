@@ -2,19 +2,19 @@
   <div class="bg-white flex-1 overflow-y-scroll rounded-2xl">
     <p class="fixed sticky top-0 bg-white  overflow-hidden mb-2 text-4xl p-4">Балансы пользователей</p>
     @if (!isLoggedIn()) {
-      <div *ngFor="let user of allUsers" class="">
+      <div *ngFor="let user of allUsers">
         <p class="px-4 text-2xl font-light"> {{ user.username }}</p>
         <div class="grid grid-cols-3 border-b p-4 mb-2.5">
           <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
+            <div class="stat-success">
               <fa-icon [icon]="faTrendUp"></fa-icon>
             </div>
             <div class=""><p>Всего приход</p>
-              <p>{{ user.income+user.balance }}</p>
+              <p>{{ user.income + user.balance }}</p>
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
+            <div class="stat-error">
               <fa-icon [icon]="faTrendDown"></fa-icon>
             </div>
             <div class=""><p>Всего расход</p>
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
-            <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
+            <div class="stat-primary">
               <fa-icon [icon]="faPiggy"></fa-icon>
             </div>
             <div class=""><p>Баланс</p>
@@ -35,15 +35,15 @@
     } @else {
       <div class="grid grid-cols-3 border-b p-4 mb-2.5">
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-success">
             <fa-icon [icon]="faTrendUp"></fa-icon>
           </div>
           <div class=""><p>Всего приход</p>
-            <p>{{currentUser!.income + currentUser!.balance}}</p>
+            <p>{{ currentUser!.income + currentUser!.balance }}</p>
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-error">
             <fa-icon [icon]="faTrendDown"></fa-icon>
           </div>
           <div class=""><p>Всего расход</p>
@@ -51,12 +51,12 @@
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
-          <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
+          <div class="stat-primary">
             <fa-icon [icon]="faPiggy"></fa-icon>
           </div>
           <div class=""><p>Баланс</p>
             <p>
-              {{currentUser!.currentBalance}}</p>
+              {{ currentUser!.currentBalance }}</p>
           </div>
         </div>
       </div>
@@ -67,38 +67,38 @@
     <p class=" pt-4 pb-2 px-4 text-2xl">Итог</p>
     <div class="px-4  grid grid-cols-3 pb-4">
       <div class="flex gap-2 flex-row items-center ">
-        <div class="rounded-xl bg-success px-2 py-2 w-12 text-2xl text-center">
+        <div class="stat-success">
           <fa-icon [icon]="faTrendUp"></fa-icon>
         </div>
         <div class=""><p>Всего приход </p>
           @if (!isLoggedIn()) {
             <p>{{ getTotalIncome() }}</p>
           } @else {
-            <p>{{ currentUser!.income }}</p>
+            <p>{{ currentUser!.income + currentUser!.balance }}</p>
           }
         </div>
       </div>
       <div class="flex gap-2 flex-row items-center">
-        <div class="rounded-xl bg-error px-2 py-2 w-12 text-2xl text-center">
+        <div class="stat-error">
           <fa-icon [icon]="faTrendDown"></fa-icon>
         </div>
         <div class=""><p>Всего расход</p>
           @if (!isLoggedIn()) {
-            <p>{{getTotalOutgoing()}}</p>
+            <p>{{ getTotalOutgoing() }}</p>
           } @else {
-            <p>{{currentUser!.outgoing}}</p>
+            <p>{{ currentUser!.outgoing }}</p>
           }
         </div>
       </div>
       <div class="flex gap-2 flex-row items-center">
-        <div class="rounded-xl bg-primary px-2 py-2 w-12 text-2xl text-center">
+        <div class="stat-primary">
           <fa-icon [icon]="faPiggy"></fa-icon>
         </div>
         <div class=""><p>Баланс</p>
           @if (!isLoggedIn()) {
             <p>{{ getTotalBalance() }}</p>
           } @else {
-            <p>{{currentUser!.currentBalance}}</p>
+            <p>{{ currentUser!.currentBalance }}</p>
           }
         </div>
       </div>
