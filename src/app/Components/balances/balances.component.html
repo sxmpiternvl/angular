@@ -10,7 +10,7 @@
               <fa-icon [icon]="faTrendUp"></fa-icon>
             </div>
             <div class=""><p>Всего приход</p>
-              <p>{{ user.income + user.balance }}</p>
+              <p>{{ getTotalIncomeBalance(user) }}</p>
             </div>
           </div>
           <div class="flex gap-2 flex-row items-center">
@@ -39,7 +39,7 @@
             <fa-icon [icon]="faTrendUp"></fa-icon>
           </div>
           <div class=""><p>Всего приход</p>
-            <p>{{ currentUser!.income + currentUser!.balance }}</p>
+            <p>{{ getTotalIncomeBalance(currentUser!) }}</p>
           </div>
         </div>
         <div class="flex gap-2 flex-row items-center">
@@ -74,7 +74,7 @@
           @if (!isLoggedIn()) {
             <p>{{ getTotalIncome() }}</p>
           } @else {
-            <p>{{ currentUser!.income + currentUser!.balance }}</p>
+            <p>{{ getTotalIncomeBalance(currentUser!) }}</p>
           }
         </div>
       </div>

@@ -63,5 +63,11 @@ export class BalancesComponent {
     return totalBalance;
   }
 
+  getTotalIncomeBalance(user: UserInterface): number {
+    return user.income + user.balance;
+  }
+
+
+
 }
 
