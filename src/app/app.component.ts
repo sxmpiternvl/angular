@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ChildrenOutletContexts, RouterOutlet} from '@angular/router';
+import {ChildrenOutletContexts, Router, RouterOutlet} from '@angular/router';
 import {RouterLink} from "@angular/router";
 import {AuthService} from "./services/auth-service";
 import {CommonModule} from "@angular/common";
@@ -28,7 +28,7 @@ export class AppComponent {
     { path: '/balances', icon: faPiggyBank, label: 'Балансы' },
   ];
   title = 'home';
-  constructor(private authService: AuthService, private contexts: ChildrenOutletContexts) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   isLoggedIn(): boolean {
@@ -37,8 +37,8 @@ export class AppComponent {
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/login'])
     setTimeout(() => {
-      location.reload();
     }, 100);
   }
   getCurrentUsername(): string {
@@ -47,6 +47,7 @@ export class AppComponent {
   getDate(): string {
     return new Date().toLocaleDateString('ru-RU');
   }
+
 
   protected readonly faLock = faLock;
 }

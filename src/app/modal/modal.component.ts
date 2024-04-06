@@ -6,13 +6,16 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div *ngIf="isVisible">
-      <div class="bg-black fixed top-0 left-0 h-full w-full bg-opacity-40 flex justify-center items-center">
-        <div class="bg-white relative rounded-2xl p-[32px] gap-2">
-        <ng-container *ngTemplateOutlet="content ?? null"></ng-container>
+    @if (isVisible) {
+      <div>
+        <div class="bg-black fixed top-0 left-0 h-full w-full bg-opacity-40 flex justify-center items-center">
+          <div class="bg-white relative rounded-2xl p-[32px] gap-2">
+            <ng-container *ngTemplateOutlet="content ?? null"></ng-container>
+          </div>
+        </div>
       </div>
-      </div>
-    </div>
+    }
+
   `,
   styleUrl: './modal.component.css'
 })

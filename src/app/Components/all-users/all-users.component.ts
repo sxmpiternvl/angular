@@ -3,8 +3,7 @@ import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {AuthService} from "../../services/auth-service";
 import {Operation} from "../../interface/operation";
@@ -26,9 +25,11 @@ export class AllUsersComponent {
   plus = faPlus;
   operations: string | null = '';
 
+
   constructor(private userService: UserService, private authService: AuthService) {
     this.getUsers();
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
+
   }
 
   getUsers(): void {
@@ -39,6 +40,7 @@ export class AllUsersComponent {
     const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
     if (removeUser) {
       this.operations = localStorage.getItem('operations');
+      console.log(this.operations);
       const usersData = JSON.parse(localStorage.getItem('users') || '{}');
       if (this.operations) {
         const allOperations: Operation[] = JSON.parse(this.operations);
@@ -63,6 +65,7 @@ export class AllUsersComponent {
       this.allUsers = this.allUsers.filter(user => user.username != username);
     }
   }
+
 
 }
 

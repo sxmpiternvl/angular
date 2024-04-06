@@ -5,7 +5,7 @@
       <div class="stat-primary">
         <fa-icon [icon]="faUser"></fa-icon>
       </div>
-      <div class="text-blue-700">
+      <div class="text-primary">
         <p>Всего пользователей</p>
         <p>{{ allUsers.length }}</p>
       </div>
@@ -18,9 +18,9 @@
         @if (!currentUser) {
           <button class="flex justify-end px-4 pt-2" (click)="registrationModal.open()">
             <div
-                 class="custom-btn-primary">
+              class="custom-btn-primary">
               <p> Новый пользователь
-                <fa-icon [icon]="plus" ></fa-icon>
+                <fa-icon [icon]="plus"></fa-icon>
               </p>
             </div>
           </button>
@@ -28,7 +28,7 @@
       </div>
       <div class="bg-white rounded-2xl">
         <table class="w-full">
-          <thead class="sticky top-0 bg-neutral-100 rounded-2xl p-16">
+          <thead class="sticky top-0 bg-gray-100 rounded-2xl p-16">
           <tr>
             <th>Имя</th>
             <th>Логин</th>
@@ -38,15 +38,17 @@
           <div class="sticky top-0">
           </div>
           <tbody class="w-full">
-          <tr *ngFor="let user of allUsers; let i = index">
-            <td class="">{{ user.name }}</td>
-            <td class="">{{ user.username }}</td>
-            <td class="">
-              <button (click)="remove(user.username)">
-                <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
-              </button>
-            </td>
-          </tr>
+            @for (user of allUsers; track user.uid) {
+              <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>
+                  <button (click)="remove(user.username)">
+                    <fa-icon [icon]="trash" class="text-black ml-4"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>
@@ -55,6 +57,6 @@
 </div>
 <app-modal #registrationModal [content]="modalRegistrationContent">
   <ng-template #modalRegistrationContent>
-    <app-registration (close)="registrationModal.close()"></app-registration>
+    <app-registration (close)="registrationModal.close();this.getUsers()"></app-registration>
   </ng-template>
 </app-modal>

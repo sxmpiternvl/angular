@@ -37,32 +37,34 @@
             <fa-icon [icon]="faLock" class="text-black absolute left-11 top-[382px]"></fa-icon>
           </i>
         </div>
-        <div class="flex items-center gap-2 text-blue-700">
-          <input type="checkbox" class="w-fit h-4 mr-2 border-blue-700 border-2 p-2" id="checkbox">
-          <label for="checkbox" class="text-blue-700">Запомнить меня</label>
+        <div class="flex items-center gap-2 text-primary">
+          <input type="checkbox" class="w-fit h-4 mr-2 border-primary border-2 p-2" id="checkbox">
+          <label for="checkbox" class="text-primary">Запомнить меня</label>
         </div>
-        <button  [disabled]="!registrationForm.valid" type="submit"  class="custom-btn-primary text-primary">
+        <button [disabled]="!registrationForm.valid" type="submit" class="custom-btn-primary text-primary">
           <i>
             <fa-icon [icon]="faSave" class="pr-2"></fa-icon>
           </i>
           <span>Создать пользователя</span>
         </button>
       </div>
-      <div *ngIf="error"
-           class="error-block">
-        <div class="alert">
-          <fa-icon [icon]="faLock" class="text-error px-4"></fa-icon>
-          <div class="border-l border-error px-4">
-            <p class=" px-4">Логин уже есть в
-              системе.<br>
-              Пароли не совпадают </p>
+      @if (error) {
+        <div
+          class="error-block">
+          <div class="alert">
+            <fa-icon [icon]="faLock" class="text-error px-4"></fa-icon>
+            <div class="border-l border-error px-4">
+              <p class=" px-4">Логин уже есть в
+                системе.<br>
+                Пароли не совпадают </p>
+            </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   </form>
 </div>
-<div class="absolute right-2 top-2">
+<div class="absolute right-4 top-4">
   <button (click)="this.close.emit()">
     X
   </button>

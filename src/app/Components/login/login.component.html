@@ -1,4 +1,4 @@
-<div class="bg-neutral-100 fixed top-0 left-0 h-screen w-full">
+<div class="bg-gray-100 fixed top-0 left-0 h-screen w-full">
   <div class="fixed top-0   w-full grid grid-rows-1 grid-cols-2 justify-items-end py-3 px-10">
     <svg width="171" height="32" viewBox="0 0 171 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -22,30 +22,30 @@
       Пользователи
     </a>
   </div>
-  <div class="absolute left-[39%] top-[15%] bg-white p-8 rounded-2xl w-[22%] shadow-md text-blue-700 ">
+  <div class="absolute left-[39%] top-[15%] bg-white p-8 rounded-2xl w-[22%] shadow-md text-primary ">
 
     <div class="text-center">
-      <fa-icon [icon]="faFinger" class="text-blue-700 text-[72px]"></fa-icon>
+      <fa-icon [icon]="faFinger" class="text-primary text-[72px]"></fa-icon>
     </div>
     <h2 class="text-2xl text-center pb-6 text-black">Вход в систему</h2>
     <form (ngSubmit)="login()" #loginForm="ngForm">
       <div class="relative">
         <label for="username">Логин</label>
         <input type="text" id="username" name="username" required minlength="3" [(ngModel)]="username"
-               pattern="[a-zA-Z]*" class=" bg-blue-100 pl-10">
+               pattern="[a-zA-Z]*" class=" bg-primary-100 pl-10">
         <i>
-          <fa-icon [icon]="faUser" class="absolute text-blue-700 left-3 top-10"></fa-icon>
+          <fa-icon [icon]="faUser" class="absolute text-primary left-3 top-10"></fa-icon>
         </i>
         <i>
-          <fa-icon [icon]="faCalendar" class="text-blue-700 absolute right-3 top-10"></fa-icon>
+          <fa-icon [icon]="faCalendar" class="text-primary absolute right-3 top-10"></fa-icon>
         </i>
       </div>
       <div class="relative">
         <label for="password">Пароль</label>
         <input type="password" id="password" name="password" required minlength="6" [(ngModel)]="password"
-               class=" bg-blue-100 pl-10">
+               class=" bg-primary-90 pl-10">
         <i>
-          <fa-icon [icon]="faLock" class="text-blue-700 absolute left-3 top-10"></fa-icon>
+          <fa-icon [icon]="faLock" class="text-primary absolute left-3 top-10"></fa-icon>
         </i>
       </div>
       <div  (click)="login()"

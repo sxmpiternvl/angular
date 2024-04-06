@@ -32,93 +32,63 @@ input {
 }
 
 .custom-btn-primary {
-  color: #4f46e5;
-  border-color: #4f46e5;
-  @apply rounded-xl px-3 py-1.5 text-center border  hover:text-white transition-colors;
+  @apply text-primary border-primary rounded-xl px-3 py-1.5 text-center border hover:bg-primary  hover:text-white transition-colors;
 }
 
 .custom-btn-primary-filled {
-  background-color: #4f46e5;
-  color: white;
-  border-color: #4f46e5;
-  @apply rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
+  @apply text-white border-primary bg-primary rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
 }
 
 .stat-primary {
-  background-color: #4f46e5;
-  @apply rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
+  @apply bg-primary rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
 .custom-btn-secondary {
-  color: #6b7280;
-  border-color: #6b7280;
-  @apply rounded-xl px-3 py-1.5 text-center border  hover:text-white transition-colors;
+  @apply text-secondary border-secondary rounded-xl px-3 py-1.5 text-center border hover:bg-secondary  hover:text-white transition-colors;
 }
 
 .custom-btn-secondary-filled {
-  background-color: #6b7280;
-  color: white;
-  border-color: #6b7280;
-  @apply rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
+  @apply text-white border-secondary bg-secondary rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
 }
 
 .stat-secondary {
-  background-color: #6b7280;
-  @apply rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
+  @apply bg-secondary rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
 .custom-btn-success {
-  color: #10b981;
-  border-color: #10b981;
-  @apply rounded-xl px-3 py-1.5 text-center border  hover:text-white transition-colors;
+  @apply text-success border-success rounded-xl px-3 py-1.5 text-center border hover:bg-success  hover:text-white transition-colors;
 }
 
 .custom-btn-success-filled {
-  background-color: #10b981;
-  color: white;
-  border-color: #10b981;
-  @apply rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
+  @apply text-white border-success bg-success rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
 }
 
 .stat-success {
-  background-color: #10b981;
-  @apply rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
+  @apply bg-success rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
 .custom-btn-error {
-  color: #ef4444;
-  border-color: #ef4444;
-  @apply rounded-xl px-3 py-1.5 text-center border  hover:text-white transition-colors;
+  @apply text-error border-error rounded-xl px-3 py-1.5 text-center border hover:bg-error  hover:text-white transition-colors;
 }
 
 .custom-btn-error-filled {
-  background-color: #ef4444;
-  color: white;
-  border-color: #ef4444;
-  @apply rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
+  @apply text-white border-error bg-error rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
 }
 
 .stat-error {
-  background-color: #ef4444;
-  @apply rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
+  @apply bg-error rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
 .custom-btn-neutral {
-  color: #000000;
-  border-color: #000000;
-  @apply rounded-xl px-3 py-1.5 text-center border  hover:text-white transition-colors;
+  @apply text-neutral border-neutral rounded-xl px-3 py-1.5 text-center border hover:bg-neutral  hover:text-white transition-colors;
 }
 
 .custom-btn-neutral-filled {
-  background-color: #000000;
-  color: white;
-  border-color: #000000;
-  @apply rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
+  @apply text-white border-neutral bg-neutral rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
 }
 
 .stat-neutral {
-  background-color: #000000;
-  @apply rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
+  @apply bg-neutral rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
 /*# sourceMappingURL=styles.css.map */

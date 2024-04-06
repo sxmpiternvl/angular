@@ -80,6 +80,7 @@ export class CreateOperationComponent {
     return new Date().toLocaleDateString('ru-RU');
   }
   validateKey(event: KeyboardEvent): void {
+
     if (event.key.length > 1) {
       return;
     }

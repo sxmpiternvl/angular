@@ -60,8 +60,9 @@ export class RegistrationComponent {
 
       this.authService.registration(newUser);
       this.authService.login(this.username, this.password);
-      this.router.navigate(['operations']);
+      this.close.emit();
     }
+
   }
   isSpace(event:any){
     if (event.key == ' '){
