@@ -4,10 +4,8 @@ import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faLock} from "@fortawesome/free-solid-svg-icons";
-import {faSave} from "@fortawesome/free-solid-svg-icons";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {UserInterface} from "../../interface/user";
+import {faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-registration',
@@ -23,13 +21,9 @@ import {UserInterface} from "../../interface/user";
 })
 export class RegistrationComponent {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  faLock = faLock;
-  faSave = faSave;
-  faUser = faUser;
 
   constructor(private authService: AuthService, private router: Router) {
   }
-
   uid: string = Date.now().toString();
   confirmPassword: string = '';
   username: string = '';
@@ -46,7 +40,7 @@ export class RegistrationComponent {
       this.error = true;
       return;
     }
-    if (this.username && this.password && this.name && this.uid) {
+    if (this.username && this.password && this.name) {
       const newUser: UserInterface = {
         username: this.username,
         password: this.password,
@@ -70,4 +64,7 @@ export class RegistrationComponent {
     }
   }
 
+  protected readonly faUser = faUser;
+  protected readonly faLockOpen = faLockOpen;
+  protected readonly faSave = faSave;
 }

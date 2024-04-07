@@ -38,14 +38,15 @@ export class AppComponent {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login'])
-    setTimeout(() => {
-    }, 100);
   }
   getCurrentUsername(): string {
     return this.authService.getCurrentUsername();
   }
   getDate(): string {
     return new Date().toLocaleDateString('ru-RU');
+  }
+  navigate(path: string): void {
+    this.router.navigate([path]);
   }
 
 

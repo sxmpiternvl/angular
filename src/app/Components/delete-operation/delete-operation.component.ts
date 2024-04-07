@@ -2,8 +2,8 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
+
 
 @Component({
   selector: 'app-delete-operation',
@@ -16,8 +16,6 @@ export class DeleteOperationComponent {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
   @Output() submit: EventEmitter<void> = new EventEmitter<void>();
   count: number = 0;
-  xmark = faXmark;
-  faTrash=faTrash;
   comment: string = '';
   confirmDelete(): void {
     this.submit.emit();
@@ -26,4 +24,6 @@ export class DeleteOperationComponent {
     this.count = this.comment.length;
   }
 
+  protected readonly faXmark = faXmark;
+  protected readonly faTrash = faTrash;
 }

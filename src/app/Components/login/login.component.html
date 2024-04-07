@@ -18,14 +18,14 @@
         fill="black"/>
     </svg>
     <a  class="custom-btn-primary px-2 py-2 text-primary" routerLink="/allUsers">
-      <fa-icon [icon]="faUsers"></fa-icon>
+      <fa-icon [icon]="faUser"></fa-icon>
       Пользователи
     </a>
   </div>
   <div class="absolute left-[39%] top-[15%] bg-white p-8 rounded-2xl w-[22%] shadow-md text-primary ">
 
     <div class="text-center">
-      <fa-icon [icon]="faFinger" class="text-primary text-[72px]"></fa-icon>
+      <fa-icon [icon]="faFingerprint" class="text-primary text-[72px]"></fa-icon>
     </div>
     <h2 class="text-2xl text-center pb-6 text-black">Вход в систему</h2>
     <form (ngSubmit)="login()" #loginForm="ngForm">
@@ -56,7 +56,7 @@
       <div *ngIf="loginError"
            class="error-block">
         <div class="alert ">
-          <fa-icon [icon]="exTriangle" class="text-error pr-2"></fa-icon>
+          <fa-icon [icon]="faExclamationTriangle" class="text-error pr-2"></fa-icon>
           <div class="border-l border-amber-500">
             <p class="pl-1">Неверный логин или пароль. Повторите попытку</p>
           </div>

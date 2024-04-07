@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {CommonModule} from "@angular/common";
 import {AuthService} from "../../services/auth-service";
@@ -9,6 +9,7 @@ import {faPiggyBank} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserInterface} from "../../interface/user";
 import {Operation} from "../../interface/operation";
+
 @Component({
   selector: 'app-balances',
   standalone: true,
@@ -18,8 +19,8 @@ import {Operation} from "../../interface/operation";
   styleUrl: './balances.component.css',
 
 })
-export class BalancesComponent {
-  currentUser: UserInterface | null;
+export class BalancesComponent implements OnInit {
+  currentUser: UserInterface | null = null;
   faTrendUp = faArrowTrendUp;
   faTrendDown = faArrowTrendDown;
   faPiggy = faPiggyBank;
@@ -27,13 +28,17 @@ export class BalancesComponent {
   operations: Operation[] = [];
 
   constructor(private userService: UserService, private authService: AuthService) {
+  }
+
+  ngOnInit() {
     this.getUsers();
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
-
   }
+
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
   }
+
   getUsers(): void {
     this.allUsers = this.userService.getUsers();
   }
@@ -41,7 +46,7 @@ export class BalancesComponent {
   getTotalIncome(): number {
     let totalIncome = 0;
     for (const user of this.allUsers) {
-      totalIncome += (user.income+user.balance);
+      totalIncome += (user.income + user.balance);
     }
     return totalIncome;
   }
@@ -66,8 +71,5 @@ export class BalancesComponent {
   getTotalIncomeBalance(user: UserInterface): number {
     return user.income + user.balance;
   }
-
-
-
 }
 

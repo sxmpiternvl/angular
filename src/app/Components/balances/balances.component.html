@@ -1,6 +1,6 @@
 <div class="absolute inset-0 flex flex-col p-3 pb-10">
   <div class="bg-white flex-1 overflow-y-scroll rounded-2xl">
-    <p class="fixed sticky top-0 bg-white  overflow-hidden mb-2 text-4xl p-4">Балансы пользователей</p>
+    <p class="sticky top-0 bg-white  overflow-hidden mb-2 text-4xl p-4">Балансы пользователей</p>
     @if (!isLoggedIn()) {
       <div *ngFor="let user of allUsers">
         <p class="px-4 text-2xl font-light"> {{ user.username }}</p>

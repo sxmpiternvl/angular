@@ -4,7 +4,7 @@
     <div class="flex justify-between px-4 pb-2">
       <div class="flex gap-2 flex-row items-center">
         <div class="stat-primary">
-          <fa-icon [icon]="faHourGlasses"></fa-icon>
+          <fa-icon [icon]="faHourglassStart"></fa-icon>
         </div>
         <div class=""><p>Баланс на начало</p>
           @if (currentUser) {
@@ -16,7 +16,7 @@
       </div>
       <div class="flex gap-2 flex-row items-center">
         <div class="stat-success">
-          <fa-icon [icon]="arrowTrendUp"></fa-icon>
+          <fa-icon [icon]="faArrowTrendUp"></fa-icon>
         </div>
         <div class=""><p>Приход</p>
           @if(currentUser){
@@ -28,7 +28,7 @@
       </div>
       <div class="flex gap-2 flex-row items-center">
         <div class="stat-error">
-          <fa-icon [icon]="arrowTrendDown"></fa-icon>
+          <fa-icon [icon]="faArrowTrendDown"></fa-icon>
         </div>
         <div class="ml-4"><p>Расход</p>
           @if (currentUser){
@@ -40,7 +40,7 @@
       </div>
       <div class="flex gap-2 flex-row items-center">
         <div class="stat-primary">
-          <fa-icon [icon]="hourGlassEnd"></fa-icon>
+          <fa-icon [icon]="faHourglassEnd"></fa-icon>
         </div>
         <div class="ml-4"><p>Баланс на конец</p>
           @if (currentUser) {
@@ -61,7 +61,7 @@
           <div
                class="custom-btn-primary">
             <p> Новая операция
-              <fa-icon [icon]="plus"></fa-icon>
+              <fa-icon [icon]="faPlus"></fa-icon>
             </p>
           </div>
         </button>
@@ -87,7 +87,7 @@
           <td class="font-mono">{{ operation.amount}}</td>
           <td>
             <button>
-              <fa-icon (click)="deleteOp.open(); this.removeOperationId=operation.id" [icon]="trash"
+              <fa-icon (click)="deleteOp.open(); this.removeOperationId=operation.id" [icon]="faTrash"
                        class="text-black ml-4"></fa-icon>
             </button>
           </td>

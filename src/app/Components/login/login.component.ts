@@ -1,15 +1,19 @@
-import {Component, HostBinding} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../services/auth-service";
 import {Router, RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {faFingerprint, faUsers} from "@fortawesome/free-solid-svg-icons";
+
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faLockOpen} from "@fortawesome/free-solid-svg-icons";
-import {faLock} from "@fortawesome/free-solid-svg-icons";
-import {faCalendar} from "@fortawesome/free-solid-svg-icons";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendar,
+  faExclamationTriangle,
+  faFingerprint,
+  faLock,
+  faLockOpen,
+  faUser
+} from "@fortawesome/free-solid-svg-icons";
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -23,13 +27,6 @@ import {faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  faUsers = faUsers;
-  exTriangle = faExclamationTriangle;
-  faCalendar = faCalendar;
-  faUser = faUser;
-  faLock = faLock;
-  faLockOpen = faLockOpen;
-  faFinger = faFingerprint;
   username: string = '';
   password: string = '';
   loginError: boolean = false;
@@ -39,9 +36,7 @@ export class LoginComponent {
 
   login(): void {
     if (this.authService.login(this.username, this.password)) {
-      setTimeout(() => {
         this.router.navigate(['/operations']);
-      }, 100);
     } else {
       this.loginError = true;
     }
@@ -50,4 +45,10 @@ export class LoginComponent {
     return this.authService.isAuthenticated();
   }
 
+  protected readonly faUser = faUser;
+  protected readonly faFingerprint = faFingerprint;
+  protected readonly faCalendar = faCalendar;
+  protected readonly faLock = faLock;
+  protected readonly faLockOpen = faLockOpen;
+  protected readonly faExclamationTriangle = faExclamationTriangle;
 }

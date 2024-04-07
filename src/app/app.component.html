@@ -25,11 +25,14 @@
       <div class="flex-col justify-between text-gray-400 ">
         <ul>
           @for (link of links; track link) {
-            <div class="flex align-text-top font-bold hover:text-primary">
-              <fa-icon [icon]="link.icon" [ngClass]="{'text-primary': rla.isActive}"></fa-icon>
-              <li class="pb-4 ml-2.5">
-                <a [routerLink]="link.path" routerLinkActive="active text-primary" #rla="routerLinkActive" >{{ link.label }}</a>
-              </li>
+            <div
+              class="flex align-items-center pb-4 font-semibold hover:text-primary"
+              [routerLink]="link.path"
+              routerLinkActive="active"
+              #rla="routerLinkActive"
+              (click)="navigate(link.path)">
+              <fa-icon [icon]="link.icon" [ngClass]="{ 'text-primary': rla.isActive }"></fa-icon>
+              <span class="ml-2.5" [ngClass]="{ 'text-primary': rla.isActive }">{{ link.label }}</span>
             </div>
           }
 

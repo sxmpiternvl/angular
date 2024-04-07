@@ -1,15 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {AuthService} from "../../services/auth-service";
 import {Operation} from "../../interface/operation";
 import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../../modal/modal.component";
 import {UserInterface} from "../../interface/user";
+import {faPlus, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
 @Component({
   selector: 'app-all-users',
   standalone: true,
@@ -17,19 +16,17 @@ import {UserInterface} from "../../interface/user";
   templateUrl: 'all-users.component.html',
   styleUrl: './all-users.component.css'
 })
-export class AllUsersComponent {
-  currentUser: UserInterface | null;
+export class AllUsersComponent implements OnInit {
+  currentUser: UserInterface | null = null;
   allUsers: UserInterface[] = [];
-  faUser = faUser;
-  trash = faTrash;
-  plus = faPlus;
   operations: string | null = '';
 
 
   constructor(private userService: UserService, private authService: AuthService) {
+  }
+  ngOnInit(): void {
     this.getUsers();
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
-
   }
 
   getUsers(): void {
@@ -66,6 +63,8 @@ export class AllUsersComponent {
     }
   }
 
-
+  protected readonly faPlus = faPlus;
+  protected readonly faTrash = faTrash;
+  protected readonly faUser = faUser;
 }
 

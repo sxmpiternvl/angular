@@ -1,22 +1,21 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth-service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {CreateOperationComponent} from "../create-operation/create-operation.component";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {
-  faArrowTrendDown,
-  faArrowTrendUp,
-  faHourglassEnd,
-  faHourglassStart,
-  faPlus,
-  faTrash
-} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../../services/user.service";
 import {ModalComponent} from "../../modal/modal.component";
 import {DeleteOperationComponent} from "../delete-operation/delete-operation.component";
 import {Operation} from "../../interface/operation";
 import {UserInterface} from "../../interface/user";
+import {
+  faArrowTrendDown,
+  faArrowTrendUp,
+  faHourglassEnd,
+  faHourglassStart,
+  faPlus, faTrash
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-operations',
@@ -25,19 +24,18 @@ import {UserInterface} from "../../interface/user";
   templateUrl: 'operations.component.html',
   styleUrl: './operations.component.css',
 })
-export class OperationsComponent {
+export class OperationsComponent implements OnInit{
   filteredOperationsList: Operation[] = [];
   currentUser: UserInterface | null = null;
   removeOperationId: number = -1;
-  faHourGlasses = faHourglassStart;
-  arrowTrendUp = faArrowTrendUp;
-  arrowTrendDown = faArrowTrendDown;
-  hourGlassEnd = faHourglassEnd;
-  plus = faPlus;
-  trash = faTrash;
   constructor(private authService: AuthService, private userService: UserService) {
-    this.updateFilteredOperations();
+
   }
+
+  ngOnInit(): void {
+    this.updateFilteredOperations();
+    }
+
   updateFilteredOperations(): void {
     this.filteredOperationsList = [];
     const operationsData: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
@@ -63,12 +61,12 @@ export class OperationsComponent {
       for (let username in usersData) {
         if (usersData[username].uid == operationToRemove.fromUID) {
           sender = usersData[username];
-          sender.outgoing -= operationToRemove.amount;
-          sender.currentBalance +=operationToRemove.amount;
+          sender.outgoing -= +operationToRemove.amount;
+          sender.currentBalance += +operationToRemove.amount;
         } else if (usersData[username].uid == operationToRemove.toUID) {
           receiver = usersData[username];
-          receiver.income -= operationToRemove.amount;
-          receiver.currentBalance -= operationToRemove.amount;
+          receiver.income -= +operationToRemove.amount;
+          receiver.currentBalance -= +operationToRemove.amount;
         }
       }
       localStorage.setItem('users', JSON.stringify(usersData));
@@ -78,4 +76,10 @@ export class OperationsComponent {
     }
   }
 
+  protected readonly faHourglassStart = faHourglassStart;
+  protected readonly faArrowTrendUp = faArrowTrendUp;
+  protected readonly faArrowTrendDown = faArrowTrendDown;
+  protected readonly faHourglassEnd = faHourglassEnd;
+  protected readonly faPlus = faPlus;
+  protected readonly faTrash = faTrash;
 }

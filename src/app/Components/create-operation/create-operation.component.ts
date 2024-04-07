@@ -1,12 +1,11 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faSave} from "@fortawesome/free-solid-svg-icons";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../../services/auth-service";
 import {Operation} from "../../interface/operation";
 import {CommonModule} from "@angular/common";
 import {UserInterface} from "../../interface/user";
+import {faSave,faXmark} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-create-operation',
@@ -20,32 +19,35 @@ import {UserInterface} from "../../interface/user";
   styleUrl: './create-operation.component.css',
 })
 
-export class CreateOperationComponent {
+export class CreateOperationComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
-  allowedRegex = /^[0-9]*\.?[0-9]*$/;
+  allowedRegex = /^\d+(\.\d{0,2})?$/;
   currentUsername: string = this.authService.getCurrentUsername();
   amount: string = '';
   comment: string = '';
   userList: UserInterface[] = [];
   receiverUsername = '';
   count: number = this.comment.length;
-  faSave = faSave;
-  xmark = faXmark;
   formattedDate: any = this.getDate();
+
   constructor(private authService: AuthService) {
+  }
+
+  ngOnInit(): void {
     this.loadUserList();
   }
+
   onSubmit(): void {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     const receiverData = usersData[this.receiverUsername];
     if (currentUser && currentUser.currentBalance >= this.amount) {
-      currentUser.currentBalance -= parseFloat(this.amount);
-      currentUser.outgoing += parseFloat(this.amount);
+      currentUser.currentBalance -= +(this.amount);
+      currentUser.outgoing += +(this.amount);
       localStorage.setItem('users', JSON.stringify(usersData));
       if (receiverData) {
-        receiverData.currentBalance += parseFloat(this.amount);
-        receiverData.income += parseFloat(this.amount);
+        receiverData.currentBalance += +(this.amount);
+        receiverData.income += +(this.amount);
         localStorage.setItem('users', JSON.stringify(usersData));
         const operation: Operation = {
           id: Date.now(),
@@ -53,7 +55,7 @@ export class CreateOperationComponent {
           to: receiverData.username,
           fromUID: currentUser.uid,
           toUID: receiverData.uid,
-          amount: parseFloat(this.amount),
+          amount: +(this.amount),
           datetime: this.getDate(),
           comment: this.comment
         };
@@ -72,6 +74,7 @@ export class CreateOperationComponent {
       this.userList.push(usersData[key]);
     }
   }
+
   updateCharacterCount() {
     this.count = this.comment.length;
   }
@@ -79,8 +82,8 @@ export class CreateOperationComponent {
   getDate(): string {
     return new Date().toLocaleDateString('ru-RU');
   }
-  validateKey(event: KeyboardEvent): void {
 
+  validateKey(event: KeyboardEvent): void {
     if (event.key.length > 1) {
       return;
     }
@@ -108,4 +111,6 @@ export class CreateOperationComponent {
     return amountNumber > currentUser.currentBalance;
   }
 
+  protected readonly faXmark = faXmark;
+  protected readonly faSave = faSave;
 }
