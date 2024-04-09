@@ -24,7 +24,7 @@ input {
 }
 
 .alert {
-  @apply items-center text-center border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px];
+  @apply items-center text-center border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px] justify-center;
 }
 
 .error-block {

@@ -1,13 +1,15 @@
 <div>
   <h1 class="text-2xl pb-1">Удаление записи</h1>
   <div>
-    <p>Причина удаления</p>
-    <textarea [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
-              class="resize-none h-[120px] w-full top-0 align-text-top border-0 rounded-2xl bg-slate-50 p-3"
-              minlength="10"
-              maxlength="255"></textarea>
-    <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': count!=0 && ( count < 10 || count > 255 )}">
-      Символов: {{ count }}/10-255</p>
+    <div>
+      <p>Комментарий</p>
+      <textarea [(ngModel)]="comment" name="comment"
+                class="focus:outline-none resize-none h-[120px] w-full align-text-top border-0 rounded-2xl bg-slate-50 p-3 "
+                minlength="10" maxlength="255" appDoubleSpace ></textarea>
+      <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': comment.length != 0 &&( comment.length < 10 || comment.length > 255) }">
+        Символов: {{comment.length}}/10-255
+      </p>
+    </div>
   </div>
   <div class="grid grid-cols-2 pt-4">
     <button class="custom-btn-neutral-filled mx-4" (click)="this.close.emit()">

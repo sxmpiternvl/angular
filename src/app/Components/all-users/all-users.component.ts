@@ -20,24 +20,16 @@ export class AllUsersComponent implements OnInit {
   currentUser: UserInterface | null = null;
   allUsers: UserInterface[] = [];
   operations: string | null = '';
-
-
-  constructor(private userService: UserService, private authService: AuthService) {
+  constructor(protected userService: UserService, private authService: AuthService) {
   }
   ngOnInit(): void {
-    this.getUsers();
+    this.allUsers = this.userService.getUsers();
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
-
-  getUsers(): void {
-    this.allUsers = this.userService.getUsers();
-  }
-
-  remove(username: string): void {
+  removeUser(username: string): void {
     const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
     if (removeUser) {
       this.operations = localStorage.getItem('operations');
-      console.log(this.operations);
       const usersData = JSON.parse(localStorage.getItem('users') || '{}');
       if (this.operations) {
         const allOperations: Operation[] = JSON.parse(this.operations);
@@ -55,10 +47,10 @@ export class AllUsersComponent implements OnInit {
         const updatedOperations = allOperations.filter(operation =>
           (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
         );
+        delete  usersData[username];
         localStorage.setItem('operations', JSON.stringify(updatedOperations));
       }
       localStorage.setItem('users', JSON.stringify(usersData));
-      this.authService.removeUser(username);
       this.allUsers = this.allUsers.filter(user => user.username != username);
     }
   }

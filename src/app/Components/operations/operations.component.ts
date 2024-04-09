@@ -16,6 +16,7 @@ import {
   faHourglassStart,
   faPlus, faTrash
 } from "@fortawesome/free-solid-svg-icons";
+import Decimal from "decimal.js";
 
 @Component({
   selector: 'app-operations',
@@ -24,17 +25,17 @@ import {
   templateUrl: 'operations.component.html',
   styleUrl: './operations.component.css',
 })
-export class OperationsComponent implements OnInit{
+export class OperationsComponent implements OnInit {
   filteredOperationsList: Operation[] = [];
   currentUser: UserInterface | null = null;
   removeOperationId: number = -1;
-  constructor(private authService: AuthService, private userService: UserService) {
 
+  constructor(private authService: AuthService, private userService: UserService) {
   }
 
   ngOnInit(): void {
     this.updateFilteredOperations();
-    }
+  }
 
   updateFilteredOperations(): void {
     this.filteredOperationsList = [];
@@ -50,29 +51,6 @@ export class OperationsComponent implements OnInit{
       }
     } else {
       this.filteredOperationsList = operationsData;
-    }
-  }
-  removeOperation(operationId: number): void {
-    const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
-    const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    const operationToRemove = operationsList.find(operation => operation.id == operationId);
-    if (operationToRemove) {
-      let sender, receiver;
-      for (let username in usersData) {
-        if (usersData[username].uid == operationToRemove.fromUID) {
-          sender = usersData[username];
-          sender.outgoing -= +operationToRemove.amount;
-          sender.currentBalance += +operationToRemove.amount;
-        } else if (usersData[username].uid == operationToRemove.toUID) {
-          receiver = usersData[username];
-          receiver.income -= +operationToRemove.amount;
-          receiver.currentBalance -= +operationToRemove.amount;
-        }
-      }
-      localStorage.setItem('users', JSON.stringify(usersData));
-      const filteredOperations = operationsList.filter(operation => operation.id != operationId);
-      localStorage.setItem('operations', JSON.stringify(filteredOperations));
-      this.updateFilteredOperations();
     }
   }
 

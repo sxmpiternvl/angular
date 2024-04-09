@@ -103,7 +103,7 @@
   </app-modal>
   <app-modal #deleteOp [content]="modalDeleteOperationContent">
     <ng-template #modalDeleteOperationContent>
-      <app-delete-operation (submit)="this.removeOperation(this.removeOperationId); deleteOp.close()"
+      <app-delete-operation [operationId]="removeOperationId" (operationDeleted)="updateFilteredOperations()"
                             (close)="deleteOp.close()"></app-delete-operation>
     </ng-template>
   </app-modal>

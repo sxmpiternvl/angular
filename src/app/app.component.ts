@@ -30,14 +30,12 @@ export class AppComponent {
   title = 'home';
   constructor(private authService: AuthService, private router: Router) {
   }
-
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
   }
-
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login'])
+    this.router.navigate(['/'])
   }
   getCurrentUsername(): string {
     return this.authService.getCurrentUsername();

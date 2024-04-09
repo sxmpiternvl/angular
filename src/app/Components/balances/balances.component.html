@@ -7,7 +7,7 @@
         <div class="grid grid-cols-3 border-b p-4 mb-2.5">
           <div class="flex gap-2 flex-row items-center">
             <div class="stat-success">
-              <fa-icon [icon]="faTrendUp"></fa-icon>
+              <fa-icon [icon]="faArrowTrendUp"></fa-icon>
             </div>
             <div class=""><p>Всего приход</p>
               <p>{{ getTotalIncomeBalance(user) }}</p>
@@ -15,7 +15,7 @@
           </div>
           <div class="flex gap-2 flex-row items-center">
             <div class="stat-error">
-              <fa-icon [icon]="faTrendDown"></fa-icon>
+              <fa-icon [icon]="faArrowTrendDown"></fa-icon>
             </div>
             <div class=""><p>Всего расход</p>
               <p>{{ user.outgoing }}</p>
@@ -23,7 +23,7 @@
           </div>
           <div class="flex gap-2 flex-row items-center">
             <div class="stat-primary">
-              <fa-icon [icon]="faPiggy"></fa-icon>
+              <fa-icon [icon]="faPiggyBank"></fa-icon>
             </div>
             <div class=""><p>Баланс</p>
               <p>
@@ -36,7 +36,7 @@
       <div class="grid grid-cols-3 border-b p-4 mb-2.5">
         <div class="flex gap-2 flex-row items-center">
           <div class="stat-success">
-            <fa-icon [icon]="faTrendUp"></fa-icon>
+            <fa-icon [icon]="faArrowTrendUp"></fa-icon>
           </div>
           <div class=""><p>Всего приход</p>
             <p>{{ getTotalIncomeBalance(currentUser!) }}</p>
@@ -44,7 +44,7 @@
         </div>
         <div class="flex gap-2 flex-row items-center">
           <div class="stat-error">
-            <fa-icon [icon]="faTrendDown"></fa-icon>
+            <fa-icon [icon]="faArrowTrendDown"></fa-icon>
           </div>
           <div class=""><p>Всего расход</p>
             <p>{{ currentUser!.outgoing }}</p>
@@ -52,7 +52,7 @@
         </div>
         <div class="flex gap-2 flex-row items-center">
           <div class="stat-primary">
-            <fa-icon [icon]="faPiggy"></fa-icon>
+            <fa-icon [icon]="faPiggyBank"></fa-icon>
           </div>
           <div class=""><p>Баланс</p>
             <p>
@@ -68,7 +68,7 @@
     <div class="px-4  grid grid-cols-3 pb-4">
       <div class="flex gap-2 flex-row items-center ">
         <div class="stat-success">
-          <fa-icon [icon]="faTrendUp"></fa-icon>
+          <fa-icon [icon]="faArrowTrendUp"></fa-icon>
         </div>
         <div class=""><p>Всего приход </p>
           @if (!isLoggedIn()) {
@@ -80,7 +80,7 @@
       </div>
       <div class="flex gap-2 flex-row items-center">
         <div class="stat-error">
-          <fa-icon [icon]="faTrendDown"></fa-icon>
+          <fa-icon [icon]="faArrowTrendDown"></fa-icon>
         </div>
         <div class=""><p>Всего расход</p>
           @if (!isLoggedIn()) {
@@ -92,7 +92,7 @@
       </div>
       <div class="flex gap-2 flex-row items-center">
         <div class="stat-primary">
-          <fa-icon [icon]="faPiggy"></fa-icon>
+          <fa-icon [icon]="faPiggyBank"></fa-icon>
         </div>
         <div class=""><p>Баланс</p>
           @if (!isLoggedIn()) {

@@ -7,14 +7,6 @@ import {UserInterface} from "../interface/user";
 })
 export class AuthService {
   constructor() {
-    this.usersExists();
-  }
-
-  usersExists(): void {
-    const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    if (!usersData) {
-      localStorage.setItem('users', JSON.stringify({}));
-    }
   }
 
   login(username: string, password: string): boolean {
@@ -44,40 +36,27 @@ export class AuthService {
 
   registration(user: UserInterface): void {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
-    usersData[user.username] = {
-      username: user.username,
-      password: user.password,
-      name: user.name,
-      uid: user.uid,
-      income: user.income,
-      outgoing: user.outgoing,
-      balance: user.balance,
-      currentBalance: user.currentBalance
-    };
+    usersData[user.username] = user;
     localStorage.setItem('users', JSON.stringify(usersData));
   }
 
   getCurrentUsername(): string {
-    const username = localStorage.getItem('isLoggedIn');
-    if (username) {
-      return username;
-    }
-    return '';
+    return localStorage.getItem('isLoggedIn') ?? '';
   }
 
   removeUser(username: string): void {
     const usersData: { [key: string]: UserInterface } = JSON.parse(localStorage.getItem('users') ?? '{}');
     const operations: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
-    const filteredOperations = operations.filter(operation => operation.from !== username && operation.to !== username);
+    const filteredOperations = operations.filter(operation => operation.from != username && operation.to != username);
     Object.keys(usersData).forEach(userKey => {
-      if (userKey !== username) {
+      if (userKey != username) {
         let income = 0;
         let outgoing = 0;
         filteredOperations.forEach(operation => {
-          if (operation.to === userKey) {
+          if (operation.to == userKey) {
             income += operation.amount;
           }
-          if (operation.from === userKey) {
+          if (operation.from == userKey) {
             outgoing += operation.amount;
           }
         });

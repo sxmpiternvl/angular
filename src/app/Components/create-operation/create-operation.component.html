@@ -9,26 +9,25 @@
       <p>Кому:</p>
       <select [(ngModel)]="receiverUsername" name="receiverUsername"
               class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full focus:outline-none">
-        <ng-container *ngFor="let user of userList">
-          <ng-container *ngIf="user.username != currentUsername">
+        @for (user of userList;track user){
+          <ng-container >
             <option class="bg-slate-50" [value]="user.username">{{ user.username }}</option>
           </ng-container>
-        </ng-container>
+        }
       </select>
       <div>
         <p>Сумма:</p>
-        <input class="remove-arrow " type="text" [(ngModel)]="this.amount" name="amount"
-               [class.bg-red-200]="isAmountAvailable()"
-               (keydown)="validateKey($event)">
+        <input type="text" [(ngModel)]="this.amount" name="amount"
+               appValidateKey>
       </div>
       <div>
         <p>Комментарий</p>
-        <textarea [(ngModel)]="comment" (input)="updateCharacterCount()" name="comment"
+        <textarea [(ngModel)]="comment" name="comment"
                   class="focus:outline-none resize-none h-[120px] w-full align-text-top border-0 rounded-2xl bg-slate-50 p-3 "
-                  minlength="10"
-                  maxlength="255" (keydown)="preventDoubleSpace($event)"></textarea>
-        <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': count!=0 && ( count < 10 || count > 255) }">
-          Символов: {{count}}/10-255</p>
+                  minlength="10" maxlength="255" appDoubleSpace ></textarea>
+        <p class="text-gray-400 pt-2" [ngClass]="{ 'text-red-500': comment.length != 0 &&( comment.length < 10 || comment.length > 255) }">
+          Символов: {{comment.length}}/10-255
+        </p>
       </div>
     </div>
     <div class="grid grid-cols-2 pt-4">

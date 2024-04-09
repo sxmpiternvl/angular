@@ -34,22 +34,22 @@ input {
   @apply bg-white py-4 text-error
 }
 
-$colors: (
-  "primary": primary,
-  "secondary": secondary,
-  "success": success,
-  "error": error,
-  "neutral": neutral,
-);
+$colors: [
+  "primary",
+  "secondary",
+  "success",
+  "error",
+  "neutral",
+];
 
-@each $name, $color in $colors {
-  .custom-btn-#{$name} {
+@each $color in $colors {
+  .custom-btn-#{$color} {
     @apply text-#{$color} border-#{$color} rounded-xl px-3 py-1.5 text-center border hover:bg-#{$color}  hover:text-white transition-colors;
   }
-  .custom-btn-#{$name}-filled {
+  .custom-btn-#{$color}-filled {
     @apply text-white border-#{$color} bg-#{$color} rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;
   }
-  .stat-#{$name} {
+  .stat-#{$color} {
     @apply bg-#{$color} rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
   }
 }

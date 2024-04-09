@@ -43,7 +43,7 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.username }}</td>
                 <td>
-                  <button (click)="remove(user.username)">
+                  <button (click)="removeUser(user.username)">
                     <fa-icon [icon]="faTrash" class="text-black ml-4"></fa-icon>
                   </button>
                 </td>
@@ -57,6 +57,8 @@
 </div>
 <app-modal #registrationModal [content]="modalRegistrationContent">
   <ng-template #modalRegistrationContent>
-    <app-registration (close)="registrationModal.close();this.getUsers()"></app-registration>
+    <app-registration (close)="registrationModal.close();
+    this.allUsers = this.userService.getUsers();"
+    ></app-registration>
   </ng-template>
 </app-modal>

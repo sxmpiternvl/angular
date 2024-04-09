@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserInterface} from "../../interface/user";
-import {faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faExclamationTriangle, faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +16,7 @@ import {faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
     CommonModule,
     FaIconComponent,
   ],
-  templateUrl:'registration.component.html',
+  templateUrl: 'registration.component.html',
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent {
@@ -24,42 +24,38 @@ export class RegistrationComponent {
 
   constructor(private authService: AuthService, private router: Router) {
   }
+  newUser: UserInterface = {
+    uid: Date.now().toString(),
+    username: '',
+    password: '',
+    name: '',
+    balance: 10000,
+    income: 0,
+    outgoing: 0,
+    currentBalance: 10000
+  };
   uid: string = Date.now().toString();
   confirmPassword: string = '';
-  username: string = '';
-  password: string = '';
-  name: string = '';
-  balance: number = 10000;
-  income = 0;
-  outgoing = 0;
   error: boolean = false;
-  currentBalance = this.balance - this.outgoing + this.income;
+  errorMessage = '';
 
   registration(): void {
-    if (!this.authService.isUnique(this.username) || this.password != this.confirmPassword) {
+    if (!this.authService.isUnique(this.newUser.username) || this.newUser.password != this.confirmPassword) {
       this.error = true;
+      if(!this.authService.isUnique(this.newUser.username) && this.newUser.password != this.confirmPassword){
+        this.errorMessage =" Логин уже есть в системе. \n Пароли не совпадают ";
+        return;
+      }
+      this.errorMessage = !this.authService.isUnique(this.newUser.username) ? "Логин уже есть в системе." : "Пароли не совпадают";
       return;
     }
-    if (this.username && this.password && this.name) {
-      const newUser: UserInterface = {
-        username: this.username,
-        password: this.password,
-        name: this.name,
-        uid: this.uid,
-        income: this.income,
-        outgoing: this.outgoing,
-        balance: this.balance,
-        currentBalance: this.currentBalance
-      };
-
-      this.authService.registration(newUser);
-      this.authService.login(this.username, this.password);
-      this.close.emit();
-    }
-
+    this.authService.registration(this.newUser);
+    this.authService.login(this.newUser.username, this.newUser.password);
+    this.close.emit();
   }
-  isSpace(event:any){
-    if (event.key == ' '){
+
+  isSpace(event: any) {
+    if (event.key == ' ') {
       event.preventDefault();
     }
   }
@@ -67,4 +63,5 @@ export class RegistrationComponent {
   protected readonly faUser = faUser;
   protected readonly faLockOpen = faLockOpen;
   protected readonly faSave = faSave;
+  protected readonly faExclamationTriangle = faExclamationTriangle;
 }
