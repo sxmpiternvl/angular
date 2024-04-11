@@ -34,26 +34,26 @@ export class BalancesComponent implements OnInit {
     return this.authService.isAuthenticated();
   }
 
-  getTotalIncome(): number {
-    let totalIncome = 0;
+  getTotalIncome() {
+    let totalIncome = new Decimal(0);
     for (const user of this.allUsers) {
-      totalIncome += (user.income + user.balance);
+      totalIncome = totalIncome.plus( new Decimal(user.income)).plus(new Decimal(user.balance));
     }
     return totalIncome;
   }
 
-  getTotalOutgoing(): number {
-    let totalOutgoing = 0;
+  getTotalOutgoing() {
+    let totalOutgoing = new Decimal(0);
     this.allUsers.forEach(user => {
-      totalOutgoing += user.outgoing;
+      totalOutgoing = totalOutgoing.plus(new Decimal(user.outgoing));
     });
     return totalOutgoing;
   }
 
-  getTotalBalance(): number {
-    let totalBalance = 0;
+  getTotalBalance() {
+    let totalBalance = new Decimal(0);
     this.allUsers.forEach(user => {
-      totalBalance += user.currentBalance;
+      totalBalance = totalBalance.plus(new Decimal(user.currentBalance));
     });
     return totalBalance;
   }
