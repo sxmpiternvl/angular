@@ -66,7 +66,6 @@ export class CreateOperationComponent implements OnInit {
     if (currentUser && new Decimal(currentUser.currentBalance).gte(amountDecimal)) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
       currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
-
       if (receiverData) {
         receiverData.currentBalance = new Decimal(receiverData.currentBalance).plus(amountDecimal).toFixed(2);
         receiverData.income = new Decimal(receiverData.income).plus(amountDecimal).toFixed(2);
@@ -98,6 +97,5 @@ export class CreateOperationComponent implements OnInit {
 
   protected readonly faXmark = faXmark;
   protected readonly faSave = faSave;
-  protected readonly parseFloat = parseFloat;
   protected readonly console = console;
 }
