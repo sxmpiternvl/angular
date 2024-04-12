@@ -9,6 +9,7 @@ import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../../modal/modal.component";
 import {UserInterface} from "../../interface/user";
 import {faPlus, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
+
 @Component({
   selector: 'app-all-users',
   standalone: true,
@@ -20,12 +21,19 @@ export class AllUsersComponent implements OnInit {
   currentUser: UserInterface | null = null;
   allUsers: UserInterface[] = [];
   operations: string | null = '';
+
   constructor(protected userService: UserService, private authService: AuthService) {
   }
+
   ngOnInit(): void {
+    this.getUsers();
+  }
+
+  getUsers() {
     this.allUsers = this.userService.getUsers();
     this.currentUser = this.userService.getUserByUsername(this.authService.getCurrentUsername());
   }
+
   removeUser(username: string): void {
     const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
     if (removeUser) {
@@ -47,7 +55,7 @@ export class AllUsersComponent implements OnInit {
         const updatedOperations = allOperations.filter(operation =>
           (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
         );
-        delete  usersData[username];
+        delete usersData[username];
         localStorage.setItem('operations', JSON.stringify(updatedOperations));
       }
       localStorage.setItem('users', JSON.stringify(usersData));

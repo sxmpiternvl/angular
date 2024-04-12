@@ -27,7 +27,7 @@
             <div class="flex align-items-center pb-4 font-semibold hover:text-primary"
                  [routerLink]="link.path" routerLinkActive="active" #rla="routerLinkActive" (click)="navigate(link.path)">
               <fa-icon [icon]="link.icon" [ngClass]="{ 'text-primary': rla.isActive }"></fa-icon>
-              <span class="ml-2.5" [ngClass]="{ 'text-primary': rla.isActive }">{{ link.label }}</span>
+              <span class="ml-2.5" [class.text-primary]="rla.isActive">{{ link.label }}</span>
             </div>
           }
         }

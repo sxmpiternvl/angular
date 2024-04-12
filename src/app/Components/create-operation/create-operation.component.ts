@@ -1,14 +1,15 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {FormsModule} from "@angular/forms";
-import {AuthService} from "../../services/auth-service";
-import {CommonModule} from "@angular/common";
-import {UserInterface} from "../../interface/user";
-import {faSave,faXmark} from "@fortawesome/free-solid-svg-icons";
-import {DoubleSpaceDirective} from "../../directives/double-space/double-space.directive";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { FormsModule } from "@angular/forms";
+import { AuthService } from "../../services/auth-service";
+import { CommonModule, DatePipe } from "@angular/common";
+import { UserInterface } from "../../interface/user";
+import { faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { DoubleSpaceDirective } from "../../directives/double-space/double-space.directive";
 import Decimal from "decimal.js";
-import {ValidateKeyDirective} from "../../directives/validate-key/validate-key.directive";
-import {UserService} from "../../services/user.service";
+import { ValidateKeyDirective } from "../../directives/validate-key/validate-key.directive";
+import { UserService } from "../../services/user.service";
+
 @Component({
   selector: 'app-create-operation',
   standalone: true,
@@ -19,10 +20,10 @@ import {UserService} from "../../services/user.service";
     DoubleSpaceDirective,
     ValidateKeyDirective
   ],
+  providers: [DatePipe],
   templateUrl: 'create-operation.component.html',
   styleUrl: './create-operation.component.css',
 })
-
 export class CreateOperationComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
@@ -30,20 +31,35 @@ export class CreateOperationComponent implements OnInit {
   amount: string = '';
   comment: string = '';
   receiverUsername = '';
-  formattedDate: any = this.getDate();
 
-  constructor(private authService: AuthService, private userService: UserService) {
+
+  constructor(private authService: AuthService, private userService: UserService, private datePipe: DatePipe) {
   }
 
   ngOnInit(): void {
     this.userList = this.userService.getUsers();
+
+  }
+  getDate(){
+    return this.datePipe.transform(new Date(), 'dd.MM.yyyy') || '';
   }
 
+  amountExceedsBalance(): boolean {
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    const currentUser = usersData[this.currentUsername];
+    if (!currentUser || !this.amount) return false; // Добавлено условие проверки this.amount
+    const balanceDecimal = new Decimal(currentUser.currentBalance);
+    const amountDecimal = new Decimal(this.amount);
+    return amountDecimal.gt(balanceDecimal);
+  }
+  checkValidity() {
+    this.amountExceedsBalance();
+  }
   onSubmit(): void {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     const receiverData = usersData[this.receiverUsername];
-    if (!this.amount ) {
+    if (!this.amount) {
       return;
     }
     const amountDecimal = new Decimal(this.amount);
@@ -61,7 +77,7 @@ export class CreateOperationComponent implements OnInit {
           fromUID: currentUser.uid,
           toUID: receiverData.uid,
           amount: amountDecimal.toFixed(2),
-          datetime: this.getDate(),
+          datetime: this.datePipe.transform(new Date(), 'dd.MM.yyyy') || '',
           comment: this.comment
         };
         const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
@@ -72,12 +88,16 @@ export class CreateOperationComponent implements OnInit {
       }
     }
   }
-  getDate(): string {
-    return new Date().toLocaleDateString('ru-RU');
-  }
 
+  closeModal() {
+    this.close.emit();
+  }
+  validComment(){
+    return this.comment.length != 0 &&( this.comment.length < 10 || this.comment.length > 255);
+  }
 
   protected readonly faXmark = faXmark;
   protected readonly faSave = faSave;
   protected readonly parseFloat = parseFloat;
+  protected readonly console = console;
 }

@@ -7,7 +7,14 @@
       </div>
       <div class="text-primary">
         <p>Всего пользователей</p>
-        <p>{{ allUsers.length }}</p>
+        @if (currentUser){
+          <p>
+            {{allUsers.length+1}}
+          </p>
+        }
+        @else{
+        {{allUsers.length}}
+        }
       </div>
     </div>
   </div>
@@ -38,6 +45,16 @@
           <div class="sticky top-0">
           </div>
           <tbody class="w-full">
+
+            @if (currentUser){
+              <td>{{ currentUser.name }}</td>
+              <td>{{ currentUser.username }}</td>
+              <td>
+                <button (click)="removeUser(currentUser.username)">
+                  <fa-icon [icon]="faTrash" class="text-black ml-4"></fa-icon>
+                </button>
+              </td>
+            }
             @for (user of allUsers; track user.uid) {
               <tr>
                 <td>{{ user.name }}</td>
@@ -58,7 +75,7 @@
 <app-modal #registrationModal [content]="modalRegistrationContent">
   <ng-template #modalRegistrationContent>
     <app-registration (close)="registrationModal.close();
-    this.allUsers = this.userService.getUsers();"
+    getUsers()"
     ></app-registration>
   </ng-template>
 </app-modal>

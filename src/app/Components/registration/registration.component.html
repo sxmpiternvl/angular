@@ -6,7 +6,8 @@
         <div>
           <label for="name">Имя:</label>
           <input class="px-2" type="text" id="name" name="name" required minlength="3" [(ngModel)]="newUser.name"
-                 pattern="[a-zA-Z]*">
+                 pattern="[a-zA-Z]*" #name="ngModel"
+                 [class.invalid-input]="name.invalid &&  name.touched">
           <i>
             <fa-icon [icon]="faUser" class="text-black absolute right-11 top-[115px]"></fa-icon>
           </i>
@@ -14,8 +15,8 @@
         <div>
           <label for="username">Логин:</label>
           <input class="px-2" type="text" id="username" name="username" required minlength="3"
-                 [(ngModel)]="newUser.username"
-                 pattern="[a-zA-Z]*">
+                 [(ngModel)]="newUser.username" #username="ngModel"
+                 [class.invalid-input]="username.invalid && username.touched">
           <i>
             <fa-icon [icon]="faUser" class="text-black absolute right-11 top-[204px]"></fa-icon>
           </i>
@@ -24,7 +25,8 @@
         <div>
           <label for="password">Пароль:</label>
           <input class="pl-8" type="password" id="password" name="password" required minlength="6"
-                 [(ngModel)]="newUser.password">
+                 [(ngModel)]="newUser.password" #password="ngModel"
+                 [class.invalid-input]="password.invalid && password.touched">
           <i>
             <fa-icon [icon]="faLockOpen" class="text-black absolute left-11 top-[293px]"></fa-icon>
           </i>
@@ -65,7 +67,7 @@
   </form>
 </div>
 <div class="absolute right-4 top-4">
-  <button (click)="this.close.emit()">
+  <button (click)="closeModal()">
     X
   </button>
 </div>

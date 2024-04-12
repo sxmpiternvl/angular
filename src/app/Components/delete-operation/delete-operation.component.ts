@@ -29,6 +29,10 @@ export class DeleteOperationComponent {
     this.close.emit();
   }
 
+  closeModal(){
+    this.close.emit();
+  }
+
   private removeOperation(operationId: number): void {
     const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');

@@ -3,6 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.invalid-input {
+  border: solid 1px red;
+}
 
 body {
   background-color: #f8f7f7;

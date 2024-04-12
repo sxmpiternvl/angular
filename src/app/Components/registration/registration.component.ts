@@ -53,6 +53,9 @@ export class RegistrationComponent {
     this.authService.login(this.newUser.username, this.newUser.password);
     this.close.emit();
   }
+  closeModal(){
+    this.close.emit();
+  }
 
   isSpace(event: any) {
     if (event.key == ' ') {
