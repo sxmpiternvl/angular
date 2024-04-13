@@ -1,6 +1,6 @@
 import {Directive, ElementRef, forwardRef, HostListener} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-import {data} from "autoprefixer";
+
 
 @Directive({
   selector: '[appValidateKey]',
@@ -18,7 +18,7 @@ export class ValidateKeyDirective implements ControlValueAccessor {
   };
   private onTouched = () => {
   };
-  private allowedRegex = /^\d*(\.\d{0,11})?$/;
+  private allowedRegex = /^\d*(\.\d{0,10})?$/;
   private prevValue = '';
 
   constructor(private elementRef: ElementRef) {
@@ -37,23 +37,27 @@ export class ValidateKeyDirective implements ControlValueAccessor {
   }
 
   @HostListener('input', ['$event'])
-  onInput(event: KeyboardEvent): void {
-    console.log();
-    const start = this.elementRef.nativeElement.selectionStart;
-    const end = this.elementRef.nativeElement.selectionEnd;
-    console.log(this.prevValue, this.elementRef.nativeElement.value);
-    if(this.elementRef.nativeElement.value.startsWith('.')) {
-      this.elementRef.nativeElement.value = '0' + this.elementRef.nativeElement.value
+  onInput(event: InputEvent): void {
+    let el = this.elementRef.nativeElement;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    if (event.data == ',') {
+      el.value = el.value.replace(',', '.');
+      el.setSelectionRange(start,end);
     }
-    if (!this.allowedRegex.test(this.elementRef.nativeElement.value)){
-      this.elementRef.nativeElement.value=this.prevValue;
-      this.elementRef.nativeElement.setSelectionRange(start - 1, end - 1);
+    console.log(el.value);
+    if(el.value.startsWith('.')) {
+      el.value = '0' + el.value
     }
-      if(this.elementRef.nativeElement.value.split('.').length > 2) {
-        this.elementRef.nativeElement.value = this.prevValue;
+    if (!this.allowedRegex.test(el.value)){
+      el.value=this.prevValue;
+      el.setSelectionRange(start - 1, end - 1);
+    }
+      if(el.value.split('.').length > 2) {
+        el.value = this.prevValue;
       }
-    this.prevValue = this.elementRef.nativeElement.value;
-    this.onChange(this.elementRef.nativeElement.value);
+    this.prevValue = el.value;
+    this.onChange(el.value);
   }
 
 }

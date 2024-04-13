@@ -47,7 +47,7 @@ export class AppComponent {
   }
 
   getDate() {
-    return this.datePipe.transform(new Date(), 'dd.MM.yyyy') || '';
+    return this.datePipe.transform(new Date(), 'dd.MM.yyyy');
   }
 
   navigate(path: string): void {

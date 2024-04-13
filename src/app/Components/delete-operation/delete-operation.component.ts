@@ -18,7 +18,7 @@ import {DoubleSpaceDirective} from "../../directives/double-space/double-space.d
 export class DeleteOperationComponent {
   @Input() operationId: number | null = null;
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  @Output() operationDeleted: EventEmitter<void> = new EventEmitter<void>(); // Изменено для уведомления о удалении
+  @Output() operationDeleted: EventEmitter<void> = new EventEmitter<void>();
   comment: string = '';
 
   confirmDelete(): void {

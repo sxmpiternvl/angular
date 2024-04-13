@@ -62,6 +62,9 @@ export class RegistrationComponent {
       event.preventDefault();
     }
   }
+  get passwordsMatch(): boolean {
+    return this.newUser.password == this.confirmPassword;
+  }
 
   protected readonly faUser = faUser;
   protected readonly faLockOpen = faLockOpen;

@@ -11,9 +11,7 @@ export class UserService {
 
   getUsers(): UserInterface[] {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-    const currentUsername = this.auth.getCurrentUsername();
-    const users: UserInterface[] = Object.values(usersData) as UserInterface[];
-    return users.filter((user) => user.username != currentUsername);
+    return Object.values(usersData) as UserInterface[];
   }
 
   getUserByUsername(username: string): UserInterface | null {

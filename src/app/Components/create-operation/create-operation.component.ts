@@ -25,6 +25,7 @@ import { UserService } from "../../services/user.service";
   styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
+  date: string;
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
   currentUsername: string = this.authService.getCurrentUsername();
@@ -32,22 +33,19 @@ export class CreateOperationComponent implements OnInit {
   comment: string = '';
   receiverUsername = '';
 
-
   constructor(private authService: AuthService, private userService: UserService, private datePipe: DatePipe) {
+    const today = new Date();
+    this.date = this.formatDate(today);
   }
 
   ngOnInit(): void {
-    this.userList = this.userService.getUsers();
-
-  }
-  getDate(){
-    return this.datePipe.transform(new Date(), 'dd.MM.yyyy') || '';
+    this.userList = this.userService.getUsers(). filter((user) => user.username != this.currentUsername);
   }
 
   amountExceedsBalance(): boolean {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
-    if (!currentUser || !this.amount) return false; // Добавлено условие проверки this.amount
+    if (!currentUser || !this.amount) return false;
     const balanceDecimal = new Decimal(currentUser.currentBalance);
     const amountDecimal = new Decimal(this.amount);
     return amountDecimal.gt(balanceDecimal);
@@ -56,6 +54,7 @@ export class CreateOperationComponent implements OnInit {
     this.amountExceedsBalance();
   }
   onSubmit(): void {
+    console.log(this.date);
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     const receiverData = usersData[this.receiverUsername];
@@ -76,7 +75,7 @@ export class CreateOperationComponent implements OnInit {
           fromUID: currentUser.uid,
           toUID: receiverData.uid,
           amount: amountDecimal.toFixed(2),
-          datetime: this.datePipe.transform(new Date(), 'dd.MM.yyyy') || '',
+          datetime: this.datePipe.transform(this.date, 'dd.MM.yyyy'),
           comment: this.comment
         };
         const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
@@ -88,6 +87,9 @@ export class CreateOperationComponent implements OnInit {
     }
   }
 
+  formatDate(date: Date): string {
+    return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
+  }
   closeModal() {
     this.close.emit();
   }

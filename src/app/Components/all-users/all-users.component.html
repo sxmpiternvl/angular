@@ -7,14 +7,9 @@
       </div>
       <div class="text-primary">
         <p>Всего пользователей</p>
-        @if (currentUser){
-          <p>
-            {{allUsers.length+1}}
-          </p>
-        }
-        @else{
-        {{allUsers.length}}
-        }
+        <p>
+          {{ allUsers.length }}
+        </p>
       </div>
     </div>
   </div>
@@ -45,16 +40,6 @@
           <div class="sticky top-0">
           </div>
           <tbody class="w-full">
-
-            @if (currentUser){
-              <td>{{ currentUser.name }}</td>
-              <td>{{ currentUser.username }}</td>
-              <td>
-                <button (click)="removeUser(currentUser.username)">
-                  <fa-icon [icon]="faTrash" class="text-black ml-4"></fa-icon>
-                </button>
-              </td>
-            }
             @for (user of allUsers; track user.uid) {
               <tr>
                 <td>{{ user.name }}</td>

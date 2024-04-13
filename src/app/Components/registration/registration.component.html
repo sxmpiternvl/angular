@@ -24,17 +24,18 @@
         </div>
         <div>
           <label for="password">Пароль:</label>
-          <input class="pl-8" type="password" id="password" name="password" required minlength="6"
+          <input class="pl-9" type="password" id="password" name="password" required minlength="6"
                  [(ngModel)]="newUser.password" #password="ngModel"
-                 [class.invalid-input]="password.invalid && password.touched">
+                 [class.invalid-input]="!passwordsMatch && password.touched && password.touched">
           <i>
             <fa-icon [icon]="faLockOpen" class="text-black absolute left-11 top-[293px]"></fa-icon>
           </i>
         </div>
         <div>
           <label for="confirmPassword">Повторите пароль:</label>
-          <input class="pl-8" type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
-                 [(ngModel)]="confirmPassword">
+          <input class="pl-9" type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
+                 [(ngModel)]=" confirmPassword" #confirmPasswordModel="ngModel"
+                 [class.invalid-input]="!passwordsMatch && password.touched && password.touched">
           <i>
             <fa-icon [icon]="faLockOpen" class="text-black absolute left-11 top-[382px]"></fa-icon>
           </i>
