@@ -47,7 +47,8 @@ export class ValidateKeyDirective implements ControlValueAccessor {
     }
     console.log(el.value);
     if(el.value.startsWith('.')) {
-      el.value = '0' + el.value
+      el.value = '0' + el.value;
+      el.setSelectionRange(start+1, end+1);
     }
     if (!this.allowedRegex.test(el.value)){
       el.value=this.prevValue;

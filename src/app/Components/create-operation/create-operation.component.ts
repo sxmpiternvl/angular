@@ -34,8 +34,7 @@ export class CreateOperationComponent implements OnInit {
   receiverUsername = '';
 
   constructor(private authService: AuthService, private userService: UserService, private datePipe: DatePipe) {
-    const today = new Date();
-    this.date = this.formatDate(today);
+    this.date = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
   }
 
   ngOnInit(): void {
@@ -85,10 +84,6 @@ export class CreateOperationComponent implements OnInit {
         this.close.emit();
       }
     }
-  }
-
-  formatDate(date: Date): string {
-    return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
   }
   closeModal() {
     this.close.emit();
