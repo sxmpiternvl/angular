@@ -47,13 +47,12 @@ export class OperationsComponent implements OnInit {
         let currentUserUID = this.currentUser.uid;
         this.filteredOperationsList = operationsData.filter(operation =>
           operation.fromUID == currentUserUID || operation.toUID == currentUserUID
-        ).sort((a, b) => b.id - a.id);
+        );
       }
     } else {
-      this.filteredOperationsList = operationsData.sort((a, b) => b.id - a.id);
+      this.filteredOperationsList = operationsData;
     }
-    this.filteredOperationsList.sort((a, b) => b.id - a.id);
-    console.log(this.filteredOperationsList);
+
 
   }
 

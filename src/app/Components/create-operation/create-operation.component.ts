@@ -25,7 +25,7 @@ import { UserService } from "../../services/user.service";
   styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
-  date: Date;
+   private _date: Date;
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
   currentUsername: string = this.authService.getCurrentUsername();
@@ -34,7 +34,16 @@ export class CreateOperationComponent implements OnInit {
   receiverUsername = '';
 
   constructor(private authService: AuthService, private userService: UserService, private datePipe: DatePipe) {
-    this.date = new Date();
+    this._date = new Date();
+  }
+  get date(): string {
+    console.log('getter');
+    return this._date.toISOString().substring(0, 10);
+  }
+
+  set date(value: string) {
+    console.log('setter');
+    this._date = new Date(value);
   }
 
   ngOnInit(): void {
@@ -72,7 +81,7 @@ export class CreateOperationComponent implements OnInit {
           fromUID: currentUser.uid,
           toUID: receiverData.uid,
           amount: amountDecimal.toFixed(2),
-          datetime: this.datePipe.transform(this.date, 'dd.MM.yyyy'),
+          datetime: this.datePipe.transform(this._date, 'dd.MM.yyyy'),
           comment: this.comment
         };
         const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
@@ -89,6 +98,8 @@ export class CreateOperationComponent implements OnInit {
   validComment(){
     return this.comment.length != 0 &&( this.comment.length < 10 || this.comment.length > 255);
   }
+
+
 
   protected readonly faXmark = faXmark;
   protected readonly faSave = faSave;
