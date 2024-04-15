@@ -19,7 +19,7 @@
         <p>Сумма:</p>
         <input type="text" [(ngModel)]="amount" name="amount" required
                [class.invalid-input]="amountExceedsBalance()"
-               (ngModelChange)="checkValidity()"
+               (ngModelChange)="amountExceedsBalance()"
                appValidateKey>
       </div>
       <div>

@@ -16,7 +16,7 @@ import {
   faHourglassStart,
   faPlus, faTrash
 } from "@fortawesome/free-solid-svg-icons";
-import Decimal from "decimal.js";
+
 
 @Component({
   selector: 'app-operations',
@@ -47,11 +47,14 @@ export class OperationsComponent implements OnInit {
         let currentUserUID = this.currentUser.uid;
         this.filteredOperationsList = operationsData.filter(operation =>
           operation.fromUID == currentUserUID || operation.toUID == currentUserUID
-        );
+        ).sort((a, b) => b.id - a.id);
       }
     } else {
-      this.filteredOperationsList = operationsData;
+      this.filteredOperationsList = operationsData.sort((a, b) => b.id - a.id);
     }
+    this.filteredOperationsList.sort((a, b) => b.id - a.id);
+    console.log(this.filteredOperationsList);
+
   }
 
   protected readonly faHourglassStart = faHourglassStart;

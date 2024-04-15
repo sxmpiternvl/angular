@@ -6,7 +6,7 @@ import {AuthService} from "./auth-service";
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private auth:AuthService) {
+  constructor() {
   }
 
   getUsers(): UserInterface[] {

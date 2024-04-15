@@ -18,7 +18,7 @@ export class ValidateKeyDirective implements ControlValueAccessor {
   };
   private onTouched = () => {
   };
-  private allowedRegex = /^\d*(\.\d{0,10})?$/;
+  private allowedRegex = /^\d*(\.\d{0,20})?$/;
   private prevValue = '';
 
   constructor(private elementRef: ElementRef) {
@@ -54,9 +54,6 @@ export class ValidateKeyDirective implements ControlValueAccessor {
       el.value=this.prevValue;
       el.setSelectionRange(start - 1, end - 1);
     }
-      if(el.value.split('.').length > 2) {
-        el.value = this.prevValue;
-      }
     this.prevValue = el.value;
     this.onChange(el.value);
   }

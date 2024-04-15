@@ -25,7 +25,7 @@ import { UserService } from "../../services/user.service";
   styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
-  date: string;
+  date: Date;
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
   currentUsername: string = this.authService.getCurrentUsername();
@@ -34,7 +34,7 @@ export class CreateOperationComponent implements OnInit {
   receiverUsername = '';
 
   constructor(private authService: AuthService, private userService: UserService, private datePipe: DatePipe) {
-    this.date = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
+    this.date = new Date();
   }
 
   ngOnInit(): void {
@@ -44,16 +44,14 @@ export class CreateOperationComponent implements OnInit {
   amountExceedsBalance(): boolean {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
-    if (!currentUser || !this.amount) return false;
+    if (!currentUser || !this.amount)
+      return false;
     const balanceDecimal = new Decimal(currentUser.currentBalance);
     const amountDecimal = new Decimal(this.amount);
     return amountDecimal.gt(balanceDecimal);
   }
-  checkValidity() {
-    this.amountExceedsBalance();
-  }
+
   onSubmit(): void {
-    console.log(this.date);
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     const receiverData = usersData[this.receiverUsername];

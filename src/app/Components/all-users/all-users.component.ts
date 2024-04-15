@@ -9,6 +9,7 @@ import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../../modal/modal.component";
 import {UserInterface} from "../../interface/user";
 import {faPlus, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
+import {LocalStorageService} from "../../local-storage/local-storage.service";
 
 @Component({
   selector: 'app-all-users',
@@ -22,7 +23,7 @@ export class AllUsersComponent implements OnInit {
   allUsers: UserInterface[] = [];
   operations: string | null = '';
 
-  constructor(protected userService: UserService, private authService: AuthService) {
+  constructor(protected userService: UserService, private authService: AuthService, private lsService:LocalStorageService) {
   }
 
   ngOnInit(): void {
@@ -37,8 +38,8 @@ export class AllUsersComponent implements OnInit {
   removeUser(username: string): void {
     const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
     if (removeUser) {
-      this.operations = localStorage.getItem('operations');
-      const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+      this.operations = this.lsService.get('operations');
+      const usersData = JSON.parse(this.lsService.get('users') || '{}');
       if (this.operations) {
         const allOperations: Operation[] = JSON.parse(this.operations);
         allOperations.forEach(operation => {
@@ -56,9 +57,9 @@ export class AllUsersComponent implements OnInit {
           (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
         );
         delete usersData[username];
-        localStorage.setItem('operations', JSON.stringify(updatedOperations));
+        this.lsService.set('operations', JSON.stringify(updatedOperations));
       }
-      localStorage.setItem('users', JSON.stringify(usersData));
+      this.lsService.set('users', JSON.stringify(usersData));
       this.allUsers = this.allUsers.filter(user => user.username != username);
     }
   }
