@@ -51,11 +51,10 @@
           <fa-icon [icon]="faLock" class="text-primary absolute left-3 top-10"></fa-icon>
         </i>
       </div>
-      <div (click)="login()"
-           class="custom-btn-primary w-auto">
-        <fa-icon [icon]="faLockOpen" class="px-2"></fa-icon>
-        <button type="submit"> Войти в систему</button>
-      </div>
+
+
+        <button  class="custom-btn-primary w-full" type="submit"> <fa-icon [icon]="faLockOpen" class="px-2"></fa-icon> Войти в систему</button>
+
       <div *ngIf="loginError"
            class="error-block">
         <div class="alert ">

@@ -25,7 +25,7 @@ import { UserService } from "../../services/user.service";
   styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
-  operationType = 'expense';
+  operationType = 'outgoing';
   private _date: Date;
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
@@ -34,7 +34,7 @@ export class CreateOperationComponent implements OnInit {
   comment: string = '';
   receiverUsername = '';
 
-  constructor(private authService: AuthService, private userService: UserService, private datePipe: DatePipe) {
+  constructor(private authService: AuthService, private userService: UserService) {
     this._date = new Date();
   }
   get date(): string {
@@ -64,10 +64,8 @@ export class CreateOperationComponent implements OnInit {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     const receiverData = usersData[this.receiverUsername];
-    if (!this.amount) return;
-
     const amountDecimal = new Decimal(this.amount);
-    if (this.operationType == 'expense' && currentUser && new Decimal(currentUser.currentBalance).gte(amountDecimal)) {
+    if (this.operationType == 'outgoing' && currentUser && new Decimal(currentUser.currentBalance).gte(amountDecimal)) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
       currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
       if (receiverData) {

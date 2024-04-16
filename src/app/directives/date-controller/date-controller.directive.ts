@@ -19,6 +19,7 @@ export class DateControllerDirective implements ControlValueAccessor {
   };
 
   constructor(private elementRef: ElementRef<HTMLInputElement>) {
+
   }
 
   @HostListener('input', ['$event.target.value'])
@@ -30,6 +31,7 @@ export class DateControllerDirective implements ControlValueAccessor {
   }
 
   writeValue(value: Date): void {
+    console.log('called:', value);
     this.elementRef.nativeElement.value = value ? this.toDateString(value) : '';
   }
 
@@ -39,10 +41,6 @@ export class DateControllerDirective implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.elementRef.nativeElement.disabled = isDisabled;
   }
 
   private toDateString(date: Date): string {

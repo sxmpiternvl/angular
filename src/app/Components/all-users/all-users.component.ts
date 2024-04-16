@@ -9,7 +9,7 @@ import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../../modal/modal.component";
 import {UserInterface} from "../../interface/user";
 import {faPlus, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
-import {LocalStorageService} from "../../local-storage/local-storage.service";
+
 
 @Component({
   selector: 'app-all-users',

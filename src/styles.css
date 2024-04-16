@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 .invalid-input {
-  border: solid 1px red;
+  @apply box-border border border-red-500;
 }
 
 body {
@@ -24,7 +24,7 @@ td {
 }
 
 input {
-  @apply bg-slate-50 rounded-2xl px-2 py-2 w-full mb-2 mt-2 focus:outline-none;
+  @apply bg-slate-50 rounded-2xl px-2 py-2 w-full mb-2 mt-2 focus:outline-none border;
 }
 
 .alert {
