@@ -44,31 +44,6 @@ export class AuthService {
     return localStorage.getItem('isLoggedIn') ?? '';
   }
 
-  removeUser(username: string): void {
-    const usersData: { [key: string]: UserInterface } = JSON.parse(localStorage.getItem('users') ?? '{}');
-    const operations: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
-    const filteredOperations = operations.filter(operation => operation.from != username && operation.to != username);
-    Object.keys(usersData).forEach(userKey => {
-      if (userKey != username) {
-        let income = 0;
-        let outgoing = 0;
-        filteredOperations.forEach(operation => {
-          if (operation.to == userKey) {
-            income += operation.amount;
-          }
-          if (operation.from == userKey) {
-            outgoing += operation.amount;
-          }
-        });
-        usersData[userKey].income = income;
-        usersData[userKey].outgoing = outgoing;
-      }
-    });
-    delete usersData[username];
-    localStorage.setItem('users', JSON.stringify(usersData));
-    localStorage.setItem('operations', JSON.stringify(filteredOperations));
-  }
-
 }
 
 

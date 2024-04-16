@@ -6,20 +6,29 @@
       <div class="bg-slate-50 rounded-2xl px-2 py-2 font-mono my-2">
         <input type="date" [(ngModel)]="date" name="date">
       </div>
-      <p>Кому:</p>
-      <select [(ngModel)]="receiverUsername" name="receiverUsername" required
-              class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full focus:outline-none">
-        @for (user of userList; track user) {
-          <ng-container>
-            <option class="bg-slate-50" [value]="user.username">{{ user.username }}</option>
-          </ng-container>
-        }
+      <select [(ngModel)]="operationType" name="operationType" required
+              class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full ">
+        <option value="expense">Расход</option>
+        <option value="income">Приход</option>
       </select>
+      @if (operationType == 'expense'){
+      <div>
+        <p>Кому:</p>
+        <select [(ngModel)]="receiverUsername" name="receiverUsername" required
+                class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full focus:outline-none">
+          <ng-container >
+            @for (user of userList;track user){
+            <option class="bg-slate-50" [value]="user.username">{{ user.username }}</option>
+            }
+          </ng-container>
+        </select>
+      </div>
+      }
       <div>
         <p>Сумма:</p>
         <input type="text" [(ngModel)]="amount" name="amount" required
-               [class.invalid-input]="amountExceedsBalance()"
-               (ngModelChange)="amountExceedsBalance()"
+               [class.invalid-input]="operationType == 'expense' && amountExceedsBalance()"
+               (ngModelChange)="operationType == 'expense' ? amountExceedsBalance() : null"
                appValidateKey>
       </div>
       <div>

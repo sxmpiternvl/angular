@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth-service";
-import {CommonModule} from "@angular/common";
+import {CommonModule, DatePipe} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {CreateOperationComponent} from "../create-operation/create-operation.component";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -24,6 +24,7 @@ import {
   imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent, ModalComponent, DeleteOperationComponent],
   templateUrl: 'operations.component.html',
   styleUrl: './operations.component.css',
+  providers: [DatePipe],
 })
 export class OperationsComponent implements OnInit {
   filteredOperationsList: Operation[] = [];
@@ -52,9 +53,9 @@ export class OperationsComponent implements OnInit {
     } else {
       this.filteredOperationsList = operationsData;
     }
-
-
   }
+
+
 
   protected readonly faHourglassStart = faHourglassStart;
   protected readonly faArrowTrendUp = faArrowTrendUp;

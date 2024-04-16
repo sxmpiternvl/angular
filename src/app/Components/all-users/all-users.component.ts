@@ -23,7 +23,7 @@ export class AllUsersComponent implements OnInit {
   allUsers: UserInterface[] = [];
   operations: string | null = '';
 
-  constructor(protected userService: UserService, private authService: AuthService, private lsService:LocalStorageService) {
+  constructor(protected userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -38,8 +38,8 @@ export class AllUsersComponent implements OnInit {
   removeUser(username: string): void {
     const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
     if (removeUser) {
-      this.operations = this.lsService.get('operations');
-      const usersData = JSON.parse(this.lsService.get('users') || '{}');
+      this.operations = localStorage.getItem('operations');
+      const usersData = JSON.parse(localStorage.getItem('users') || '{}');
       if (this.operations) {
         const allOperations: Operation[] = JSON.parse(this.operations);
         allOperations.forEach(operation => {
@@ -57,9 +57,9 @@ export class AllUsersComponent implements OnInit {
           (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
         );
         delete usersData[username];
-        this.lsService.set('operations', JSON.stringify(updatedOperations));
+        localStorage.setItem('operations', JSON.stringify(updatedOperations));
       }
-      this.lsService.set('users', JSON.stringify(usersData));
+      localStorage.setItem('users', JSON.stringify(usersData));
       this.allUsers = this.allUsers.filter(user => user.username != username);
     }
   }

@@ -81,7 +81,7 @@
 
         <tbody class="w-full">
         <tr *ngFor="let operation of filteredOperationsList; let i = index">
-          <td class="font-mono">{{ operation.datetime }}</td>
+          <td class="font-mono">{{ operation.datetime | date: 'dd-MM-yyyy' }}</td>
           <td>{{ operation.from }}</td>
           <td>{{ operation.to }}</td>
           <td class="font-mono">{{ operation.amount}}</td>
