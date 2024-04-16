@@ -27,7 +27,7 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    return !!isLoggedIn;
+    return isLoggedIn != null;
   }
 
   logout(): void {

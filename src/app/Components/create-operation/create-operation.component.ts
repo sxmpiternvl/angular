@@ -9,6 +9,7 @@ import { DoubleSpaceDirective } from "../../directives/double-space/double-space
 import Decimal from "decimal.js";
 import { ValidateKeyDirective } from "../../directives/validate-key/validate-key.directive";
 import { UserService } from "../../services/user.service";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
   selector: 'app-create-operation',
@@ -42,9 +43,14 @@ export class CreateOperationComponent implements OnInit {
   }
 
   set date(value: string) {
-    this._date = new Date(value);
+    const tempDate = new Date(value);
+    if (!isNaN(tempDate.getTime())) {
+      this._date = tempDate;
+      console.log(value);
+    } else {
+      console.error("Invalid date:");
+    }
   }
-
   ngOnInit(): void {
     this.userList = this.userService.getUsers(). filter((user) => user.username != this.currentUsername);
   }
@@ -89,14 +95,13 @@ export class CreateOperationComponent implements OnInit {
     const operation = {
       id: Date.now(),
       from: fromUser.username,
-      to: toUser ? toUser.username : 'income',
+      to: toUser ? toUser.username : 'N/A',
       fromUID: fromUser.uid,
-      toUID: toUser ? toUser.uid : 'income',
+      toUID: toUser ? toUser.uid : 'N/A',
       amount: amount.toFixed(2),
       datetime: this._date,
       comment: this.comment
     };
-
     const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
     operationsList.push(operation);
     localStorage.setItem('operations', JSON.stringify(operationsList));
