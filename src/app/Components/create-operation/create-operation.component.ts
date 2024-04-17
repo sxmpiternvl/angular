@@ -9,7 +9,7 @@ import {DoubleSpaceDirective} from "../../directives/double-space/double-space.d
 import Decimal from "decimal.js";
 import {ValidateKeyDirective} from "../../directives/validate-key/validate-key.directive";
 import {UserService} from "../../services/user.service";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import {DateControllerDirective} from "../../directives/date-controller/date-controller.directive";
 
 @Component({
   selector: 'app-create-operation',
@@ -19,7 +19,8 @@ import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
     FormsModule,
     CommonModule,
     DoubleSpaceDirective,
-    ValidateKeyDirective
+    ValidateKeyDirective,
+    DateControllerDirective
   ],
   providers: [DatePipe],
   templateUrl: 'create-operation.component.html',
@@ -99,10 +100,10 @@ export class CreateOperationComponent implements OnInit {
   }) {
     const operation = {
       id: Date.now(),
-      from: fromUser.username,
-      to: toUser ? toUser.username : 'N/A',
-      fromUID: fromUser.uid,
-      toUID: toUser ? toUser.uid : 'N/A',
+      from: toUser ? fromUser.username : 'N/A',
+      to: toUser ? toUser.username : fromUser.username,
+      fromUID: toUser ? fromUser.uid : 'N/A',
+      toUID: toUser ? toUser.uid : fromUser.uid,
       amount: amount.toFixed(2),
       datetime: this._date,
       comment: this.comment

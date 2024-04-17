@@ -39,35 +39,30 @@ export class AllUsersComponent implements OnInit {
     const userToRemove: UserInterface | null = this.userService.getUserByUsername(username);
     if (!userToRemove) return;
 
-    const operations = JSON.parse(localStorage.getItem('operations') || '[]');
-    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-    const updatedOperations: Operation[] = [];
+    let operations: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
+    let usersData: { [uid: string]: UserInterface } = JSON.parse(localStorage.getItem('users') || '{}');
 
-    operations.forEach((operation:Operation) => {
+    operations = operations.filter((operation: Operation) => {
       const isFromUser = operation.fromUID == userToRemove.uid;
       const isToUser = operation.toUID == userToRemove.uid;
 
-      if (isFromUser || isToUser) {
-        if (isFromUser && usersData[operation.toUID]) {
-          const receiver = usersData[operation.toUID];
-          receiver.income -= operation.amount;
-          receiver.currentBalance = receiver.balance + receiver.income - receiver.outgoing;
-        }
-        if (isToUser && usersData[operation.fromUID]) {
-          const sender = usersData[operation.fromUID];
-          sender.outgoing -= operation.amount;
-          sender.currentBalance = sender.balance + sender.income - sender.outgoing;
-        }
-      } else {
-        updatedOperations.push(operation);
+      if (isFromUser && usersData[operation.toUID]) {
+        const receiver = usersData[operation.toUID];
+        receiver.income -= operation.amount;
+        receiver.currentBalance = receiver.balance + receiver.income - receiver.outgoing;
       }
+      if (isToUser && usersData[operation.fromUID]) {
+        const sender = usersData[operation.fromUID];
+        sender.outgoing -= operation.amount;
+        sender.currentBalance = sender.balance + sender.income - sender.outgoing;
+      }
+      return !(isFromUser || isToUser);
     });
-
     delete usersData[userToRemove.username];
-    localStorage.setItem('operations', JSON.stringify(updatedOperations));
+    localStorage.setItem('operations', JSON.stringify(operations));
     localStorage.setItem('users', JSON.stringify(usersData));
 
-    this.allUsers = this.allUsers.filter(user => user.username !== username);
+    this.allUsers = this.allUsers.filter(user => user.username != username);
   }
 
   protected readonly faPlus = faPlus;

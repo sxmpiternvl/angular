@@ -38,13 +38,13 @@ export class DeleteOperationComponent {
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const operationToRemove = operationsList.find(operation => operation.id == operationId);
     if (operationToRemove) {
-      //получатель  'N/A'
-      if (operationToRemove.toUID == 'N/A') {
+      //отправитель  'N/A'
+      if (operationToRemove.fromUID == 'N/A') {
         for (let username in usersData) {
-          if (usersData[username].uid == operationToRemove.fromUID) {
-            const sender = usersData[username];
-            sender.currentBalance = new Decimal(sender.currentBalance).minus(operationToRemove.amount).toFixed(2)
-            sender.income = new Decimal(sender.income).minus(operationToRemove.amount).toFixed(2);
+          if (usersData[username].uid == operationToRemove.toUID) {
+            const receiver = usersData[username];
+            receiver.currentBalance = new Decimal(receiver.currentBalance).minus(operationToRemove.amount).toFixed(2)
+            receiver.income = new Decimal(receiver.income).minus(operationToRemove.amount).toFixed(2);
             localStorage.setItem('users', JSON.stringify(usersData));
           }
         }
