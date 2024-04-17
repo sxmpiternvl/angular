@@ -4,7 +4,7 @@
     <div>
       <p class="p-0.5">Дата</p>
       <div class="bg-slate-50 rounded-2xl font-mono ">
-        <input type="date" [(ngModel)]="date" name="date">
+        <input type="date" [(ngModel)]="date" name="date" [class.invalid-input]="!isValidDate" required>
       </div>
       <select [(ngModel)]="operationType" name="operationType" required
               class="bg-slate-50 rounded-2xl text-center py-2  my-2 w-full border">

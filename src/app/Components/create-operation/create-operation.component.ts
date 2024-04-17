@@ -1,14 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { FormsModule } from "@angular/forms";
-import { AuthService } from "../../services/auth-service";
-import { CommonModule, DatePipe } from "@angular/common";
-import { UserInterface } from "../../interface/user";
-import { faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { DoubleSpaceDirective } from "../../directives/double-space/double-space.directive";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {FormsModule} from "@angular/forms";
+import {AuthService} from "../../services/auth-service";
+import {CommonModule, DatePipe} from "@angular/common";
+import {UserInterface} from "../../interface/user";
+import {faSave, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {DoubleSpaceDirective} from "../../directives/double-space/double-space.directive";
 import Decimal from "decimal.js";
-import { ValidateKeyDirective } from "../../directives/validate-key/validate-key.directive";
-import { UserService } from "../../services/user.service";
+import {ValidateKeyDirective} from "../../directives/validate-key/validate-key.directive";
+import {UserService} from "../../services/user.service";
 import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Component({
@@ -26,6 +26,7 @@ import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
   styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
+  isValidDate: boolean = true;
   operationType = 'outgoing';
   private _date: Date;
   @Output() close = new EventEmitter<void>();
@@ -38,21 +39,21 @@ export class CreateOperationComponent implements OnInit {
   constructor(private authService: AuthService, private userService: UserService) {
     this._date = new Date();
   }
+
   get date(): string {
     return this._date.toISOString().substring(0, 10);
   }
 
   set date(value: string) {
-    const tempDate = new Date(value);
-    if (!isNaN(tempDate.getTime())) {
-      this._date = tempDate;
-      console.log(value);
-    } else {
-      console.error("Invalid date:");
+    const temp = new Date(value);
+    this.isValidDate = !isNaN(temp.getTime());
+    if (this.isValidDate) {
+      this._date = temp;
     }
   }
+
   ngOnInit(): void {
-    this.userList = this.userService.getUsers(). filter((user) => user.username != this.currentUsername);
+    this.userList = this.userService.getUsers().filter((user) => user.username != this.currentUsername);
   }
 
   amountExceedsBalance(): boolean {
@@ -65,7 +66,6 @@ export class CreateOperationComponent implements OnInit {
     return amountDecimal.gt(balanceDecimal);
   }
 
-
   onSubmit(): void {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
@@ -77,7 +77,12 @@ export class CreateOperationComponent implements OnInit {
       if (receiverData) {
         receiverData.currentBalance = new Decimal(receiverData.currentBalance).plus(amountDecimal).toFixed(2);
         receiverData.income = new Decimal(receiverData.income).plus(amountDecimal).toFixed(2);
-        this.recordOperation({fromUser: currentUser, toUser: receiverData, amount: amountDecimal, usersData: usersData});
+        this.recordOperation({
+          fromUser: currentUser,
+          toUser: receiverData,
+          amount: amountDecimal,
+          usersData: usersData
+        });
       }
     } else if (this.operationType == 'income' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).plus(amountDecimal).toFixed(2);
@@ -113,9 +118,10 @@ export class CreateOperationComponent implements OnInit {
     this.close.emit();
   }
 
-  validComment(){
-    return this.comment.length != 0 &&( this.comment.length < 10 || this.comment.length > 255);
+  validComment() {
+    return this.comment.length != 0 && (this.comment.length < 10 || this.comment.length > 255);
   }
+
   protected readonly faXmark = faXmark;
   protected readonly faSave = faSave;
   protected readonly console = console;

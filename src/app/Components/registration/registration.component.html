@@ -31,9 +31,10 @@
             <i class="text-black absolute left-3 top-1/2 transform -translate-y-1/2">
               <fa-icon [icon]="faLockOpen"></fa-icon>
             </i>
-            <input class="px-2 pl-8" type="password" id="password" name="password" required minlength="6"
-                   [(ngModel)]="newUser.password" #password="ngModel"
-                   [class.invalid-input]="!passwordsMatch && password.touched">
+            <input class="px-2 pl-10" type="password" id="password" name="password" required minlength="6"
+                   [(ngModel)]="newUser.password" #password="ngModel"  [class.invalid-input]="password.invalid && password.touched">
+
+
           </div>
         </div>
         <div>
@@ -42,9 +43,10 @@
             <i class="text-black absolute left-3 top-1/2 transform -translate-y-1/2">
               <fa-icon [icon]="faLockOpen"></fa-icon>
             </i>
-            <input class="px-2 pl-8" type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
+            <input class="px-2 pl-10" type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
                    [(ngModel)]="confirmPassword" #confirmPasswordModel="ngModel"
-                   [class.invalid-input]="!passwordsMatch && confirmPasswordModel.touched">
+                   [appPasswordMatch]="newUser.password"
+                   [class.invalid-input]="confirmPasswordModel.invalid && confirmPasswordModel.touched || (confirmPasswordModel.dirty && confirmPasswordModel.value != newUser.password)">
           </div>
         </div>
         <div class="flex items-center gap-2 text-primary">

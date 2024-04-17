@@ -37,10 +37,9 @@ export class DeleteOperationComponent {
     const operationsList: Operation[] = JSON.parse(localStorage.getItem('operations') ?? '[]');
     const usersData = JSON.parse(localStorage.getItem('users') ?? '{}');
     const operationToRemove = operationsList.find(operation => operation.id == operationId);
-
     if (operationToRemove) {
-      // получатель  'N/A'
-      if (operationToRemove.toUID === 'N/A') {
+      //получатель  'N/A'
+      if (operationToRemove.toUID == 'N/A') {
         for (let username in usersData) {
           if (usersData[username].uid == operationToRemove.fromUID) {
             const sender = usersData[username];
@@ -49,12 +48,11 @@ export class DeleteOperationComponent {
             localStorage.setItem('users', JSON.stringify(usersData));
           }
         }
-
-        const filteredOperations = operationsList.filter(operation => operation.id !== operationId);
+        const filteredOperations = operationsList.filter(operation => operation.id != operationId);
         localStorage.setItem('operations', JSON.stringify(filteredOperations));
         return;
       }
-      //  остальные
+      //остальные
       let sender, receiver;
       for (let username in usersData) {
         if (usersData[username].uid == operationToRemove.fromUID) {
@@ -67,13 +65,11 @@ export class DeleteOperationComponent {
           receiver.currentBalance = new Decimal(receiver.currentBalance).minus(operationToRemove.amount).toFixed(2);
         }
       }
-
       localStorage.setItem('users', JSON.stringify(usersData));
-      const filteredOperations = operationsList.filter(operation => operation.id !== operationId);
+      const filteredOperations = operationsList.filter(operation => operation.id != operationId);
       localStorage.setItem('operations', JSON.stringify(filteredOperations));
     }
   }
-
   protected readonly faXmark = faXmark;
   protected readonly faTrash = faTrash;
 }

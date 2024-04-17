@@ -36,32 +36,38 @@ export class AllUsersComponent implements OnInit {
   }
 
   removeUser(username: string): void {
-    const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
-    if (removeUser) {
-      this.operations = localStorage.getItem('operations');
-      const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-      if (this.operations) {
-        const allOperations: Operation[] = JSON.parse(this.operations);
-        allOperations.forEach(operation => {
-          if (operation.fromUID == removeUser.uid || operation.toUID == removeUser.uid) {
-            if (operation.fromUID == removeUser.uid && usersData[operation.to]) {
-              usersData[operation.to].income -= operation.amount;
-              usersData[operation.to].currentBalance = usersData[operation.to].balance + usersData[operation.to].income - usersData[operation.to].outgoing;
-            } else if (operation.toUID == removeUser.uid && usersData[operation.from]) {
-              usersData[operation.from].outgoing -= operation.amount;
-              usersData[operation.from].currentBalance = usersData[operation.from].balance + usersData[operation.from].income - usersData[operation.from].outgoing;
-            }
-          }
-        });
-        const updatedOperations = allOperations.filter(operation =>
-          (operation.fromUID != removeUser.uid) && (operation.toUID != removeUser.uid)
-        );
-        delete usersData[username];
-        localStorage.setItem('operations', JSON.stringify(updatedOperations));
+    const userToRemove: UserInterface | null = this.userService.getUserByUsername(username);
+    if (!userToRemove) return;
+
+    const operations = JSON.parse(localStorage.getItem('operations') || '[]');
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
+    const updatedOperations: Operation[] = [];
+
+    operations.forEach((operation:Operation) => {
+      const isFromUser = operation.fromUID == userToRemove.uid;
+      const isToUser = operation.toUID == userToRemove.uid;
+
+      if (isFromUser || isToUser) {
+        if (isFromUser && usersData[operation.toUID]) {
+          const receiver = usersData[operation.toUID];
+          receiver.income -= operation.amount;
+          receiver.currentBalance = receiver.balance + receiver.income - receiver.outgoing;
+        }
+        if (isToUser && usersData[operation.fromUID]) {
+          const sender = usersData[operation.fromUID];
+          sender.outgoing -= operation.amount;
+          sender.currentBalance = sender.balance + sender.income - sender.outgoing;
+        }
+      } else {
+        updatedOperations.push(operation);
       }
-      localStorage.setItem('users', JSON.stringify(usersData));
-      this.allUsers = this.allUsers.filter(user => user.username != username);
-    }
+    });
+
+    delete usersData[userToRemove.username];
+    localStorage.setItem('operations', JSON.stringify(updatedOperations));
+    localStorage.setItem('users', JSON.stringify(usersData));
+
+    this.allUsers = this.allUsers.filter(user => user.username !== username);
   }
 
   protected readonly faPlus = faPlus;

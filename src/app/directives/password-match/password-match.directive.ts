@@ -1,25 +1,24 @@
-// import {Directive, forwardRef, Input} from '@angular/core';
-// import {AbstractControl, NG_VALIDATORS, NgModel, ValidationErrors, Validator} from "@angular/forms";
-//
-// export function passwordMatcher(confirmPasswordControl: AbstractControl, passwordControlValue: string): ValidationErrors | null {
-//   if (!confirmPasswordControl.value) return null;
-//   return confirmPasswordControl.value === passwordControlValue ? null : { 'passwordMismatch': true };
-// }
-// @Directive({
-//   selector: '[appPasswordMatch]',
-//   providers: [
-//     {
-//       provide: NG_VALIDATORS,
-//       useExisting: forwardRef(() => PasswordMatchDirective),
-//       multi: true
-//     }
-//   ],
-//   standalone: true
-// })
-// export class PasswordMatchDirective implements Validator{
-//   @Input('appPasswordMatch') passwordModel: NgModel;
-//
-//   validate(control: AbstractControl): ValidationErrors | null {
-//     return this.passwordModel ? passwordMatcher(control, this.passwordModel.value) : null;
-//   }
-// }
+import { Directive, Input } from '@angular/core';
+import { NG_VALIDATORS, Validator, AbstractControl, ValidatorFn } from '@angular/forms';
+
+export function passwordMatcher(targetPassword: string): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    if (control.value != targetPassword) {
+      return { 'passwordMismatch': true };
+    }
+    return null;
+  };
+}
+
+@Directive({
+  selector: '[appPasswordMatch]',
+  standalone: true,
+  providers: [{provide: NG_VALIDATORS, useExisting: PasswordMatchDirective, multi: true}]
+})
+export class PasswordMatchDirective implements Validator {
+  @Input('appPasswordMatch') targetPassword!: string;
+
+  validate(control: AbstractControl): {[key: string]: any} | null {
+    return passwordMatcher(this.targetPassword)(control);
+  }
+}
