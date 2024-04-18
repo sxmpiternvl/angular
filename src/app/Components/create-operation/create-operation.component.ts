@@ -27,9 +27,10 @@ import {DateControllerDirective} from "../../directives/date-controller/date-con
   styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
-  isValidDate: boolean = true;
   operationType = 'outgoing';
-  private _date: Date;
+
+  date = new Date().toISOString().substring(0, 10);
+  // private _date: Date;
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
   currentUsername: string = this.authService.getCurrentUsername();
@@ -38,20 +39,20 @@ export class CreateOperationComponent implements OnInit {
   receiverUsername = '';
 
   constructor(private authService: AuthService, private userService: UserService) {
-    this._date = new Date();
+    // this._date = new Date();
   }
 
-  get date(): string {
-    return this._date.toISOString().substring(0, 10);
-  }
-
-  set date(value: string) {
-    const temp = new Date(value);
-    this.isValidDate = !isNaN(temp.getTime());
-    if (this.isValidDate) {
-      this._date = temp;
-    }
-  }
+  // get date(): string {
+  //   return this._date.toISOString().substring(0, 10);
+  // }
+  //
+  // set date(value: string) {
+  //   const temp = new Date(value);
+  //   this.isValidDate = !isNaN(temp.getTime());
+  //   if (this.isValidDate) {
+  //     this._date = temp;
+  //   }
+  // }
 
   ngOnInit(): void {
     this.userList = this.userService.getUsers().filter((user) => user.username != this.currentUsername);
@@ -70,21 +71,27 @@ export class CreateOperationComponent implements OnInit {
   onSubmit(): void {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
-    const receiverData = usersData[this.receiverUsername];
     const amountDecimal = new Decimal(this.amount);
-    if (this.operationType == 'outgoing' && currentUser && new Decimal(currentUser.currentBalance).gte(amountDecimal)) {
+
+    if (this.operationType === 'outgoing' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
       currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
-      if (receiverData) {
-        receiverData.currentBalance = new Decimal(receiverData.currentBalance).plus(amountDecimal).toFixed(2);
-        receiverData.income = new Decimal(receiverData.income).plus(amountDecimal).toFixed(2);
-        this.recordOperation({
-          fromUser: currentUser,
-          toUser: receiverData,
-          amount: amountDecimal,
-          usersData: usersData
-        });
+
+      const toUser = this.receiverUsername !== 'N/A' ? usersData[this.receiverUsername] : null;
+
+      if (toUser) {
+        // Обновляем данные получателя
+        toUser.currentBalance = new Decimal(toUser.currentBalance).plus(amountDecimal).toFixed(2);
+        toUser.income = new Decimal(toUser.income).plus(amountDecimal).toFixed(2);
       }
+
+      // Записываем операцию
+      this.recordOperation({
+        fromUser: currentUser,
+        toUser: toUser,
+        amount: amountDecimal,
+        usersData: usersData
+      });
     } else if (this.operationType == 'income' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).plus(amountDecimal).toFixed(2);
       currentUser.income = new Decimal(currentUser.income).plus(amountDecimal).toFixed(2);
@@ -93,19 +100,19 @@ export class CreateOperationComponent implements OnInit {
   }
 
   private recordOperation({fromUser, toUser, amount, usersData}: {
-    fromUser: UserInterface,
+    fromUser: UserInterface | null,
     toUser: UserInterface | null,
     amount: Decimal,
     usersData: UserInterface[]
   }) {
     const operation = {
       id: Date.now(),
-      from: toUser ? fromUser.username : 'N/A',
-      to: toUser ? toUser.username : fromUser.username,
-      fromUID: toUser ? fromUser.uid : 'N/A',
-      toUID: toUser ? toUser.uid : fromUser.uid,
+      from: toUser ? fromUser!.username : 'N/A',
+      to: toUser ? toUser.username : fromUser!.username,
+      fromUID: toUser ? fromUser!.uid : 'N/A',
+      toUID: toUser ? toUser.uid : fromUser!.uid,
       amount: amount.toFixed(2),
-      datetime: this._date,
+      datetime: this.date,
       comment: this.comment
     };
     const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
@@ -119,9 +126,6 @@ export class CreateOperationComponent implements OnInit {
     this.close.emit();
   }
 
-  validComment() {
-    return this.comment.length != 0 && (this.comment.length < 10 || this.comment.length > 255);
-  }
 
   protected readonly faXmark = faXmark;
   protected readonly faSave = faSave;

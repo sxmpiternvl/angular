@@ -9,6 +9,7 @@ import {RegistrationComponent} from "../registration/registration.component";
 import {ModalComponent} from "../../modal/modal.component";
 import {UserInterface} from "../../interface/user";
 import {faPlus, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
+import Decimal from "decimal.js";
 
 
 @Component({
@@ -36,31 +37,51 @@ export class AllUsersComponent implements OnInit {
   }
 
   removeUser(username: string): void {
-    const userToRemove: UserInterface | null = this.userService.getUserByUsername(username);
-    if (!userToRemove) return;
+    const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
+    if (!removeUser) return;  // Проверяем, существует ли пользователь
 
-    let operations: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
-    let usersData: { [uid: string]: UserInterface } = JSON.parse(localStorage.getItem('users') || '{}');
+    const operationsStr = localStorage.getItem('operations');
+    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
 
-    operations = operations.filter((operation: Operation) => {
-      const isFromUser = operation.fromUID == userToRemove.uid;
-      const isToUser = operation.toUID == userToRemove.uid;
+    if (operationsStr && removeUser) {
+      const allOperations: Operation[] = JSON.parse(operationsStr);
+      allOperations.forEach(operation => {
+        if (operation.from == removeUser.username || operation.to == removeUser.username) {
+          const amountDecimal = new Decimal(operation.amount);
+          if (operation.from == removeUser.username) {
+            const recipient = usersData[operation.to];
+            if (recipient) {
+              console.log('recip');
+              recipient.income = new Decimal(recipient.income).minus(amountDecimal).toString();
+              recipient.currentBalance = new Decimal(recipient.balance)
+                .plus(recipient.income)
+                .minus(recipient.outgoing)
+                .toString();
+              console.log(recipient.currentBalance);
+            }
+          }
+          if (operation.to == removeUser.username) {
+            console.log('send');
+            const sender = usersData[operation.from];
+            if (sender) {
+              sender.outgoing = new Decimal(sender.outgoing).minus(amountDecimal).toString();
+              sender.currentBalance = new Decimal(sender.balance)
+                .plus(sender.income)
+                .minus(sender.outgoing)
+                .toString();
+              console.log(sender.currentBalance);
+            }
+          }
+        }
+      });
+      delete usersData[removeUser.username];
+      localStorage.setItem('users', JSON.stringify(usersData));
+      const updatedOperations = allOperations.filter(operation =>
+        operation.from != removeUser.username && operation.to != removeUser.username
+      );
+      localStorage.setItem('operations', JSON.stringify(updatedOperations));
+    }
 
-      if (isFromUser && usersData[operation.toUID]) {
-        const receiver = usersData[operation.toUID];
-        receiver.income -= operation.amount;
-        receiver.currentBalance = receiver.balance + receiver.income - receiver.outgoing;
-      }
-      if (isToUser && usersData[operation.fromUID]) {
-        const sender = usersData[operation.fromUID];
-        sender.outgoing -= operation.amount;
-        sender.currentBalance = sender.balance + sender.income - sender.outgoing;
-      }
-      return !(isFromUser || isToUser);
-    });
-    delete usersData[userToRemove.username];
-    localStorage.setItem('operations', JSON.stringify(operations));
-    localStorage.setItem('users', JSON.stringify(usersData));
 
     this.allUsers = this.allUsers.filter(user => user.username != username);
   }
