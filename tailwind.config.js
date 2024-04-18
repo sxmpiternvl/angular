@@ -11,9 +11,6 @@ module.exports = {
         error: '#F52D52',
         neutral: '#1C1C1C',
       },
-      background: {
-        'arrow': "url('/src/svg/arrow-down.svg')",
-      },
     },
   },
   plugins: [],

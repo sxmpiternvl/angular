@@ -25,17 +25,16 @@
         <div class="select-wrapper">
           <p>Кому:</p>
           <div class="relative inline-block w-full">
-            <select [(ngModel)]="receiverUsername" name="receiverUsername" required
+            <select [(ngModel)]="receiverUsername" name="receiverUsername"
                     class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full focus:outline-none border appearance-none">
               <ng-container>
                 @for (user of userList;track user){
                   <option class="bg-slate-50" [value]="user.username">{{ user.username }}</option>
                 }
-                <option class="bg-slate-50" value="qwe">N/A</option>
+                <option class="bg-slate-50" [value]="undefined">N/A</option>
               </ng-container>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
-              <!-- SVG стрелка -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="h-4 w-4 fill-current">
                 <path fill-rule="evenodd" d="M10 12.586L4.707 7.293a1 1 0 0 1 1.414-1.414L10 10.758l4.879-4.879a1 1 0 1 1 1.414 1.414l-5.293 5.293a1 1 0 0 1-1.414 0z" clip-rule="evenodd"/>
               </svg>

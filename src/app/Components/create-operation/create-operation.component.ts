@@ -11,6 +11,7 @@ import {ValidateKeyDirective} from "../../directives/validate-key/validate-key.d
 import {UserService} from "../../services/user.service";
 import {DateControllerDirective} from "../../directives/date-controller/date-controller.directive";
 
+
 @Component({
   selector: 'app-create-operation',
   standalone: true,
@@ -35,7 +36,7 @@ export class CreateOperationComponent implements OnInit {
   currentUsername: string = this.authService.getCurrentUsername();
   amount: string = '';
   comment: string = '';
-  receiverUsername = '';
+  receiverUsername = undefined;
 
   constructor(private authService: AuthService, private userService: UserService) {
     // this._date = new Date();
@@ -75,7 +76,8 @@ export class CreateOperationComponent implements OnInit {
     if (this.operationType == 'outgoing' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
       currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
-      let toUser = this.receiverUsername != 'N/A' ? usersData[this.receiverUsername] : null;
+      let toUser = this.receiverUsername != undefined ? usersData[this.receiverUsername!] : null;
+      console.log(this.receiverUsername)
       if (toUser) {
         toUser.currentBalance = new Decimal(toUser.currentBalance).plus(amountDecimal).toFixed(2);
         toUser.income = new Decimal(toUser.income).plus(amountDecimal).toFixed(2);
