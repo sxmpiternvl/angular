@@ -15,7 +15,6 @@ import {CommonModule} from "@angular/common";
     }
 
   `,
-  styleUrl: './modal.component.css'
 })
 export class ModalComponent {
   @Input() content?: TemplateRef<any>;

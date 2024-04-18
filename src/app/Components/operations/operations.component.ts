@@ -23,7 +23,6 @@ import {
   standalone: true,
   imports: [CommonModule, FormsModule, FaIconComponent, CreateOperationComponent, ModalComponent, DeleteOperationComponent],
   templateUrl: 'operations.component.html',
-  styleUrl: './operations.component.css',
   providers: [DatePipe],
 })
 export class OperationsComponent implements OnInit {

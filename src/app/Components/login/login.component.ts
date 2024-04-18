@@ -24,7 +24,7 @@ import {
     RouterLink
   ],
   templateUrl: 'login.component.html',
-  styleUrl: './login.component.css'
+
 })
 export class LoginComponent {
   username: string = '';

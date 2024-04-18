@@ -19,7 +19,7 @@ import {PasswordMatchDirective} from "../../directives/password-match/password-m
     PasswordMatchDirective,
   ],
   templateUrl: 'registration.component.html',
-  styleUrl: './registration.component.css'
+
 })
 export class RegistrationComponent {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
@@ -64,9 +64,7 @@ export class RegistrationComponent {
       event.preventDefault();
     }
   }
-  get passwordsMatch(): boolean {
-    return this.newUser.password == this.confirmPassword;
-  }
+
 
   protected readonly faUser = faUser;
   protected readonly faLockOpen = faLockOpen;

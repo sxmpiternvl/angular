@@ -24,7 +24,6 @@ import {DateControllerDirective} from "../../directives/date-controller/date-con
   ],
   providers: [DatePipe],
   templateUrl: 'create-operation.component.html',
-  styleUrl: './create-operation.component.css',
 })
 export class CreateOperationComponent implements OnInit {
   operationType = 'outgoing';
@@ -73,19 +72,14 @@ export class CreateOperationComponent implements OnInit {
     const currentUser = usersData[this.currentUsername];
     const amountDecimal = new Decimal(this.amount);
 
-    if (this.operationType === 'outgoing' && currentUser) {
+    if (this.operationType == 'outgoing' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
       currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
-
-      const toUser = this.receiverUsername !== 'N/A' ? usersData[this.receiverUsername] : null;
-
+      let toUser = this.receiverUsername != 'N/A' ? usersData[this.receiverUsername] : null;
       if (toUser) {
-        // Обновляем данные получателя
         toUser.currentBalance = new Decimal(toUser.currentBalance).plus(amountDecimal).toFixed(2);
         toUser.income = new Decimal(toUser.income).plus(amountDecimal).toFixed(2);
       }
-
-      // Записываем операцию
       this.recordOperation({
         fromUser: currentUser,
         toUser: toUser,
@@ -95,7 +89,7 @@ export class CreateOperationComponent implements OnInit {
     } else if (this.operationType == 'income' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).plus(amountDecimal).toFixed(2);
       currentUser.income = new Decimal(currentUser.income).plus(amountDecimal).toFixed(2);
-      this.recordOperation({fromUser: currentUser, toUser: null, amount: amountDecimal, usersData: usersData});
+      this.recordOperation({fromUser: null, toUser: currentUser, amount: amountDecimal, usersData: usersData});
     }
   }
 
@@ -107,10 +101,10 @@ export class CreateOperationComponent implements OnInit {
   }) {
     const operation = {
       id: Date.now(),
-      from: toUser ? fromUser!.username : 'N/A',
-      to: toUser ? toUser.username : fromUser!.username,
-      fromUID: toUser ? fromUser!.uid : 'N/A',
-      toUID: toUser ? toUser.uid : fromUser!.uid,
+      from: fromUser ? fromUser!.username : 'N/A',
+      to: toUser ? toUser.username : 'N/A',
+      fromUID: fromUser ? fromUser!.uid : 'N/A',
+      toUID: toUser ? toUser.uid : 'N/A',
       amount: amount.toFixed(2),
       datetime: this.date,
       comment: this.comment

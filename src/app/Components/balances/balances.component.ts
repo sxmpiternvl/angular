@@ -15,8 +15,6 @@ import Decimal from "decimal.js";
   standalone: true,
   imports: [CommonModule, FormsModule, FaIconComponent],
   templateUrl: 'balances.component.html',
-  styleUrl: './balances.component.css',
-
 })
 export class BalancesComponent implements OnInit {
   currentUser: UserInterface | null = null;

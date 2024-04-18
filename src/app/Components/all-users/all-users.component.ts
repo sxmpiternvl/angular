@@ -17,7 +17,6 @@ import Decimal from "decimal.js";
   standalone: true,
   imports: [CommonModule, RouterLink, FaIconComponent, RegistrationComponent, ModalComponent],
   templateUrl: 'all-users.component.html',
-  styleUrl: './all-users.component.css'
 })
 export class AllUsersComponent implements OnInit {
   currentUser: UserInterface | null = null;
@@ -38,7 +37,7 @@ export class AllUsersComponent implements OnInit {
 
   removeUser(username: string): void {
     const removeUser: UserInterface | null = this.userService.getUserByUsername(username);
-    if (!removeUser) return;  // Проверяем, существует ли пользователь
+    if (!removeUser) return;
 
     const operationsStr = localStorage.getItem('operations');
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
@@ -51,7 +50,6 @@ export class AllUsersComponent implements OnInit {
           if (operation.from == removeUser.username) {
             const recipient = usersData[operation.to];
             if (recipient) {
-              console.log('recip');
               recipient.income = new Decimal(recipient.income).minus(amountDecimal).toString();
               recipient.currentBalance = new Decimal(recipient.balance)
                 .plus(recipient.income)
@@ -61,7 +59,6 @@ export class AllUsersComponent implements OnInit {
             }
           }
           if (operation.to == removeUser.username) {
-            console.log('send');
             const sender = usersData[operation.from];
             if (sender) {
               sender.outgoing = new Decimal(sender.outgoing).minus(amountDecimal).toString();

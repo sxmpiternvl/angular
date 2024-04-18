@@ -6,6 +6,10 @@
 .invalid-input {
   @apply box-border border border-red-500
 }
+select {
+  @apply appearance-none;
+}
+
 
 body {
   background-color: #f8f7f7;
