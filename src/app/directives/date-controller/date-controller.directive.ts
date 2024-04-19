@@ -36,8 +36,8 @@ export class DateControllerDirective implements ControlValueAccessor, Validator 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-  @HostListener('input', ['$event.target.valueAsDate'])
-  onInput(value: Date | null): void {
+  @HostListener('change', ['$event.target.valueAsDate'])
+  onChangeEvent(value: Date | null): void {
     this.onChange(value);
   }
   validate(control: AbstractControl): ValidationErrors | null {
