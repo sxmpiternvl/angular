@@ -40,6 +40,9 @@ export class OperationsComponent implements OnInit {
   updateFilteredOperations(): void {
     this.filteredOperationsList = [];
     const operationsData: Operation[] = JSON.parse(localStorage.getItem('operations') || '[]');
+    operationsData.sort((a, b) => {
+      return new Date(b.datetime).getTime() - new Date(a.datetime).getTime();
+    });
     const currentUserUsername = this.authService.getCurrentUsername();
     if (currentUserUsername) {
       this.currentUser = this.userService.getUserByUsername(currentUserUsername);

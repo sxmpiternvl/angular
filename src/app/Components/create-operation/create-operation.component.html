@@ -11,8 +11,9 @@
       <div class="relative inline-block w-full">
         <select [(ngModel)]="operationType" name="operationType" required
                 class="bg-slate-50 rounded-2xl text-center py-2 my-2 w-full border appearance-none">
-          <option value="outgoing">Расход</option>
-          <option value="income">Приход</option>
+          <ng-container *ngFor="let type of operationTypes">
+            <option [value]="type.value">{{ type.label }}</option>
+          </ng-container>
         </select>
         <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="h-4 w-4 fill-current">
