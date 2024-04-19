@@ -18,11 +18,11 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
   imports: [RouterOutlet, RouterLink, CommonModule, RouterLinkActive, FaIconComponent],
   providers: [DatePipe],
   templateUrl: 'app.component.html',
-  styleUrl: './app.component.css',
   animations: [sAnimation]
 })
 
 export class AppComponent {
+  _date:Date = new Date();
   links = [
     {path: '/allUsers', icon: faUsers, label: 'Пользователи'},
     {path: '/operations', icon: faSignature, label: 'Операции'},
@@ -44,10 +44,6 @@ export class AppComponent {
 
   getCurrentUsername(): string {
     return this.authService.getCurrentUsername();
-  }
-
-  getDate() {
-    return this.datePipe.transform(new Date(), 'dd.MM.yyyy');
   }
 
   navigate(path: string): void {

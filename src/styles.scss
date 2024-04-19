@@ -9,6 +9,9 @@
 select {
   @apply appearance-none;
 }
+h2{
+  @apply text-2xl py-2;
+}
 
 
 body {
@@ -51,7 +54,7 @@ $colors: [
 
 @each $color in $colors {
   .custom-btn-#{$color} {
-    @apply text-#{$color} border-#{$color} rounded-xl px-3 py-1.5 text-center border hover:bg-#{$color}  hover:text-white transition-colors;
+    @apply text-#{$color} border-#{$color} rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-#{$color} hover:text-white transition-colors w-fit justify-self-end;
   }
   .custom-btn-#{$color}-filled {
     @apply text-white border-#{$color} bg-#{$color} rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;

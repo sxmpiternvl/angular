@@ -29,7 +29,7 @@ import {DateControllerDirective} from "../../directives/date-controller/date-con
 export class CreateOperationComponent implements OnInit {
   operationType = 'outgoing';
 
-  date = new Date().toISOString().substring(0, 10);
+  date:Date = new Date();
   // private _date: Date;
   @Output() close = new EventEmitter<void>();
   userList: UserInterface[] = [];
@@ -76,7 +76,7 @@ export class CreateOperationComponent implements OnInit {
     if (this.operationType == 'outgoing' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
       currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
-      let toUser = this.receiverUsername != undefined ? usersData[this.receiverUsername!] : null;
+      let toUser = this.receiverUsername != undefined ? usersData[this.receiverUsername!] : undefined;
       console.log(this.receiverUsername)
       if (toUser) {
         toUser.currentBalance = new Decimal(toUser.currentBalance).plus(amountDecimal).toFixed(2);
@@ -91,13 +91,13 @@ export class CreateOperationComponent implements OnInit {
     } else if (this.operationType == 'income' && currentUser) {
       currentUser.currentBalance = new Decimal(currentUser.currentBalance).plus(amountDecimal).toFixed(2);
       currentUser.income = new Decimal(currentUser.income).plus(amountDecimal).toFixed(2);
-      this.recordOperation({fromUser: null, toUser: currentUser, amount: amountDecimal, usersData: usersData});
+      this.recordOperation({fromUser: undefined, toUser: currentUser, amount: amountDecimal, usersData: usersData});
     }
   }
 
   private recordOperation({fromUser, toUser, amount, usersData}: {
-    fromUser: UserInterface | null,
-    toUser: UserInterface | null,
+    fromUser: UserInterface | undefined,
+    toUser: UserInterface | undefined,
     amount: Decimal,
     usersData: UserInterface[]
   }) {

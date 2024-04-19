@@ -4,8 +4,8 @@
     <div>
       <p class="p-0.5">Дата</p>
       <div class="bg-slate-50 rounded-2xl font-mono">
-        <input type="date" [(ngModel)]="date" name="date" appDateController
-               [class.invalid-input]="dateModel.invalid" required
+        <input type="date" [(ngModel)]="date" name="date"
+               [class.invalid-input]="dateModel.invalid" required appDateController
                #dateModel="ngModel">
       </div>
       <div class="relative inline-block w-full">

@@ -42,10 +42,12 @@ export class AllUsersComponent implements OnInit {
     const operationsStr = localStorage.getItem('operations');
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
 
-    if (operationsStr && removeUser) {
+    if (operationsStr) {
       const allOperations: Operation[] = JSON.parse(operationsStr);
-      allOperations.forEach(operation => {
-        if (operation.from == removeUser.username || operation.to == removeUser.username) {
+
+      const updatedOperations = allOperations.filter(operation => {
+        const involvesRemoveUser = operation.from == removeUser.username || operation.to == removeUser.username;
+        if (involvesRemoveUser) {
           const amountDecimal = new Decimal(operation.amount);
           if (operation.from == removeUser.username) {
             const recipient = usersData[operation.to];
@@ -55,7 +57,6 @@ export class AllUsersComponent implements OnInit {
                 .plus(recipient.income)
                 .minus(recipient.outgoing)
                 .toString();
-              console.log(recipient.currentBalance);
             }
           }
           if (operation.to == removeUser.username) {
@@ -66,19 +67,15 @@ export class AllUsersComponent implements OnInit {
                 .plus(sender.income)
                 .minus(sender.outgoing)
                 .toString();
-              console.log(sender.currentBalance);
             }
           }
         }
+        return !involvesRemoveUser;
       });
       delete usersData[removeUser.username];
       localStorage.setItem('users', JSON.stringify(usersData));
-      const updatedOperations = allOperations.filter(operation =>
-        operation.from != removeUser.username && operation.to != removeUser.username
-      );
       localStorage.setItem('operations', JSON.stringify(updatedOperations));
     }
-
 
     this.allUsers = this.allUsers.filter(user => user.username != username);
   }

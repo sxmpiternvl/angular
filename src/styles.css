@@ -9,6 +9,10 @@ select {
   @apply appearance-none;
 }
 
+h2 {
+  @apply text-2xl py-2;
+}
+
 body {
   background-color: #f8f7f7;
   margin: 0;
@@ -40,7 +44,7 @@ input {
 }
 
 .custom-btn-primary {
-  @apply text-primary border-primary rounded-xl px-3 py-1.5 text-center border hover:bg-primary  hover:text-white transition-colors;
+  @apply text-primary border-primary rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-primary hover:text-white transition-colors w-fit justify-self-end;
 }
 
 .custom-btn-primary-filled {
@@ -52,7 +56,7 @@ input {
 }
 
 .custom-btn-secondary {
-  @apply text-secondary border-secondary rounded-xl px-3 py-1.5 text-center border hover:bg-secondary  hover:text-white transition-colors;
+  @apply text-secondary border-secondary rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-secondary hover:text-white transition-colors w-fit justify-self-end;
 }
 
 .custom-btn-secondary-filled {
@@ -64,7 +68,7 @@ input {
 }
 
 .custom-btn-success {
-  @apply text-success border-success rounded-xl px-3 py-1.5 text-center border hover:bg-success  hover:text-white transition-colors;
+  @apply text-success border-success rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-success hover:text-white transition-colors w-fit justify-self-end;
 }
 
 .custom-btn-success-filled {
@@ -76,7 +80,7 @@ input {
 }
 
 .custom-btn-error {
-  @apply text-error border-error rounded-xl px-3 py-1.5 text-center border hover:bg-error  hover:text-white transition-colors;
+  @apply text-error border-error rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-error hover:text-white transition-colors w-fit justify-self-end;
 }
 
 .custom-btn-error-filled {
@@ -88,7 +92,7 @@ input {
 }
 
 .custom-btn-neutral {
-  @apply text-neutral border-neutral rounded-xl px-3 py-1.5 text-center border hover:bg-neutral  hover:text-white transition-colors;
+  @apply text-neutral border-neutral rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-neutral hover:text-white transition-colors w-fit justify-self-end;
 }
 
 .custom-btn-neutral-filled {

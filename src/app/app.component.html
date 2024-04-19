@@ -26,7 +26,7 @@
           @if (isLoggedIn() || link.path != '/operations'){
             <div class="flex align-items-center pb-4 font-semibold hover:text-primary"
                  [routerLink]="link.path" routerLinkActive="active" #rla="routerLinkActive" (click)="navigate(link.path)">
-              <fa-icon [icon]="link.icon" [ngClass]="{ 'text-primary': rla.isActive }"></fa-icon>
+              <fa-icon [icon]="link.icon" [class.text-primary]="rla.isActive"></fa-icon>
               <span class="ml-2.5" [class.text-primary]="rla.isActive">{{ link.label }}</span>
             </div>
           }
@@ -56,7 +56,7 @@
 @if (isLoggedIn()) {
   <div class="fixed bottom-0 left-0 w-full text-black px-4 border-t-2 bg-white">
     <p class="align-middle pl-96 text-right text-black"><span class="p-4 ">Сегодня: <span
-      class="font-bold">{{ getDate() }}</span> </span> Текущий пользователь: <span
+      class="font-bold">{{ _date | date: 'dd-MM-yyyy' }}</span> </span> Текущий пользователь: <span
       class="font-bold"> {{ getCurrentUsername() }}</span></p>
   </div>
 }
