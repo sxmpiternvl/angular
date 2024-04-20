@@ -1,105 +1,91 @@
-<div class="absolute inset-0 flex flex-col p-3 pb-10">
+<div class="absolute inset-0 flex flex-col px-6 pt-3 pb-8">
   <div class="bg-white flex-1 overflow-y-scroll rounded-2xl">
-    <h2 class="sticky top-0 bg-white mb-2 text-4xl p-4">Балансы пользователей</h2>
+    <h2 class="sticky top-0 bg-white mb-2 p-4">Балансы пользователей</h2>
     @if (!isLoggedIn()) {
-      <div *ngFor="let user of allUsers">
-        <p class="px-4 text-2xl font-light"> {{ user.username }}</p>
+      @for (user of allUsers; track user) {
+        <h3 class="px-4 text-2xl font-light"> {{ user.username }}</h3>
         <div class="grid grid-cols-3 border-b p-4 mb-2.5">
-          <div class="flex gap-2 flex-row items-center">
-            <div class="stat-success">
-              <fa-icon [icon]="faArrowTrendUp"></fa-icon>
-            </div>
-            <div class=""><p>Всего приход</p>
+
+          <div class="flex gap-2 items-center">
+            <fa-icon class="stat-success" [icon]="faArrowTrendUp"></fa-icon>
+            <div>
+              <h3>Всего приход</h3>
               <p>{{ getTotalIncomeBalance(user) }}</p>
             </div>
           </div>
-          <div class="flex gap-2 flex-row items-center">
-            <div class="stat-error">
-              <fa-icon [icon]="faArrowTrendDown"></fa-icon>
-            </div>
-            <div class=""><p>Всего расход</p>
+
+          <div class="flex gap-2 items-center">
+            <fa-icon class="stat-error" [icon]="faArrowTrendDown"></fa-icon>
+            <div>
+              <p>Всего расход</p>
               <p>{{ user.outgoing }}</p>
             </div>
           </div>
-          <div class="flex gap-2 flex-row items-center">
-            <div class="stat-primary">
-              <fa-icon [icon]="faPiggyBank"></fa-icon>
-            </div>
-            <div class=""><p>Баланс</p>
-              <p>
-                Balance: {{ user.currentBalance }}</p>
+
+          <div class="flex gap-2 items-center">
+            <fa-icon class="stat-primary" [icon]="faPiggyBank"></fa-icon>
+            <div>
+              <p>Баланс</p>
+              <p>{{ user.currentBalance }}</p>
             </div>
           </div>
         </div>
-      </div>
+      }
     } @else {
       <div class="grid grid-cols-3 border-b p-4 mb-2.5">
-        <div class="flex gap-2 flex-row items-center">
-          <div class="stat-success">
-            <fa-icon [icon]="faArrowTrendUp"></fa-icon>
-          </div>
-          <div class=""><p>Всего приход</p>
+
+        <div class="flex items-center gap-2">
+          <fa-icon class="stat-success" [icon]="faArrowTrendUp"></fa-icon>
+          <div>
+            <p>Всего приход</p>
             <p>{{ getTotalIncomeBalance(currentUser!) }}</p>
           </div>
         </div>
-        <div class="flex gap-2 flex-row items-center">
-          <div class="stat-error">
-            <fa-icon [icon]="faArrowTrendDown"></fa-icon>
-          </div>
-          <div class=""><p>Всего расход</p>
+
+        <div class="flex items-center gap-2">
+          <fa-icon class="stat-error" [icon]="faArrowTrendDown"></fa-icon>
+          <div>
+            <p>Всего расход</p>
             <p>{{ currentUser!.outgoing }}</p>
           </div>
         </div>
-        <div class="flex gap-2 flex-row items-center">
-          <div class="stat-primary">
-            <fa-icon [icon]="faPiggyBank"></fa-icon>
-          </div>
-          <div class=""><p>Баланс</p>
-            <p>
-              {{ currentUser!.currentBalance }}</p>
+
+        <div class="flex items-center gap-2">
+          <fa-icon class="stat-primary" [icon]="faPiggyBank"></fa-icon>
+          <div>
+            <p>Баланс</p>
+            <p>{{ currentUser!.currentBalance }}</p>
           </div>
         </div>
       </div>
     }
   </div>
 
-  <div class="bg-white  mt-4 rounded-2xl">
-    <p class=" pt-4 pb-2 px-4 text-2xl">Итог</p>
-    <div class="px-4  grid grid-cols-3 pb-4">
-      <div class="flex gap-2 flex-row items-center ">
-        <div class="stat-success">
-          <fa-icon [icon]="faArrowTrendUp"></fa-icon>
-        </div>
-        <div class=""><p>Всего приход </p>
-          @if (!isLoggedIn()) {
-            <p>{{ getTotalIncome() }}</p>
-          } @else {
-            <p>{{ getTotalIncomeBalance(currentUser!) }}</p>
-          }
+  <div class="bg-white mt-4 rounded-2xl">
+    <h3 class="pt-4 pb-2 px-4 text-2xl">Итог</h3>
+    <div class="px-4 grid grid-cols-3 pb-4 gap-4">
+
+      <div class="flex items-center gap-2">
+        <fa-icon class="stat-success" [icon]="faArrowTrendUp"></fa-icon>
+        <div>
+          <h3>Всего приход</h3>
+          <p>{{ isLoggedIn() ? getTotalIncomeBalance(currentUser!) : getTotalIncome() }}</p>
         </div>
       </div>
-      <div class="flex gap-2 flex-row items-center">
-        <div class="stat-error">
-          <fa-icon [icon]="faArrowTrendDown"></fa-icon>
-        </div>
-        <div class=""><p>Всего расход</p>
-          @if (!isLoggedIn()) {
-            <p>{{ getTotalOutgoing() }}</p>
-          } @else {
-            <p>{{ currentUser!.outgoing }}</p>
-          }
+
+      <div class="flex items-center gap-2">
+        <fa-icon class="stat-error" [icon]="faArrowTrendDown"></fa-icon>
+        <div>
+          <h3>Всего расход</h3>
+          <p>{{ isLoggedIn() ? currentUser!.outgoing : getTotalOutgoing() }}</p>
         </div>
       </div>
-      <div class="flex gap-2 flex-row items-center">
-        <div class="stat-primary">
-          <fa-icon [icon]="faPiggyBank"></fa-icon>
-        </div>
-        <div class=""><p>Баланс</p>
-          @if (!isLoggedIn()) {
-            <p>{{ getTotalBalance() }}</p>
-          } @else {
-            <p>{{ currentUser!.currentBalance }}</p>
-          }
+
+      <div class="flex items-center gap-2">
+        <fa-icon class="stat-primary" [icon]="faPiggyBank"></fa-icon>
+        <div>
+          <h3>Баланс</h3>
+          <p>{{ isLoggedIn() ? currentUser!.currentBalance : getTotalBalance() }}</p>
         </div>
       </div>
     </div>

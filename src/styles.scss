@@ -9,6 +9,9 @@
 select {
   @apply appearance-none;
 }
+h1{
+  @apply text-3xl  py-2;
+}
 h2{
   @apply text-2xl py-2;
 }
@@ -43,6 +46,29 @@ input {
 .error-block {
   @apply bg-white py-4 text-error
 }
+.custom-btn-full-width {
+  width: 100%;
+}
+
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  border: 1px solid blue;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-checkbox:checked {
+  background-color: blue;
+  border-color: blue;
+}
 
 $colors: [
   "primary",
@@ -54,7 +80,7 @@ $colors: [
 
 @each $color in $colors {
   .custom-btn-#{$color} {
-    @apply text-#{$color} border-#{$color} rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-#{$color} hover:text-white transition-colors w-fit justify-self-end;
+    @apply text-#{$color} border-#{$color} rounded-xl px-3 py-1.5 h-fit text-center border hover:bg-#{$color} hover:text-white transition-colors justify-self-end;
   }
   .custom-btn-#{$color}-filled {
     @apply text-white border-#{$color} bg-#{$color} rounded-xl px-3 py-1.5 text-center border hover:text-white transition-colors;

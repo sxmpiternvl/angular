@@ -33,7 +33,9 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {
   }
-
+  navigateToUsers() {
+    this.router.navigate(['/allUsers']);
+  }
   login(): void {
     if (this.authService.login(this.username, this.password)) {
         this.router.navigate(['/operations']);

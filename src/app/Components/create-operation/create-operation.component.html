@@ -2,7 +2,7 @@
   <form (ngSubmit)="onSubmit()" #submitForm="ngForm">
     <h1 class="text-2xl pb-1">Создание записи</h1>
     <div>
-      <p class="p-0.5">Дата</p>
+      <h3 class="p-0.5">Дата</h3>
       <div class="bg-slate-50 rounded-2xl font-mono">
         <input type="date" [(ngModel)]="date" name="date"
                [class.invalid-input]="dateModel.invalid" required appDateController
@@ -23,8 +23,8 @@
       </div>
       @if (operationType == 'outgoing')
       {
-        <div class="select-wrapper">
-          <p>Кому:</p>
+        <div>
+          <h3>Кому:</h3>
           <div class="relative inline-block w-full">
             <select [(ngModel)]="receiverUsername" name="receiverUsername"
                     class="bg-slate-50 rounded-2xl px-4 py-2 font-mono my-2 w-full focus:outline-none border appearance-none">
@@ -44,21 +44,21 @@
         </div>
       }
       <div>
-        <p>Сумма:</p>
+        <h3>Сумма:</h3>
         <input type="text" [(ngModel)]="amount" name="amount" required
                [class.invalid-input]="operationType == 'outgoing' && amountExceedsBalance()"
                (ngModelChange)="operationType == 'outgoing' ? amountExceedsBalance() : null"
                appValidateKey>
       </div>
       <div>
-        <p>Комментарий</p>
+        <h3>Комментарий</h3>
         <textarea [(ngModel)]="comment" name="comment"
                   class="border focus:outline-none resize-none h-[120px] w-full align-text-top rounded-2xl bg-slate-50 p-3"
                   minlength="10" maxlength="255" appDoubleSpace>
         </textarea>
-        <p class="text-gray-400 pt-2" [class.text-red-500]="comment.length!=0 && (comment.length < 10 || comment.length > 255)">
+        <h3 class="text-gray-400 pt-2" [class.text-red-500]="comment.length!=0 && (comment.length < 10 || comment.length > 255)">
           Символов: {{ comment.length }}/10-255
-        </p>
+        </h3>
       </div>
     </div>
     <div class="grid grid-cols-2 pt-4">

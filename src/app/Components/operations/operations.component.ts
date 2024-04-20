@@ -58,7 +58,6 @@ export class OperationsComponent implements OnInit {
   }
 
 
-
   protected readonly faHourglassStart = faHourglassStart;
   protected readonly faArrowTrendUp = faArrowTrendUp;
   protected readonly faArrowTrendDown = faArrowTrendDown;

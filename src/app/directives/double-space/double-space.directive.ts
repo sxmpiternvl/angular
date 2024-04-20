@@ -1,27 +1,19 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, HostListener } from '@angular/core';
+import { NgControl } from '@angular/forms';
 
 @Directive({
   selector: '[appDoubleSpace]',
   standalone: true
 })
 export class DoubleSpaceDirective {
-  private prevValue = '';
+  constructor(private ngControl: NgControl) {}
 
-  @Output() valueChange = new EventEmitter<string>();
-
-  constructor(private elementRef: ElementRef<HTMLInputElement | HTMLTextAreaElement>) {}
-
-  @HostListener('input')
-  onInput(): void {
-    const el = this.elementRef.nativeElement;
-    const currentValue = el.value;
-    const length = currentValue.length;
-
-    if (length > 1 && currentValue[length - 1] == ' ' && currentValue[length - 2] == ' ') {
-      el.value = this.prevValue;
-    } else {
-      this.prevValue = currentValue;
+  @HostListener('input', ['$event.target.value'])
+  onInput(value: string): void {
+    const modifiedValue = value.replace(/\s\s+/g, ' ');
+    if (value != modifiedValue) {
+      this.ngControl.control?.setValue(modifiedValue, { emitEvent: false });
+      this.ngControl.control?.updateValueAndValidity();
     }
-    this.valueChange.emit(el.value);
   }
 }

@@ -1,62 +1,50 @@
 <div class="absolute inset-0 flex flex-col p-3 pb-10">
-  <div class="bg-white p-2 rounded-2xl">
-    <p class="mb-2 text-4xl p-2.5">Статистика</p>
-    <div class="flex flex-row px-4 pb-2 gap-2.5">
-      <div class="stat-primary">
-        <fa-icon [icon]="faUser"></fa-icon>
-      </div>
-      <div class="text-primary">
-        <p>Всего пользователей</p>
-        <p>
-          {{ allUsers.length }}
-        </p>
+  <div class="bg-white py-2 px-8 rounded-2xl">
+    <h2>Статистика</h2>
+    <div class="flex flex-row px-3 pb-2 gap-2.5 items-center">
+      <fa-icon class="stat-primary" [icon]="faUser"></fa-icon>
+      <div>
+        <h3>Всего пользователей</h3>
+        <h3>{{ allUsers.length }}</h3>
       </div>
     </div>
   </div>
-  <div class="flex-1 bg-white mt-4 rounded-2xl  w-full overflow-y-scroll">
-    <div>
-      <div class="grid grid-cols-2 grid-rows-1 pb-2 overflow-y-scroll px-4 py-2 items-center">
-        <h2>Пользователи</h2>
-        @if (!currentUser) {
-          <button class="custom-btn-primary" (click)="registrationModal.open()">
-               Новый пользователь
-                <fa-icon [icon]="faPlus"></fa-icon>
-          </button>
-        }
-      </div>
-      <div class="bg-white rounded-2xl">
-        <table class="w-full">
-          <thead class="sticky top-0 bg-gray-100 rounded-2xl p-16">
-          <tr>
-            <th>Имя</th>
-            <th>Логин</th>
-            <th>Действия</th>
-          </tr>
-          </thead>
-          <div class="sticky top-0">
-          </div>
-          <tbody class="w-full">
-            @for (user of allUsers; track user.uid) {
-              <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.username }}</td>
-                <td>
-                  <button (click)="removeUser(user.username)">
-                    <fa-icon [icon]="faTrash" class="text-black"></fa-icon>
-                  </button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+  <div class="flex-1 bg-white mt-4 rounded-2xl w-full overflow-y-scroll">
+    <div class="grid grid-cols-2 items-center py-2 px-4">
+      <h2>Пользователи</h2>
+      @if (!currentUser){
+        <button class="custom-btn-primary" (click)="registrationModal.open()">
+          Новый пользователь
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      }
     </div>
+    <table class="w-full bg-white rounded-2xl">
+      <thead class="sticky top-0 bg-gray-100 rounded-2xl px-16">
+      <tr>
+        <th>Имя</th>
+        <th>Логин</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (user of allUsers; track user){
+          <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+              <button (click)="removeUser(user.username)">
+                <fa-icon [icon]="faTrash" class="text-black"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </div>
 <app-modal #registrationModal [content]="modalRegistrationContent">
   <ng-template #modalRegistrationContent>
-    <app-registration (close)="registrationModal.close();
-    getUsers()"
-    ></app-registration>
+    <app-registration (close)="registrationModal.close(); getUsers()"></app-registration>
   </ng-template>
 </app-modal>
