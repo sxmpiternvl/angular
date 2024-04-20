@@ -27,6 +27,10 @@ import {DateControllerDirective} from "../../directives/date-controller/date-con
   templateUrl: 'create-operation.component.html',
 })
 export class CreateOperationComponent implements OnInit {
+  operationTypes = [
+    { label: 'Расход', value: 'outgoing' },
+    { label: 'Приход', value: 'income' }
+  ];
   operationType = 'outgoing';
 
   date:Date = new Date();
@@ -103,10 +107,10 @@ export class CreateOperationComponent implements OnInit {
   }) {
     const operation = {
       id: Date.now(),
-      from: fromUser ? fromUser!.username : 'N/A',
-      to: toUser ? toUser.username : 'N/A',
-      fromUID: fromUser ? fromUser!.uid : 'N/A',
-      toUID: toUser ? toUser.uid : 'N/A',
+      from: fromUser ? fromUser!.username : undefined,
+      to: toUser ? toUser.username : undefined,
+      fromUID: fromUser ? fromUser!.uid : undefined,
+      toUID: toUser ? toUser.uid : undefined,
       amount: amount.toFixed(2),
       datetime: this.date,
       comment: this.comment
