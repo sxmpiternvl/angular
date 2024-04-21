@@ -3,6 +3,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-checkbox {
+  display: none;
+}
+
+.checkbox-label {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-checkbox:checked + .checkbox-label {
+  background-color: transparent;
+  color: red;
+}
+
+.custom-checkbox:checked + .checkbox-label::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 6 Free', serif;
+  font-weight: 900;
+}
+
+
 .invalid-input {
   @apply box-border border border-red-500
 }
@@ -83,6 +111,19 @@ $colors: [
   .stat-#{$color} {
     @apply bg-#{$color} rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
   }
+
+    .checkbox-label-#{$color} {
+      @apply w-5 h-5 flex items-center justify-center border border-solid border-#{$color} rounded cursor-pointer;
+    }
+    .custom-checkbox:checked + .checkbox-label-#{$color} {
+      @apply border-#{$color} text-#{$color}
+    }
+    .custom-checkbox:checked + .checkbox-label-#{$color}::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free', serif;
+      font-weight: 900;
+    }
+
 }
 
 

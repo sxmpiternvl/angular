@@ -59,7 +59,7 @@ export class BalancesComponent implements OnInit {
   getTotalIncomeBalance(user: UserInterface) {
     const decimalIncome = new Decimal(user.income);
     const decimalBalance = new Decimal(user.balance);
-     return decimalIncome.plus(decimalBalance);
+    return decimalIncome.plus(decimalBalance);
   }
 
   protected readonly faArrowTrendUp = faArrowTrendUp;

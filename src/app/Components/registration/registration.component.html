@@ -33,13 +33,11 @@
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
       </label>
 
-      <div class="flex items-center gap-2 text-primary">
-        <input type="checkbox" class="custom-checkbox w-4 h-4" id="checkbox">
-        <label for="checkbox">Запомнить меня</label>
-        <i class="fa fa-check hidden"></i>
+      <div class="flex items-center gap-2 p-2">
+        <input type="checkbox" class="custom-checkbox hidden" id="checkbox">
+        <label for="checkbox" class="checkbox-label-primary"></label>
+        <label for="checkbox" class="text-primary">Запомнить меня</label>
       </div>
-
-
       <button [disabled]="!registrationForm.valid" type="submit" class="custom-btn-primary text-primary">
         <fa-icon [icon]="faSave" class="pr-2"></fa-icon> Создать пользователя
       </button>

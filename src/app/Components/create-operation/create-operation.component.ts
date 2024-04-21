@@ -74,52 +74,7 @@ export class CreateOperationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-    const currentUser = usersData[this.currentUsername];
-    const amountDecimal = new Decimal(this.amount);
-
-    if (this.operationType == 'outgoing' && currentUser) {
-      currentUser.currentBalance = new Decimal(currentUser.currentBalance).minus(amountDecimal).toFixed(2);
-      currentUser.outgoing = new Decimal(currentUser.outgoing).plus(amountDecimal).toFixed(2);
-      let toUser = this.receiverUsername != undefined ? usersData[this.receiverUsername!] : undefined;
-      console.log(this.receiverUsername)
-      if (toUser) {
-        toUser.currentBalance = new Decimal(toUser.currentBalance).plus(amountDecimal).toFixed(2);
-        toUser.income = new Decimal(toUser.income).plus(amountDecimal).toFixed(2);
-      }
-      this.recordOperation({
-        fromUser: currentUser,
-        toUser: toUser,
-        amount: amountDecimal,
-        usersData: usersData
-      });
-    } else if (this.operationType == 'income' && currentUser) {
-      currentUser.currentBalance = new Decimal(currentUser.currentBalance).plus(amountDecimal).toFixed(2);
-      currentUser.income = new Decimal(currentUser.income).plus(amountDecimal).toFixed(2);
-      this.recordOperation({fromUser: undefined, toUser: currentUser, amount: amountDecimal, usersData: usersData});
-    }
-  }
-
-  private recordOperation({fromUser, toUser, amount, usersData}: {
-    fromUser: UserInterface | undefined,
-    toUser: UserInterface | undefined,
-    amount: Decimal,
-    usersData: UserInterface[]
-  }) {
-    const operation = {
-      id: Date.now(),
-      from: fromUser ? fromUser!.username : undefined,
-      to: toUser ? toUser.username : undefined,
-      fromUID: fromUser ? fromUser!.uid : undefined,
-      toUID: toUser ? toUser.uid : undefined,
-      amount: amount.toFixed(2),
-      datetime: this.date,
-      comment: this.comment
-    };
-    const operationsList = JSON.parse(localStorage.getItem('operations') || '[]');
-    operationsList.push(operation);
-    localStorage.setItem('operations', JSON.stringify(operationsList));
-    localStorage.setItem('users', JSON.stringify(usersData));
+    this.opService.submitOperation(this.operationType, this.amount, this.currentUsername, this.receiverUsername, this.date, this.comment);
     this.close.emit();
   }
 
