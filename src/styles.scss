@@ -52,16 +52,11 @@ input {
 
 .custom-checkbox {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
   width: 16px;
   height: 16px;
   background-color: transparent;
   border: 1px solid blue;
-  border-radius: 0.25rem;
-  cursor: pointer;
+  border-radius: 4px;
   transition: background-color 0.3s;
 }
 

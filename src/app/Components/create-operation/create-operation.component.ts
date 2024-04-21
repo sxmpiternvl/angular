@@ -10,6 +10,7 @@ import Decimal from "decimal.js";
 import {ValidateKeyDirective} from "../../directives/validate-key/validate-key.directive";
 import {UserService} from "../../services/user.service";
 import {DateControllerDirective} from "../../directives/date-controller/date-controller.directive";
+import {OperationsService} from "../../services/operations.service";
 
 
 @Component({
@@ -42,7 +43,7 @@ export class CreateOperationComponent implements OnInit {
   comment: string = '';
   receiverUsername = undefined;
 
-  constructor(private authService: AuthService, private userService: UserService) {
+  constructor(private authService: AuthService, private userService: UserService, private opService:OperationsService) {
     // this._date = new Date();
   }
 

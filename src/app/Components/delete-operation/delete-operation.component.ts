@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {DoubleSpaceDirective} from "../../directives/double-space/double-space.directive";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+
 
 @Component({
   selector: 'app-delete-operation',
@@ -40,7 +40,7 @@ export class DeleteOperationComponent {
     const operationToRemove = operationsList.find(operation => operation.id == operationId);
     if (operationToRemove) {
       //poluchatel  'N/A'
-      if (operationToRemove.toUID == 'N/A') {
+      if (operationToRemove.toUID == undefined) {
         for (let username in usersData) {
           if (usersData[username].uid == operationToRemove.fromUID) {
             const sender = usersData[username];
@@ -55,7 +55,7 @@ export class DeleteOperationComponent {
         return;
       }
       //otpravitel 'N/A'
-      else if(operationToRemove.fromUID == 'N/A'){
+      else if(operationToRemove.fromUID == undefined){
         console.log('1');
         for (let username in usersData) {
           console.log('2');
