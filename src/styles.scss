@@ -72,19 +72,20 @@ $colors: [
   .checkbox-label-#{$color} {
     @apply flex items-center gap-2 cursor-pointer w-fit;
   }
-
-  .checkbox-label-#{$color} .checkmark-box {
-      @apply w-5 h-5 flex items-center justify-center border border-solid border-#{$color} rounded;
+  .custom-checkbox + .label-inner-#{$color} {
+    @apply inline-block;
   }
 
-  .custom-checkbox:checked + .checkbox-label-#{$color} .checkmark-box {
-    @apply text-#{$color} ;
-  }
-
-  .custom-checkbox:checked + .checkbox-label-#{$color} .checkmark-box::before {
+  .custom-checkbox + .label-inner-#{$color}::before {
+    @apply inline-block w-6 h-6 self-center border border-solid border-#{$color} rounded mr-2;
     content: '\f00c';
+    text-align: center;
     font-family: 'Font Awesome 6 Free', serif;
     font-weight: 900;
+    color: transparent;
+  }
+  .custom-checkbox:checked + .label-inner-#{$color}::before {
+    @apply text-#{$color};
   }
 
 }

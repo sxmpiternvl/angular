@@ -69,18 +69,21 @@ input {
   @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.checkbox-label-primary .checkmark-box {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-primary rounded;
+.custom-checkbox + .label-inner-primary {
+  @apply inline-block;
 }
 
-.custom-checkbox:checked + .checkbox-label-primary .checkmark-box {
-  @apply text-primary;
-}
-
-.custom-checkbox:checked + .checkbox-label-primary .checkmark-box::before {
+.custom-checkbox + .label-inner-primary::before {
+  @apply inline-block w-6 h-6 self-center border border-solid border-primary rounded mr-2;
   content: "\f00c";
+  text-align: center;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
+  color: transparent;
+}
+
+.custom-checkbox:checked + .label-inner-primary::before {
+  @apply text-primary;
 }
 
 .custom-btn-secondary {
@@ -105,18 +108,21 @@ input {
   @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.checkbox-label-secondary .checkmark-box {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-secondary rounded;
+.custom-checkbox + .label-inner-secondary {
+  @apply inline-block;
 }
 
-.custom-checkbox:checked + .checkbox-label-secondary .checkmark-box {
-  @apply text-secondary;
-}
-
-.custom-checkbox:checked + .checkbox-label-secondary .checkmark-box::before {
+.custom-checkbox + .label-inner-secondary::before {
+  @apply inline-block w-6 h-6 self-center border border-solid border-secondary rounded mr-2;
   content: "\f00c";
+  text-align: center;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
+  color: transparent;
+}
+
+.custom-checkbox:checked + .label-inner-secondary::before {
+  @apply text-secondary;
 }
 
 .custom-btn-success {
@@ -141,18 +147,21 @@ input {
   @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.checkbox-label-success .checkmark-box {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-success rounded;
+.custom-checkbox + .label-inner-success {
+  @apply inline-block;
 }
 
-.custom-checkbox:checked + .checkbox-label-success .checkmark-box {
-  @apply text-success;
-}
-
-.custom-checkbox:checked + .checkbox-label-success .checkmark-box::before {
+.custom-checkbox + .label-inner-success::before {
+  @apply inline-block w-6 h-6 self-center border border-solid border-success rounded mr-2;
   content: "\f00c";
+  text-align: center;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
+  color: transparent;
+}
+
+.custom-checkbox:checked + .label-inner-success::before {
+  @apply text-success;
 }
 
 .custom-btn-error {
@@ -177,18 +186,21 @@ input {
   @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.checkbox-label-error .checkmark-box {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-error rounded;
+.custom-checkbox + .label-inner-error {
+  @apply inline-block;
 }
 
-.custom-checkbox:checked + .checkbox-label-error .checkmark-box {
-  @apply text-error;
-}
-
-.custom-checkbox:checked + .checkbox-label-error .checkmark-box::before {
+.custom-checkbox + .label-inner-error::before {
+  @apply inline-block w-6 h-6 self-center border border-solid border-error rounded mr-2;
   content: "\f00c";
+  text-align: center;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
+  color: transparent;
+}
+
+.custom-checkbox:checked + .label-inner-error::before {
+  @apply text-error;
 }
 
 .custom-btn-neutral {
@@ -213,18 +225,21 @@ input {
   @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.checkbox-label-neutral .checkmark-box {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-neutral rounded;
+.custom-checkbox + .label-inner-neutral {
+  @apply inline-block;
 }
 
-.custom-checkbox:checked + .checkbox-label-neutral .checkmark-box {
-  @apply text-neutral;
-}
-
-.custom-checkbox:checked + .checkbox-label-neutral .checkmark-box::before {
+.custom-checkbox + .label-inner-neutral::before {
+  @apply inline-block w-6 h-6 self-center border border-solid border-neutral rounded mr-2;
   content: "\f00c";
+  text-align: center;
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
+  color: transparent;
+}
+
+.custom-checkbox:checked + .label-inner-neutral::before {
+  @apply text-neutral;
 }
 
 /*# sourceMappingURL=styles.css.map */
