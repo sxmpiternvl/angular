@@ -22,14 +22,12 @@ export class OperationsService {
     if (operationsStr) {
       const allOperations = JSON.parse(operationsStr);
       const updatedOperations = allOperations.filter((operation: Operation) => {
-        const involvesRemoveUser = operation.from == removeUser.username || operation.to == removeUser.username;
-        if (involvesRemoveUser) {
           const amountDecimal = new Decimal(operation.amount);
           if (operation.from == removeUser.username) {
-            const recipient = usersData[operation.to];
-            if (recipient) {
-              recipient.income = new Decimal(recipient.income).minus(amountDecimal).toString();
-              recipient.currentBalance = new Decimal(recipient.balance).plus(recipient.income).minus(recipient.outgoing).toString();
+            const receiver = usersData[operation.to];
+            if (receiver) {
+              receiver.income = new Decimal(receiver.income).minus(amountDecimal).toString();
+              receiver.currentBalance = new Decimal(receiver.balance).plus(receiver.income).minus(receiver.outgoing).toString();
             }
           }
           if (operation.to == removeUser.username) {
@@ -39,8 +37,6 @@ export class OperationsService {
               sender.currentBalance = new Decimal(sender.balance).plus(sender.income).minus(sender.outgoing).toString();
             }
           }
-        }
-        return !involvesRemoveUser;
       });
       delete usersData[removeUser.username];
       localStorage.setItem('users', JSON.stringify(usersData));
@@ -95,11 +91,11 @@ export class OperationsService {
 
     if (operationToRemove) {
       if (operationToRemove.toUID == undefined) {  // Receiver 'N/A'
-        this.adjustSenderBalance(operationToRemove, usersData);
+        this.senderBalance(operationToRemove, usersData);
       } else if (operationToRemove.fromUID == undefined) {  // Sender 'N/A'
-        this.adjustReceiverBalance(operationToRemove, usersData);
-      } else {  // Both sender and receiver exist
-        this.adjustBothBalances(operationToRemove, usersData);
+        this.receiverBalance(operationToRemove, usersData);
+      } else {
+        this.bothBalances(operationToRemove, usersData);
       }
       const filteredOperations = operationsList.filter(operation => operation.id != operationId);
       localStorage.setItem('operations', JSON.stringify(filteredOperations));
@@ -107,7 +103,7 @@ export class OperationsService {
     }
   }
 
-  private adjustSenderBalance(operation: Operation, usersData: any): void {
+  private senderBalance(operation: Operation, usersData: any): void {
     const senderKey = Object.keys(usersData).find(key => usersData[key].uid == operation.fromUID);
     if (senderKey != undefined) {
       const sender = usersData[senderKey];
@@ -118,7 +114,7 @@ export class OperationsService {
     }
   }
 
-  private adjustReceiverBalance(operation: Operation, usersData: any): void {
+  private receiverBalance(operation: Operation, usersData: any): void {
     const receiverKey = Object.keys(usersData).find(key => usersData[key].uid == operation.toUID);
     if (receiverKey != undefined) {
       const receiver = usersData[receiverKey];
@@ -129,7 +125,7 @@ export class OperationsService {
     }
   }
 
-  private adjustBothBalances(operation: Operation, usersData: any): void {
+  private bothBalances(operation: Operation, usersData: any): void {
     const senderKey = Object.keys(usersData).find(key => usersData[key].uid == operation.fromUID);
     const receiverKey = Object.keys(usersData).find(key => usersData[key].uid == operation.toUID);
 

@@ -5,28 +5,6 @@
   display: none;
 }
 
-.checkbox-label {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid red;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.custom-checkbox:checked + .checkbox-label {
-  background-color: transparent;
-  color: red;
-}
-
-.custom-checkbox:checked + .checkbox-label::before {
-  content: "\f00c";
-  font-family: "Font Awesome 6 Free", serif;
-  font-weight: 900;
-}
-
 .invalid-input {
   @apply box-border border border-red-500;
 }
@@ -65,31 +43,8 @@ input {
   @apply bg-slate-50 rounded-2xl px-2 py-2 w-full mb-2 mt-2 focus:outline-none border;
 }
 
-.alert {
-  @apply items-center text-center border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px];
-}
-
 .error-block {
-  @apply bg-white py-4 text-error;
-}
-
-.custom-btn-full-width {
-  width: 100%;
-}
-
-.custom-checkbox {
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background-color: transparent;
-  border: 1px solid blue;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-
-.custom-checkbox:checked {
-  background-color: blue;
-  border-color: blue;
+  @apply bg-white py-4 text-error  items-center text-center border border-error rounded-2xl px-3 flex flex-row h-[80px];
 }
 
 .custom-btn-primary {
@@ -104,15 +59,25 @@ input {
   @apply bg-primary rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
+.custom-btn-primary:disabled, .custom-btn-primary.disable-hover:hover {
+  cursor: default;
+  background-color: initial;
+  color: blue;
+}
+
 .checkbox-label-primary {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-primary rounded cursor-pointer;
+  @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.custom-checkbox:checked + .checkbox-label-primary {
-  @apply border-primary text-primary;
+.checkbox-label-primary .checkmark-box {
+  @apply w-5 h-5 flex items-center justify-center border border-solid border-primary rounded;
 }
 
-.custom-checkbox:checked + .checkbox-label-primary::before {
+.custom-checkbox:checked + .checkbox-label-primary .checkmark-box {
+  @apply text-primary;
+}
+
+.custom-checkbox:checked + .checkbox-label-primary .checkmark-box::before {
   content: "\f00c";
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
@@ -130,15 +95,25 @@ input {
   @apply bg-secondary rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
+.custom-btn-secondary:disabled, .custom-btn-secondary.disable-hover:hover {
+  cursor: default;
+  background-color: initial;
+  color: blue;
+}
+
 .checkbox-label-secondary {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-secondary rounded cursor-pointer;
+  @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.custom-checkbox:checked + .checkbox-label-secondary {
-  @apply border-secondary text-secondary;
+.checkbox-label-secondary .checkmark-box {
+  @apply w-5 h-5 flex items-center justify-center border border-solid border-secondary rounded;
 }
 
-.custom-checkbox:checked + .checkbox-label-secondary::before {
+.custom-checkbox:checked + .checkbox-label-secondary .checkmark-box {
+  @apply text-secondary;
+}
+
+.custom-checkbox:checked + .checkbox-label-secondary .checkmark-box::before {
   content: "\f00c";
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
@@ -156,15 +131,25 @@ input {
   @apply bg-success rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
+.custom-btn-success:disabled, .custom-btn-success.disable-hover:hover {
+  cursor: default;
+  background-color: initial;
+  color: blue;
+}
+
 .checkbox-label-success {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-success rounded cursor-pointer;
+  @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.custom-checkbox:checked + .checkbox-label-success {
-  @apply border-success text-success;
+.checkbox-label-success .checkmark-box {
+  @apply w-5 h-5 flex items-center justify-center border border-solid border-success rounded;
 }
 
-.custom-checkbox:checked + .checkbox-label-success::before {
+.custom-checkbox:checked + .checkbox-label-success .checkmark-box {
+  @apply text-success;
+}
+
+.custom-checkbox:checked + .checkbox-label-success .checkmark-box::before {
   content: "\f00c";
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
@@ -182,15 +167,25 @@ input {
   @apply bg-error rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
+.custom-btn-error:disabled, .custom-btn-error.disable-hover:hover {
+  cursor: default;
+  background-color: initial;
+  color: blue;
+}
+
 .checkbox-label-error {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-error rounded cursor-pointer;
+  @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.custom-checkbox:checked + .checkbox-label-error {
-  @apply border-error text-error;
+.checkbox-label-error .checkmark-box {
+  @apply w-5 h-5 flex items-center justify-center border border-solid border-error rounded;
 }
 
-.custom-checkbox:checked + .checkbox-label-error::before {
+.custom-checkbox:checked + .checkbox-label-error .checkmark-box {
+  @apply text-error;
+}
+
+.custom-checkbox:checked + .checkbox-label-error .checkmark-box::before {
   content: "\f00c";
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;
@@ -208,15 +203,25 @@ input {
   @apply bg-neutral rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
 }
 
+.custom-btn-neutral:disabled, .custom-btn-neutral.disable-hover:hover {
+  cursor: default;
+  background-color: initial;
+  color: blue;
+}
+
 .checkbox-label-neutral {
-  @apply w-5 h-5 flex items-center justify-center border border-solid border-neutral rounded cursor-pointer;
+  @apply flex items-center gap-2 cursor-pointer w-fit;
 }
 
-.custom-checkbox:checked + .checkbox-label-neutral {
-  @apply border-neutral text-neutral;
+.checkbox-label-neutral .checkmark-box {
+  @apply w-5 h-5 flex items-center justify-center border border-solid border-neutral rounded;
 }
 
-.custom-checkbox:checked + .checkbox-label-neutral::before {
+.custom-checkbox:checked + .checkbox-label-neutral .checkmark-box {
+  @apply text-neutral;
+}
+
+.custom-checkbox:checked + .checkbox-label-neutral .checkmark-box::before {
   content: "\f00c";
   font-family: "Font Awesome 6 Free", serif;
   font-weight: 900;

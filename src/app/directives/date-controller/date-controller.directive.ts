@@ -42,7 +42,7 @@ export class DateControllerDirective implements ControlValueAccessor, Validator 
   }
   validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
-    const isValid = value instanceof Date && !isNaN(value.getTime());
+    const isValid = value && !isNaN(value.getTime());
     return isValid ? null : { invalidDate: true };
   }
 }

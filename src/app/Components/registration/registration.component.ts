@@ -42,13 +42,22 @@ export class RegistrationComponent {
   errorMessage = '';
 
   registration(): void {
-    if (!this.authService.isUnique(this.newUser.username) || this.newUser.password != this.confirmPassword) {
+    this.error = false;
+    const isUnique = this.authService.isUnique(this.newUser.username);
+    const passwordsMatch = this.newUser.password == this.confirmPassword;
+    if (!isUnique && !passwordsMatch) {
       this.error = true;
-      if(!this.authService.isUnique(this.newUser.username) && this.newUser.password != this.confirmPassword){
-        this.errorMessage =" Логин уже есть в системе. \n Пароли не совпадают ";
-        return;
-      }
-      this.errorMessage = !this.authService.isUnique(this.newUser.username) ? "Логин уже есть в системе." : "Пароли не совпадают";
+      this.errorMessage = "Логин уже есть в системе.\nПароли не совпадают";
+      return;
+    }
+    if (!isUnique) {
+      this.error = true;
+      this.errorMessage = "Логин уже есть в системе.";
+      return;
+    }
+    if (!passwordsMatch) {
+      this.error = true;
+      this.errorMessage = "Пароли не совпадают";
       return;
     }
     this.authService.registration(this.newUser);

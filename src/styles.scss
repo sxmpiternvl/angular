@@ -7,32 +7,8 @@
 .custom-checkbox {
   display: none;
 }
-
-.checkbox-label {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid red;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.custom-checkbox:checked + .checkbox-label {
-  background-color: transparent;
-  color: red;
-}
-
-.custom-checkbox:checked + .checkbox-label::before {
-  content: '\f00c';
-  font-family: 'Font Awesome 6 Free', serif;
-  font-weight: 900;
-}
-
-
 .invalid-input {
-  @apply box-border border border-red-500
+  @apply box-border border border-red-500;
 }
 select {
   @apply appearance-none;
@@ -43,8 +19,6 @@ h1{
 h2{
   @apply text-2xl py-2;
 }
-
-
 body {
   background-color: #f8f7f7;
   margin: 0;
@@ -67,30 +41,8 @@ input {
   @apply bg-slate-50 rounded-2xl px-2 py-2 w-full mb-2 mt-2 focus:outline-none border;
 }
 
-.alert {
-  @apply items-center text-center border border-error rounded-2xl py-1 px-3 flex flex-row h-[80px];
-}
-
 .error-block {
-  @apply bg-white py-4 text-error
-}
-.custom-btn-full-width {
-  width: 100%;
-}
-
-.custom-checkbox {
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background-color: transparent;
-  border: 1px solid blue;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-
-.custom-checkbox:checked {
-  background-color: blue;
-  border-color: blue;
+  @apply bg-white py-4 text-error  items-center text-center border border-error rounded-2xl px-3 flex flex-row h-[80px];
 }
 
 $colors: [
@@ -111,18 +63,29 @@ $colors: [
   .stat-#{$color} {
     @apply bg-#{$color} rounded-xl px-2 py-2 w-12 text-2xl text-center text-white;
   }
+    .custom-btn-#{$color}:disabled, .custom-btn-#{$color}.disable-hover:hover {
+    cursor: default;
+    background-color: initial;
+    color: blue;
+  }
 
-    .checkbox-label-#{$color} {
-      @apply w-5 h-5 flex items-center justify-center border border-solid border-#{$color} rounded cursor-pointer;
-    }
-    .custom-checkbox:checked + .checkbox-label-#{$color} {
-      @apply border-#{$color} text-#{$color}
-    }
-    .custom-checkbox:checked + .checkbox-label-#{$color}::before {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free', serif;
-      font-weight: 900;
-    }
+  .checkbox-label-#{$color} {
+    @apply flex items-center gap-2 cursor-pointer w-fit;
+  }
+
+  .checkbox-label-#{$color} .checkmark-box {
+      @apply w-5 h-5 flex items-center justify-center border border-solid border-#{$color} rounded;
+  }
+
+  .custom-checkbox:checked + .checkbox-label-#{$color} .checkmark-box {
+    @apply text-#{$color} ;
+  }
+
+  .custom-checkbox:checked + .checkbox-label-#{$color} .checkmark-box::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free', serif;
+    font-weight: 900;
+  }
 
 }
 

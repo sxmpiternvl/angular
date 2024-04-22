@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Operation} from "../interface/operation";
 import {UserInterface} from "../interface/user";
 
 @Injectable({

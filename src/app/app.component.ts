@@ -22,6 +22,7 @@ import {faLock} from "@fortawesome/free-solid-svg-icons";
 })
 
 export class AppComponent {
+
   _date:Date = new Date();
   links = [
     {path: '/allUsers', icon: faUsers, label: 'Пользователи'},
@@ -30,7 +31,7 @@ export class AppComponent {
   ];
   title = 'home';
 
-  constructor(private authService: AuthService, private router: Router, private datePipe: DatePipe) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   isLoggedIn(): boolean {
@@ -42,7 +43,7 @@ export class AppComponent {
     this.router.navigate(['/'])
   }
 
-  getCurrentUsername(): string {
+  getCurrentUsername() {
     return this.authService.getCurrentUsername();
   }
 

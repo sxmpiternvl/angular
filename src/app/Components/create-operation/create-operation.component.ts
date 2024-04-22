@@ -63,7 +63,7 @@ export class CreateOperationComponent implements OnInit {
     this.userList = this.userService.getUsers().filter((user) => user.username != this.currentUsername);
   }
 
-  amountExceedsBalance(): boolean {
+  amountGreaterThanBalance(): boolean {
     const usersData = JSON.parse(localStorage.getItem('users') || '{}');
     const currentUser = usersData[this.currentUsername];
     if (!currentUser || !this.amount)

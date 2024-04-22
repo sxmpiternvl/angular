@@ -56,8 +56,6 @@ export class OperationsComponent implements OnInit {
       this.filteredOperationsList = operationsData;
     }
   }
-
-
   protected readonly faHourglassStart = faHourglassStart;
   protected readonly faArrowTrendUp = faArrowTrendUp;
   protected readonly faArrowTrendDown = faArrowTrendDown;

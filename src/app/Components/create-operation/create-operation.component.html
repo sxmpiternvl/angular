@@ -5,7 +5,7 @@
       <h3 class="p-0.5">Дата</h3>
       <div class="bg-slate-50 rounded-2xl font-mono">
         <input type="date" [(ngModel)]="date" name="date"
-               [class.invalid-input]="dateModel.invalid" required appDateController
+               [class.invalid-input]="dateModel.errors?.['invalidDate']" required appDateController
                #dateModel="ngModel">
       </div>
       <div class="relative inline-block w-full">
@@ -46,8 +46,8 @@
       <div>
         <h3>Сумма:</h3>
         <input type="text" [(ngModel)]="amount" name="amount" required
-               [class.invalid-input]="operationType == 'outgoing' && amountExceedsBalance()"
-               (ngModelChange)="operationType == 'outgoing' ? amountExceedsBalance() : null"
+               [class.invalid-input]="operationType == 'outgoing' && amountGreaterThanBalance()"
+               (ngModelChange)="operationType == 'outgoing' ? amountGreaterThanBalance() : null"
                appValidateKey>
       </div>
       <div>
