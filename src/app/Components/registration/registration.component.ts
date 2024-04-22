@@ -34,30 +34,26 @@ export class RegistrationComponent {
     balance: 10000,
     income: 0,
     outgoing: 0,
-    currentBalance: 10000
+    currentBalance: 10000,
   };
   uid: string = Date.now().toString();
   confirmPassword: string = '';
   error: boolean = false;
   errorMessage = '';
+  errorMessages: Array<string>= [];
 
   registration(): void {
-    this.error = false;
+    this.errorMessages = [];
     const isUnique = this.authService.isUnique(this.newUser.username);
-    const passwordsMatch = this.newUser.password == this.confirmPassword;
-    if (!isUnique && !passwordsMatch) {
-      this.error = true;
-      this.errorMessage = "Логин уже есть в системе.\nПароли не совпадают";
-      return;
-    }
+    const passwordsMatch = this.newUser.password === this.confirmPassword;
     if (!isUnique) {
-      this.error = true;
-      this.errorMessage = "Логин уже есть в системе.";
-      return;
+      this.errorMessages.push("Логин уже есть в системе.");
     }
     if (!passwordsMatch) {
+      this.errorMessages.push("Пароли не совпадают");
+    }
+    if (this.errorMessages.length > 0) {
       this.error = true;
-      this.errorMessage = "Пароли не совпадают";
       return;
     }
     this.authService.registration(this.newUser);
