@@ -1,59 +1,43 @@
 <div class="absolute right-4 top-4">
   <button (click)="closeModal()">X</button>
 </div>
-
 <div>
   <h2 class="text-2xl pb-3">Создание пользователя</h2>
-  <form (ngSubmit)="registration()" #registrationForm="ngForm" (keydown)="isSpace($event)">
+  <form (keydown)="isSpace($event)" #registrationForm="ngForm">
     <div class="flex flex-col gap-2">
       <label for="name" class="relative w-full">Имя:
         <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
-        <input class="px-2 pr-10 pl-2.5" type="text" id="name" name="name" required minlength="3" [(ngModel)]="newUser.name"
-               pattern="[a-zA-Z]*" #name="ngModel" [class.invalid-input]="name.invalid && name.touched">
+        <input class="px-2 pr-10 pl-2.5" type="text" id="name" name="name" required minlength="3"
+               [(ngModel)]="newUser.name" #name="ngModel" (blur)="validateUsername()">
       </label>
-
       <label for="username" class="relative w-full">Логин:
         <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
         <input class="px-2 pl-2.5 pr-10" type="text" id="username" name="username" required minlength="3"
-               [(ngModel)]="newUser.username" #username="ngModel"
-               [class.invalid-input]="username.invalid && username.touched">
+               [(ngModel)]="newUser.username" #username="ngModel" (blur)="validateUsername()">
       </label>
-
       <label for="password" class="relative w-full">Пароль:
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
         <input class="px-2 pl-10" type="password" id="password" name="password" required minlength="6"
-               [(ngModel)]="newUser.password" #password="ngModel"
-               (ngModelChange)="checkPasswords()"
-               [class.invalid-input]="password.invalid && password.touched">
+               [(ngModel)]="newUser.password" #password="ngModel" (blur)="validatePasswords()">
       </label>
-
       <label class="relative w-full">Повторите пароль:
-        <input type="password" class="px-2 pl-10" #confirmPasswordModel="ngModel"
-               [(ngModel)]="confirmPassword" name="confirmPassword"
-               [appPasswordMatch]="getPassword"
-               [class.invalid-input]="confirmPasswordModel.errors?.['passwordMismatch']">
+        <input type="password" class="px-2 pl-10" #confirmPasswordModel="ngModel" required minlength="6"
+               [(ngModel)]="confirmPassword" name="confirmPassword" (blur)="validatePasswords()">
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
       </label>
-
-        <label class="checkbox-label-primary">
-          <input type="checkbox" class="custom-checkbox">
-          <span class="label-inner-primary text-primary inline-block">Запомнить меня</span>
-        </label>
-
+      <label class="checkbox-label-primary">
+        <input type="checkbox" class="custom-checkbox">
+        <span class="label-inner-primary text-primary inline-block">Запомнить меня</span>
+      </label>
       <button [disabled]="registrationForm.invalid" type="button" (click)="registration()" class="custom-btn-primary text-primary">
         <fa-icon [icon]="faSave" class="pr-2"></fa-icon> Создать пользователя
       </button>
     </div>
-    @if (error){
-      <div class="error-block border-l border-2 border-error mt-4 place-content-center">
-        <fa-icon [icon]="faExclamationTriangle" class="text-error pr-6 text-2xl"></fa-icon>
-        <div class="border-l border-amber-500 pl-2 text-center">
-          @for (errorMsg of errorMessages; track errorMsg){
-          <h3>{{ errorMsg }}
-          </h3>
-          }
-        </div>
+    <div *ngIf="errorMessages.length!=0" class="error-block border-l border-2 border-error mt-4 place-content-center">
+      <fa-icon [icon]="faExclamationTriangle" class="text-error pr-6 text-2xl"></fa-icon>
+      <div class="border-l border-amber-500 pl-2 text-center">
+        <h3 *ngFor="let errorMsg of errorMessages">{{ errorMsg }}</h3>
       </div>
-    }
+    </div>
   </form>
 </div>

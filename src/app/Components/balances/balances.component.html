@@ -3,8 +3,8 @@
     <h2 class="sticky top-0 bg-white px-4 pt-4">Балансы пользователей</h2>
     @if (!isLoggedIn()) {
       @for (user of allUsers; track user) {
-        <h3 class="px-4 text-2xl font-light"> {{ user.username }}</h3>
-        <div class="grid grid-cols-3 border-b gap-2">
+        <h3 class="px-4 text-2xl font-light my-2"> {{ user.username }}</h3>
+        <div class="grid grid-cols-3 border-b gap-2 pt-2 pb-8 px-4">
           <div class="flex gap-2 items-center">
             <fa-icon class="stat-success" [icon]="faArrowTrendUp"></fa-icon>
             <div>

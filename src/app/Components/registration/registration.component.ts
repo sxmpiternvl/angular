@@ -41,26 +41,7 @@ export class RegistrationComponent {
   confirmPassword: string = '';
   error: boolean = false;
   errorMessages: Array<string>= [];
-  getPassword = () => this.newUser.password;
 
-  registration(): void {
-    this.errorMessages = [];
-    const isUnique = this.authService.isUnique(this.newUser.username);
-    const passwordsMatch = this.newUser.password === this.confirmPassword;
-    if (!isUnique) {
-      this.errorMessages.push("Логин уже есть в системе.");
-    }
-    if (!passwordsMatch) {
-      this.errorMessages.push("Пароли не совпадают");
-    }
-    if (this.errorMessages.length > 0) {
-      this.error = true;
-      return;
-    }
-    this.authService.registration(this.newUser);
-    this.authService.login(this.newUser.username, this.newUser.password);
-    this.close.emit();
-  }
   closeModal(){
     this.close.emit();
   }
@@ -70,12 +51,34 @@ export class RegistrationComponent {
       event.preventDefault();
     }
   }
-  checkPasswords() {
-    if (this.confirmPasswordModel) {
-      this.confirmPasswordModel.control.updateValueAndValidity();
+
+  validateUsername() {
+    if (!this.authService.isUnique(this.newUser.username)) {
+      if(!this.errorMessages.includes("Логин уже есть в системе.")){
+      this.errorMessages.push("Логин уже есть в системе.");
+    }
+    }else {
+      this.errorMessages = this.errorMessages.filter(msg => msg != "Логин уже есть в системе.");
     }
   }
 
+  validatePasswords() {
+    if (this.newUser.password != this.confirmPassword ) {
+    if(!this.errorMessages.includes("Пароли не совпадают") && (this.newUser.password && this.confirmPassword.length !=0)){
+      this.errorMessages.push("Пароли не совпадают");
+    }
+    } else {
+      this.errorMessages = this.errorMessages.filter(msg => msg != "Пароли не совпадают");
+    }
+  }
+
+  registration() {
+    if (this.errorMessages.length == 0) {
+      this.authService.registration(this.newUser);
+      this.authService.login(this.newUser.username, this.newUser.password);
+      this.close.emit();
+    }
+  }
 
   protected readonly faUser = faUser;
   protected readonly faLockOpen = faLockOpen;
