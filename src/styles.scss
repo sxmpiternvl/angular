@@ -75,7 +75,6 @@ $colors: [
   .custom-checkbox + .label-inner-#{$color} {
     @apply inline-block;
   }
-
   .custom-checkbox + .label-inner-#{$color}::before {
     @apply inline-block w-6 h-6 self-center border border-solid border-#{$color} rounded mr-2;
     content: '\f00c';

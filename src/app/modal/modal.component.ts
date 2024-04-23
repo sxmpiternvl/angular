@@ -13,7 +13,6 @@ import {CommonModule} from "@angular/common";
           </div>
         </div>
     }
-
   `,
 })
 export class ModalComponent {

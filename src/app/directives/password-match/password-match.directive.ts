@@ -1,12 +1,9 @@
 import { Directive, Input } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl, ValidatorFn } from '@angular/forms';
 
-export function passwordMatcher(targetPassword: string): ValidatorFn {
+export function passwordMatcher(targetPassword: () => string): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
-    if (control.value != targetPassword) {
-      return { 'passwordMismatch': true };
-    }
-    return null;
+    return control.value != targetPassword() ? {'passwordMismatch': true} : null;
   };
 }
 
@@ -16,7 +13,7 @@ export function passwordMatcher(targetPassword: string): ValidatorFn {
   providers: [{provide: NG_VALIDATORS, useExisting: PasswordMatchDirective, multi: true}]
 })
 export class PasswordMatchDirective implements Validator {
-  @Input('appPasswordMatch') targetPassword!: string;
+  @Input('appPasswordMatch') targetPassword!: () => string;
 
   validate(control: AbstractControl): {[key: string]: any} | null {
     return passwordMatcher(this.targetPassword)(control);

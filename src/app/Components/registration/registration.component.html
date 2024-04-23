@@ -22,14 +22,16 @@
       <label for="password" class="relative w-full">Пароль:
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
         <input class="px-2 pl-10" type="password" id="password" name="password" required minlength="6"
-               [(ngModel)]="newUser.password" #password="ngModel" [class.invalid-input]="password.invalid && password.touched">
+               [(ngModel)]="newUser.password" #password="ngModel"
+               (ngModelChange)="checkPasswords()"
+               [class.invalid-input]="password.invalid && password.touched">
       </label>
 
-      <label for="confirmPassword" class="relative w-full">Повторите пароль:
-        <input class="px-2 pl-10" type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
-               [(ngModel)]="confirmPassword" #confirmPasswordModel="ngModel"
-               [appPasswordMatch]="newUser.password"
-               [class.invalid-input]="confirmPasswordModel.invalid && confirmPasswordModel.touched || confirmPasswordModel.value != newUser.password">
+      <label class="relative w-full">Повторите пароль:
+        <input type="password" class="px-2 pl-10" #confirmPasswordModel="ngModel"
+               [(ngModel)]="confirmPassword" name="confirmPassword"
+               [appPasswordMatch]="getPassword"
+               [class.invalid-input]="confirmPasswordModel.errors?.['passwordMismatch']">
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
       </label>
 

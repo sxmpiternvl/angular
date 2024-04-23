@@ -144,5 +144,13 @@ export class OperationsService {
       }
     }
   }
-
+///
+  amountGreaterThanBalance(currentUsername: string, amount: string): boolean {
+    const currentUser = this.userService.getUserByUsername(currentUsername);
+    if (!currentUser || !amount)
+      return false;
+    const balanceDecimal = new Decimal(currentUser.currentBalance);
+    const amountDecimal = new Decimal(amount);
+    return amountDecimal.gt(balanceDecimal);
+  }
 }

@@ -64,13 +64,7 @@ export class CreateOperationComponent implements OnInit {
   }
 
   amountGreaterThanBalance(): boolean {
-    const usersData = JSON.parse(localStorage.getItem('users') || '{}');
-    const currentUser = usersData[this.currentUsername];
-    if (!currentUser || !this.amount)
-      return false;
-    const balanceDecimal = new Decimal(currentUser.currentBalance);
-    const amountDecimal = new Decimal(this.amount);
-    return amountDecimal.gt(balanceDecimal);
+   return this.opService.amountGreaterThanBalance(this.currentUsername, this.amount);
   }
 
   onSubmit(): void {

@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {AuthService} from "../../services/auth-service";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, NgModel} from "@angular/forms";
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -23,6 +23,7 @@ import {PasswordMatchDirective} from "../../directives/password-match/password-m
 })
 export class RegistrationComponent {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
+  @ViewChild('confirmPasswordModel') confirmPasswordModel!: NgModel;
 
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -39,8 +40,8 @@ export class RegistrationComponent {
   uid: string = Date.now().toString();
   confirmPassword: string = '';
   error: boolean = false;
-  errorMessage = '';
   errorMessages: Array<string>= [];
+  getPassword = () => this.newUser.password;
 
   registration(): void {
     this.errorMessages = [];
@@ -67,6 +68,11 @@ export class RegistrationComponent {
   isSpace(event: any) {
     if (event.key == ' ') {
       event.preventDefault();
+    }
+  }
+  checkPasswords() {
+    if (this.confirmPasswordModel) {
+      this.confirmPasswordModel.control.updateValueAndValidity();
     }
   }
 
