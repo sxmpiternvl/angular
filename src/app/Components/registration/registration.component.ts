@@ -7,6 +7,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserInterface} from "../../interface/user";
 import {faExclamationTriangle, faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
 import {PasswordMatchDirective} from "../../directives/password-match/password-match.directive";
+import {UsernameValidatorDirective} from "../../directives/unique-username/unique-username.directive";
 
 @Component({
   selector: 'app-registration',
@@ -17,6 +18,7 @@ import {PasswordMatchDirective} from "../../directives/password-match/password-m
     CommonModule,
     FaIconComponent,
     PasswordMatchDirective,
+    UsernameValidatorDirective,
   ],
   templateUrl: 'registration.component.html',
 
@@ -40,7 +42,7 @@ export class RegistrationComponent {
   uid: string = Date.now().toString();
   confirmPassword: string = '';
   error: boolean = false;
-  errorMessages: Array<string>= [];
+
 
   closeModal(){
     this.close.emit();
@@ -51,33 +53,10 @@ export class RegistrationComponent {
       event.preventDefault();
     }
   }
-
-  validateUsername() {
-    if (!this.authService.isUnique(this.newUser.username)) {
-      if(!this.errorMessages.includes("Логин уже есть в системе.")){
-      this.errorMessages.push("Логин уже есть в системе.");
-    }
-    }else {
-      this.errorMessages = this.errorMessages.filter(msg => msg != "Логин уже есть в системе.");
-    }
-  }
-
-  validatePasswords() {
-    if (this.newUser.password != this.confirmPassword ) {
-    if(!this.errorMessages.includes("Пароли не совпадают") && (this.newUser.password && this.confirmPassword.length !=0)){
-      this.errorMessages.push("Пароли не совпадают");
-    }
-    } else {
-      this.errorMessages = this.errorMessages.filter(msg => msg != "Пароли не совпадают");
-    }
-  }
-
   registration() {
-    if (this.errorMessages.length == 0) {
       this.authService.registration(this.newUser);
       this.authService.login(this.newUser.username, this.newUser.password);
       this.close.emit();
-    }
   }
 
   protected readonly faUser = faUser;

@@ -8,23 +8,35 @@
       <label for="name" class="relative w-full">Имя:
         <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
         <input class="px-2 pr-10 pl-2.5" type="text" id="name" name="name" required minlength="3"
-               [(ngModel)]="newUser.name" (blur)="validateUsername()" pattern="[a-zA-Z]*">
+               [(ngModel)]="newUser.name" pattern="[a-zA-Z]*">
       </label>
       <label for="username" class="relative w-full">Логин:
         <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
         <input class="px-2 pl-2.5 pr-10" type="text" id="username" name="username" required minlength="3"
-               [(ngModel)]="newUser.username" (blur)="validateUsername()" pattern="[a-zA-Z]*">
+               [(ngModel)]="newUser.username" [appUsernameUnique]="newUser.username" #usernameModel="ngModel"
+               pattern="[a-zA-Z]*">
       </label>
+      @if (usernameModel.errors?.['usernameNotUnique']){
+        <div class="text-error">
+          Логин уже есть в системе.
+        </div>
+      }
       <label for="password" class="relative w-full">Пароль:
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
         <input class="px-2 pl-10" type="password" id="password" name="password" required minlength="6"
-               [(ngModel)]="newUser.password" (blur)="validatePasswords()">
+               [(ngModel)]="newUser.password" #passwordInput="ngModel">
       </label>
+
       <label class="relative w-full">Повторите пароль:
         <input type="password" class="px-2 pl-10" #confirmPasswordModel="ngModel" required minlength="6"
-               [(ngModel)]="confirmPassword" name="confirmPassword" (blur)="validatePasswords()">
+               [(ngModel)]="confirmPassword" name="confirmPassword" [appPasswordMatch]="newUser.password">
         <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
       </label>
+      @if (confirmPasswordModel.errors?.['passwordMismatch']){
+        <div class="text-error">
+          Пароли не совпадают
+        </div>
+      }
       <label class="checkbox-label-primary">
         <input type="checkbox" class="custom-checkbox">
         <span class="label-inner-primary text-primary inline-block">Запомнить меня</span>
@@ -35,15 +47,5 @@
         Создать пользователя
       </button>
     </div>
-    @if (errorMessages.length != 0) {
-      <div class="error-block border-l border-2 border-error mt-4 place-content-center">
-        <fa-icon [icon]="faExclamationTriangle" class="text-error pr-6 text-2xl"></fa-icon>
-        <div class="border-l border-amber-500 pl-2 text-center">
-          @for (errorMsg of errorMessages; track errorMsg) {
-            <h3>{{ errorMsg }}</h3>
-          }
-        </div>
-      </div>
-    }
   </form>
 </div>
