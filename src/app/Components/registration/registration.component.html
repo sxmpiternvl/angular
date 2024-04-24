@@ -26,7 +26,6 @@
         <input class="px-2 pl-10" type="password" id="password" name="password" required minlength="6"
                [(ngModel)]="newUser.password" #passwordInput="ngModel">
       </label>
-
       <label class="relative w-full">Повторите пароль:
         <input type="password" class="px-2 pl-10" #confirmPasswordModel="ngModel" required minlength="6"
                [(ngModel)]="confirmPassword" name="confirmPassword" [appPasswordMatch]="newUser.password">
