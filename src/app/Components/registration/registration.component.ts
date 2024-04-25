@@ -1,11 +1,10 @@
-import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {AuthService} from "../../services/auth-service";
-import {FormsModule, NgModel} from "@angular/forms";
-import {Router} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserInterface} from "../../interface/user";
-import {faExclamationTriangle, faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faLockOpen, faSave, faUser} from "@fortawesome/free-solid-svg-icons";
 import {PasswordMatchDirective} from "../../directives/password-match/password-match.directive";
 import {UsernameValidatorDirective} from "../../directives/unique-username/unique-username.directive";
 
@@ -25,9 +24,7 @@ import {UsernameValidatorDirective} from "../../directives/unique-username/uniqu
 })
 export class RegistrationComponent {
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('confirmPasswordModel') confirmPasswordModel!: NgModel;
-
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService) {
   }
   newUser: UserInterface = {
     uid: Date.now().toString(),
@@ -62,5 +59,5 @@ export class RegistrationComponent {
   protected readonly faUser = faUser;
   protected readonly faLockOpen = faLockOpen;
   protected readonly faSave = faSave;
-  protected readonly faExclamationTriangle = faExclamationTriangle;
+  // protected readonly faExclamationTriangle = faExclamationTriangle;
 }
