@@ -14,10 +14,9 @@ export function usernameUniqueValidator(authService: AuthService): ValidatorFn {
 @Directive({
   selector: '[appUsernameUnique]',
   standalone: true,
-  providers: [{ provide: NG_VALIDATORS, useExisting: UsernameValidatorDirective, multi: true }]
+  providers: [{provide: NG_VALIDATORS, useExisting: UsernameValidatorDirective, multi: true}]
 })
 export class UsernameValidatorDirective implements Validator {
-  @Input('appUsernameUnique') username!: string;
   constructor(private authService: AuthService) {}
 
   validate(control: AbstractControl) {
