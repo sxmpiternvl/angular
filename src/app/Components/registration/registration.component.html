@@ -1,50 +1,35 @@
-<div class="absolute right-4 top-4">
-  <button (click)="closeModal()">X</button>
-</div>
+
 <div>
   <h2 class="text-2xl pb-3">Создание пользователя</h2>
-  <form (keydown)="isSpace($event)" #registrationForm="ngForm">
+  <form [formGroup]="registrationForm" (ngSubmit)="registration()">
     <div class="flex flex-col gap-2">
-      <label for="name" class="relative w-full">Имя:
-        <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
-        <input class="px-2 pr-10 pl-2.5" type="text" id="name" name="name" required minlength="3"
-               [(ngModel)]="newUser.name" pattern="[a-zA-Z]*">
+      <label for="name">Имя:
+        <fa-icon [icon]="faUser" class="icon-right"></fa-icon>
+        <input type="text" id="name" formControlName="name" class="input-style">
       </label>
-      <label for="username" class="relative w-full">Логин:
-        <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
-        <input class="px-2 pl-2.5 pr-10" type="text" id="username" name="username" required minlength="3"
-               [(ngModel)]="newUser.username" [appUsernameUnique]="newUser.username" #usernameModel="ngModel"
-               pattern="[a-zA-Z]*">
+      <label for="username">Логин:
+        <fa-icon [icon]="faUser" class="icon-right"></fa-icon>
+        <input type="text" id="username" formControlName="username" class="input-style" appUsernameUnique>
       </label>
-      @if (usernameModel.errors?.['usernameNotUnique']){
-        <div class="text-error">
-          Логин уже есть в системе.
-        </div>
-      }
-      <label for="password" class="relative w-full">Пароль:
-        <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
-        <input class="px-2 pl-10" type="password" id="password" name="password" required minlength="6"
-               [(ngModel)]="newUser.password" #passwordInput="ngModel">
+      <label for="password">Пароль:
+        <fa-icon [icon]="faLockOpen" class="icon-left"></fa-icon>
+        <input type="password" id="password" formControlName="password" class="input-style">
       </label>
-      <label class="relative w-full">Повторите пароль:
-        <input type="password" class="px-2 pl-10" #confirmPasswordModel="ngModel" required minlength="6"
-               [(ngModel)]="confirmPassword" name="confirmPassword" [appPasswordMatch]="newUser.password">
-        <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
+      <label>Повторите пароль:
+        <fa-icon [icon]="faLockOpen" ></fa-icon>
+        <input type="password" formControlName="confirmPassword" class="input-style">
       </label>
-      @if (confirmPasswordModel.errors?.['passwordMismatch']){
-        <div class="text-error">
-          Пароли не совпадают
-        </div>
-      }
-      <label class="checkbox-label-primary">
-        <input type="checkbox" class="custom-checkbox">
-        <span class="label-inner-primary text-primary inline-block">Запомнить меня</span>
-      </label>
-      <button [disabled]="registrationForm.invalid" type="button" (click)="registration()"
-              class="custom-btn-primary text-primary">
-        <fa-icon [icon]="faSave" class="pr-2"></fa-icon>
+      <button type="submit" [disabled]="registrationForm.invalid" class="custom-btn-primary">
+        <fa-icon [icon]="faSave"></fa-icon>
         Создать пользователя
       </button>
+    </div>
+    <div *ngIf="registrationForm.errors">
+      <div *ngFor="let errorKey of Object.keys(registrationForm.errors)">
+        <div *ngFor="let errorMsg of registrationForm.errors[errorKey]">
+          {{ errorMsg }}
+        </div>
+      </div>
     </div>
   </form>
 </div>
