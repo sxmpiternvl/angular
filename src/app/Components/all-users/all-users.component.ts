@@ -35,8 +35,10 @@ export class AllUsersComponent implements OnInit {
   }
 
   removeUser(username: string): void {
-    this.opService.removeUser(username);
-    this.allUsers = this.allUsers.filter(user => user.username != username);
+    if (username != this.currentUser?.username) {
+      this.opService.removeUser(username);
+      this.allUsers = this.allUsers.filter(user => user.username != username);
+    }
   }
 
   protected readonly faPlus = faPlus;

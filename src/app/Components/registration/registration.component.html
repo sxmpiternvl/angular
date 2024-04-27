@@ -1,35 +1,39 @@
-
+<div class="absolute right-4 top-4">
+  <button (click)="closeModal()">X</button>
+</div>
 <div>
   <h2 class="text-2xl pb-3">Создание пользователя</h2>
-  <form [formGroup]="registrationForm" (ngSubmit)="registration()">
+  <form [formGroup]="registrationForm" (ngSubmit)="registration()" appUsernameUnique appPasswordMatch>
     <div class="flex flex-col gap-2">
-      <label for="name">Имя:
-        <fa-icon [icon]="faUser" class="icon-right"></fa-icon>
-        <input type="text" id="name" formControlName="name" class="input-style">
+      <label class="relative w-full">Имя:
+        <fa-icon [icon]="faUser"  class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
+        <input type="text" id="name" formControlName="name" class="pr-8">
       </label>
-      <label for="username">Логин:
-        <fa-icon [icon]="faUser" class="icon-right"></fa-icon>
-        <input type="text" id="username" formControlName="username" class="input-style" appUsernameUnique>
+      <label class="relative w-full">Логин:
+        <fa-icon [icon]="faUser" class="absolute right-2.5 top-[66%] transform -translate-y-1/2"></fa-icon>
+        <input type="text" formControlName="username" class="pr-8">
       </label>
-      <label for="password">Пароль:
-        <fa-icon [icon]="faLockOpen" class="icon-left"></fa-icon>
-        <input type="password" id="password" formControlName="password" class="input-style">
+      <label class="relative w-full">Пароль:
+        <fa-icon [icon]="faLockOpen" class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
+        <input type="password"  formControlName="password" class="pl-8">
       </label>
-      <label>Повторите пароль:
-        <fa-icon [icon]="faLockOpen" ></fa-icon>
-        <input type="password" formControlName="confirmPassword" class="input-style">
+      <label class="relative w-full">Повторите пароль:
+        <fa-icon [icon]="faLockOpen"  class="absolute left-3 top-[66%] transform -translate-y-1/2"></fa-icon>
+        <input type="password" formControlName="confirmPassword" class="pl-8">
       </label>
       <button type="submit" [disabled]="registrationForm.invalid" class="custom-btn-primary">
         <fa-icon [icon]="faSave"></fa-icon>
         Создать пользователя
       </button>
     </div>
-    <div *ngIf="registrationForm.errors">
-      <div *ngFor="let errorKey of Object.keys(registrationForm.errors)">
-        <div *ngFor="let errorMsg of registrationForm.errors[errorKey]">
-          {{ errorMsg }}
-        </div>
+    @if (registrationForm.errors){
+      <div class="error-block mt-4 place-content-center">
+        <fa-icon [icon]="faExclamationTriangle" class="text-error text-2xl border-r pr-4 mr-4 border-error"></fa-icon>
+      @for (errorKey of Object.keys(registrationForm.errors); track errorKey){
+         {{ registrationForm.errors[errorKey] }}
+        <br>
+      }
       </div>
-    </div>
+    }
   </form>
 </div>

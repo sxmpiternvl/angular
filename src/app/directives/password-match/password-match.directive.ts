@@ -1,24 +1,24 @@
 import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS, Validator, AbstractControl, ValidatorFn } from '@angular/forms';
-
-export function passwordMatchValidator(matchTo: string): ValidatorFn {
-  return (control: AbstractControl) => {
-    if (!control.value || !matchTo) {
-      return null;
-    }
-    return control.value == matchTo ? null : { 'passwordMismatch': 'Пароли не совпадают.' };
-  };
-}
+import { Validator, NG_VALIDATORS, AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
 
 @Directive({
   selector: '[appPasswordMatch]',
   standalone: true,
-  providers: [{provide: NG_VALIDATORS, useExisting: PasswordMatchDirective, multi: true}]
+  providers: [{provide: NG_VALIDATORS, useExisting: PasswordMatchValidatorDirective, multi: true}]
 })
-export class PasswordMatchDirective implements Validator {
-  @Input('appPasswordMatch') matchTo!: string;
+export class PasswordMatchValidatorDirective implements Validator {
+  @Input('appPasswordMatch') passwordControlName!: string;
 
-  validate(control: AbstractControl) {
-    return passwordMatchValidator(this.matchTo)(control);
+  validate(formGroup: AbstractControl): ValidationErrors | null {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+
+    if (password != confirmPassword) {
+      formGroup.setErrors({ 'passwordMismatch': 'Пароли не совпадают' });
+      return { 'passwordMismatch': 'Пароли не совпадают' };
+    } else {
+      formGroup.setErrors(null);
+      return null;
+    }
   }
 }

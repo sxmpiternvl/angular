@@ -1,15 +1,7 @@
-import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS, Validator, AbstractControl, ValidatorFn } from '@angular/forms';
+import { Directive } from '@angular/core';
+import { NG_VALIDATORS, Validator, AbstractControl, ValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
 import { AuthService } from "../../services/auth-service";
 
-export function usernameUniqueValidator(authService: AuthService): ValidatorFn {
-  return (control: AbstractControl) => {
-    if (!control.value) {
-      return null;
-    }
-    return authService.isUnique(control.value) ? null : { 'usernameNotUnique': 'Логин уже есть в системе.' };
-  };
-}
 
 @Directive({
   selector: '[appUsernameUnique]',
@@ -19,7 +11,13 @@ export function usernameUniqueValidator(authService: AuthService): ValidatorFn {
 export class UsernameValidatorDirective implements Validator {
   constructor(private authService: AuthService) {}
 
-  validate(control: AbstractControl) {
-    return usernameUniqueValidator(this.authService)(control);
+  validate(formGroup: AbstractControl): ValidationErrors | null {
+    const usernameControl = formGroup.get('username');
+    if (!usernameControl) {
+      return null;
+    }
+
+    const username = usernameControl.value;
+    return this.authService.isUnique(username) ? null : { 'usernameNotUnique': 'Логин уже есть в системе' };
   }
 }

@@ -33,9 +33,11 @@
             <td>{{ user.name }}</td>
             <td>{{ user.username }}</td>
             <td>
-              <button (click)="removeUser(user.username)">
-                <fa-icon [icon]="faTrash" class="text-black"></fa-icon>
-              </button>
+              @if (currentUser?.username != user.username){
+                <button (click)="removeUser(user.username)">
+                  <fa-icon [icon]="faTrash" class="text-black"></fa-icon>
+                </button>
+              }
             </td>
           </tr>
         }
